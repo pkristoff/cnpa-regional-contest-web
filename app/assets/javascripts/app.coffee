@@ -1,2 +1,1 @@
-contest = angular.module(‘contest’,[
-])
+contest = angular.module('contest', []);
