@@ -1,0 +1,10 @@
+<h2>contestFiles</h2>
+
+<div class="well">Root Folder: {{contest.rootFolder}}</div>
+<div class="well">Contest: {{contest.name}}</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Pictures</h3>
+    </div>
+    <images images="contest.files" folder="contest.rootFolder" contest-name="contest.name" directories="contest.directories" directory="contest.directory"></images>
+</div>

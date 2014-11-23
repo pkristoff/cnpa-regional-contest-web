@@ -1,3 +1,10 @@
 asset 'angular'
+asset 'angular-route'
+#asset 'body-parser'
+asset 'ejs'
+asset 'express'
+#asset 'formidable'
 asset 'bootstrap-sass-official'
+asset 'ngSanitize'
+asset 'angular-touch'
 # vim: ft=ruby
