@@ -14,3 +14,10 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+# trouble adding grunt - don;t seem to need it
+node_modules/grunt*/**/*
+node_modules/karma/**/*
+node_modules/time-grunt/**/*
+node_modules/jshint-stylish/**/*
+node_modules/karma-phantomjs-launcher/**/*

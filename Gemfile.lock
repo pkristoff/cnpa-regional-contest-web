@@ -60,6 +60,7 @@ GEM
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mime-types (2.4.3)
+    mini_exiftool (2.4.2)
     minitest (5.4.2)
     multi_json (1.10.1)
     rack (1.5.2)
@@ -148,6 +149,7 @@ DEPENDENCIES
   foreman
   jbuilder (~> 2.0)
   jquery-rails
+  mini_exiftool
   rails (= 4.1.7)
   rails_12factor
   rails_serve_static_assets

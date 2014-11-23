@@ -1,11 +1,43 @@
 Rails.application.routes.draw do
-  get 'home/index'
+  # get 'home/index'
+  #
+  # root 'home#index'
+  #
+  # resources :home, :members => {
+  #     :getContestFolder=>:get
+  # }
+  #
+  # resources :views, :members => {
+  #                     :partials => {
+  #                    :getContestFolder=>:get
+  #                }}
+
+  # match 'getContestFolder' => 'home#getContestFolder'
+
+  # resources get 'home#getContestFolder'
 
   root 'home#index'
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
 
-  # You can have the root of your site routed with "root"
+  match '/views/partials/getContestFolder' => 'home#get_contest_folder', via: :get
+  match '/views/partials/chooseContest' => 'home#choose_contest', via: :get
+  match '/views/partials/contestFiles' => 'home#contest_files', via: :get
+  match '/assets/javascripts/directives/images-template' => 'home#file_list_template', via: :get
+  match '/getContests' => 'home#get_contests', via: :post
+  match '/createContest' => 'home#create_contest', via: :post
+  match '/contest' => 'home#contest', via: :get
+  match '/addFiles' => 'home#addFiles', via: :post
+  match '/deleteFile' => 'home#delete_file', via: :post
+  match '/setCopyright' => 'home#setCopyright', via: :post
+  match '/directory' => 'home#directory', via: :get
+
+  # Install the default routes as the lowest priority.
+  # Note: These default routes make all actions in every controller accessible via GET requests. You should
+  # consider removing or commenting them out if you're using named routes and resources.
+
+  # The priority is based upon order of creation: first created -> highest priority.
+  # See how all your routes lay out with 'rake routes'.
+
+  # You can have the root of your site routed with 'root'
   # root 'welcome#index'
 
   # Example of regular route:

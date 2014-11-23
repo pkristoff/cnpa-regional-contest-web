@@ -1,0 +1,16 @@
+<section>
+    <header>
+        Type in the root folder for the contest.  The path given needs to already exist
+    </header>
+
+
+    <label for="rootFolderId">Root Folder:</label>
+    <input id="rootFolderId" type="text" ng-model="contest.rootFolder" name="rootFolder"/>
+    <button type="button" id="saveBtn-id" data-loading-text="Getting..." class="btn btn-primary" ng-click="getContests()">
+        Get contests
+    </button>
+
+    <footer>
+        Filename = getContestFolder.html
+    </footer>
+</section>
