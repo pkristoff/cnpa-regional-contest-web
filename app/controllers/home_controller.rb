@@ -103,6 +103,19 @@ class HomeController < ApplicationController
     render json: result
   end
 
+  def execute_exiftool options, file_path, result_path
+
+    file_path_exif = file_path.gsub(' ', '\\ ')
+    file_path_exif = file_path_exif.gsub('(', '\\(')
+    file_path_exif = file_path_exif.gsub(')', '\\)')
+
+    result = result_path.empty? ? "" : " > #{result_path}"
+
+    xxx = "exiftool #{options} #{file_path_exif}#{result}"
+    #  xxx = "exiftool  ./* > #{directory_info.EXIFTOOL_FILE_INFO}"
+    system xxx
+  end
+
   def get_and_return_file_info(contest_content, dir_path, directory)
     result = {
         filenames: [],
@@ -114,16 +127,16 @@ class HomeController < ApplicationController
       filename_split = filename.split(".")
       if filename_split.length === 2 && (filename_split[1] === "jpg" || filename_split[1] === "JPG" || filename_split[1] === "jpeg" || filename_split[1] === "JPEG")
         file_path = File.join(dir_path, filename)
-        file_path_exif = file_path.gsub(' ', '\\ ')
+
         if File.file?(file_path)
           begin
             exiftool_filepath = File.join(dir_path, EXIFTOOL_FILE_INFO)
-            xxx = "exiftool -imagesize -iptc:CopyrightNotice -iptc:caption-abstract -xmp:title -DateTimeOriginal -FileSize #{file_path_exif} > #{exiftool_filepath}"
-            #  xxx = "exiftool  ./* > #{directory_info.EXIFTOOL_FILE_INFO}"
-            system xxx
+            execute_exiftool("-imagesize -iptc:CopyrightNotice -iptc:caption-abstract -xmp:title -DateTimeOriginal -FileSize", file_path, exiftool_filepath)
+
             lines = IO.readlines(exiftool_filepath)
             file_info = {"filename" => filename}
             result[:filenames].push(file_info)
+
             lines.each do |line|
 
               split = line.split(":")
@@ -232,11 +245,9 @@ class HomeController < ApplicationController
     filename = params[:filename]
     copyright = params[:copyright]
     file_path_testdata = File.join(get_testdata_path(root_folder, contest_name), filename)
-    file_path_exif = file_path_testdata.gsub(' ', '\\ ')
 
-    xxx = "exiftool -iptc:CopyrightNotice=\"#{copyright}\" #{file_path_exif}"
-    #  xxx = "exiftool  ./* > #{directory_info.EXIFTOOL_FILE_INFO}"
-    system xxx
+    execute_exiftool("-iptc:CopyrightNotice=\"#{copyright}\"", file_path_testdata, "")
+
     render status: 200, text: copyright
   end
 
