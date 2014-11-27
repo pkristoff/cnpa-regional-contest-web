@@ -28,6 +28,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 
 gem 'bower-rails'
+gem 'sprockets', '~> 2.12.3'
 
 gem 'mini_exiftool'
 

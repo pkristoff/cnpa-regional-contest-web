@@ -1,11 +1,13 @@
 {
   "name": "dsl-generated dependencies",
   "dependencies": {
+    "jquery": "latest",
     "angular": "latest",
     "angular-route": "latest",
     "ejs": "latest",
     "express": "latest",
     "bootstrap-sass-official": "latest",
+    "bootstrap": "latest",
     "ngSanitize": "latest",
     "angular-touch": "latest"
   }
