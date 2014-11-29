@@ -2,7 +2,7 @@ PassengerAppRoot /home/paulkristoff/rails_apps/cnpa-regional-contest-web
 
 PassengerRuby /opt/ruby2/bin/ruby
 
-RAILS_ENV = development
+PassengerAppEnv = development
 
 PassengerFriendlyErrorPages on
 
