@@ -33,11 +33,11 @@ gem 'sprockets', '~> 2.12.3'
 gem 'mini_exiftool'
 
 gem "foreman"
-group :production, :staging do
-  gem "rails_12factor"
-  gem "rails_stdout_logging"
-  gem "rails_serve_static_assets"
-end
+# group :production, :staging do
+#   gem "rails_12factor"
+#   gem "rails_stdout_logging"
+#   gem "rails_serve_static_assets"
+# end
 
 group :test, :development do
   gem "rspec"
