@@ -2,7 +2,9 @@ PassengerAppRoot /home/paulkristoff/rails_apps/cnpa-regional-contest-web
 
 PassengerRuby /opt/ruby2/bin/ruby
 
-PassengerAppEnv production
+PassengerAppEnv development
 
 PassengerFriendlyErrorPages on
+
+SECRET_KEY_BASE 03f559c51b5100916649a0955e684c2c165870eecb7ef8208fa376ee396e0c421122d9219abc6acda2dbbed4da2dcea5e44e56c2ba1a6648abb2e551c708c819
 
