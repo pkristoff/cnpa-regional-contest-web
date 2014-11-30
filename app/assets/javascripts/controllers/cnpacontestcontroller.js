@@ -19,6 +19,7 @@ angular.module('cnpaContestApp')
                     directories: []  // name of directories
                 };
             }
+            getContests();
 
             function errorCallback($scope) {
                 return function (response) {
