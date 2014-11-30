@@ -1,36 +1,19 @@
 Rails.application.routes.draw do
-  # get 'home/index'
-  #
-  # root 'home#index'
-  #
-  # resources :home, :members => {
-  #     :getContestFolder=>:get
-  # }
-  #
-  # resources :views, :members => {
-  #                     :partials => {
-  #                    :getContestFolder=>:get
-  #                }}
-
-  # match 'getContestFolder' => 'home#getContestFolder'
-
-  # resources get 'home#getContestFolder'
 
   root 'home#index'
 
-  match '/views/partials/getContestFolder' => 'home#get_contest_folder', via: :get
+  match '/assets/javascripts/directives/images-template' => 'home#file_list_template', via: :get
   match '/views/partials/chooseContest' => 'home#choose_contest', via: :get
   match '/views/partials/contestFiles' => 'home#contest_files', via: :get
-  match '/assets/javascripts/directives/images-template' => 'home#file_list_template', via: :get
-  match '/getContests' => 'home#get_contests', via: :post
-  match '/createContest' => 'home#create_contest', via: :post
-  match '/contest' => 'home#contest', via: :get
-  match '/addFiles' => 'home#addFiles', via: :post
-  match '/deleteFile' => 'home#delete_file', via: :post
-  match '/setCopyright' => 'home#setCopyright', via: :post
-  match '/directory' => 'home#directory', via: :get
 
-  # match '/application.js', to: Sprockets, via: :all
+
+  match '/addFiles' => 'home#add_files', via: :post
+  match '/contest' => 'home#contest', via: :get
+  match '/createContest' => 'home#create_contest', via: :post
+  match '/deleteFile' => 'home#delete_file', via: :post
+  match '/directory' => 'home#directory', via: :get
+  match '/getContests' => 'home#get_contests', via: :post
+  match '/setCopyright' => 'home#set_copyright', via: :post
 
   # Install the default routes as the lowest priority.
   # Note: These default routes make all actions in every controller accessible via GET requests. You should

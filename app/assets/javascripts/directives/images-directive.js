@@ -13,8 +13,6 @@ angular.module('cnpaContestApp')
                 directories: '=',
                 directory: '='
             },
-            //templateUrl: '/contest/app/assets/javascripts/directives/images-template.html',
-            //templateUrl: '/views/partials/getContestFolder.html',
             templateUrl: '/assets/javascripts/directives/images-template.html',
             link: function (scope) {
                 scope.scopeName = 'images';
