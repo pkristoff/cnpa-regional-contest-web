@@ -1,8 +1,5 @@
 
 <div class="panel-body">
-    <div>isLoading{{isLoading}}</div>
-    <div id="veil2" ng-show="isLoading" style="position: absolute;top:0;left: 0;height: 100%;width: 100%;cursor: not-allowed;filter:alpha(opacity=60);opacity: 0.6;"></div>
-    <div id="feedLoading2" ng-show="isLoading" style="position: absolute;top: 200px;width: 100%;text-align: center;font-size: 4em;color: #000000;text-shadow: 2px 2px 2px gray">Loading...</div>
     <label>Add images</label><input type="file" name="file" multiple onchange="angular.element(this).scope().uploadFile(this.files)"/>
     <label>Show Images For:</label>
     <select ng-model="directory" ng-options="dir.value as dir.text for dir in directories" onchange="angular.element(this).scope().changeDirectory(this)"></select>

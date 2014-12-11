@@ -21,7 +21,11 @@ module Contest
     # config.i18n.default_locale = :de
     config.assets.paths << Rails.root.join("vendor","assets","bower_components")
     config.assets.paths << Rails.root.join("vendor","assets","bower_components","bootstrap-sass-official","assets","fonts")
-
-    config.assets.precompile << %r(.*.(?:eot|svg|ttf|woff)$)
+    #
+    # config.assets.precompile << %r(.*.(?:eot|svg|ttf|woff)$)# bootstrap-sass asset paths
+    # root.join('vendor/assets/bower_components/bootstrap-sass/assets').tap do |path|
+    #   config.sass.load_paths << path.join('stylesheets')
+    #   config.assets.paths += %w(javascripts fonts images).map(&path.method(:join))
+    # end
   end
 end

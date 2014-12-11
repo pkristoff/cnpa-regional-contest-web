@@ -27,6 +27,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    angular-ui-bootstrap-rails (0.11.2)
     arel (5.0.1.20140414130214)
     bootstrap-sass (3.3.1.0)
       sass (~> 3.2)
@@ -136,6 +137,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  angular-ui-bootstrap-rails
   bootstrap-sass (~> 3.3.0)
   bower-rails
   coffee-rails (~> 4.0.0)

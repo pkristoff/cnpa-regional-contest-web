@@ -19,6 +19,10 @@ class HomeController < ApplicationController
     render '../views/partials/contestFiles.html'
   end
 
+  def busyModal
+    render '../views/partials/busyModal.html'
+  end
+
 #  ============= AJAX ===================
 
   def handle_return info

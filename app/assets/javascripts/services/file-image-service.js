@@ -63,8 +63,8 @@ angular.module('cnpaContestApp')
                         valid: isFilenameValid(fn)
                     },
                     fileSize: {
-                        value: (fileEntry.fileSize / 1024).toPrecision(3),
-                        title: (fileEntry.fileSize / 1024).toPrecision(3),
+                        value: (fileEntry.fileSize),
+                        title: (fileEntry.fileSize),
                         valid: isFileSizeValid(fileEntry.fileSize)
                     },
                     imageWidth: {

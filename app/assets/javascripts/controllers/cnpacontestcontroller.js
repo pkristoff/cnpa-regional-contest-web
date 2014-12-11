@@ -8,10 +8,12 @@
  * Controller of the cnpaContestApp
  */
 angular.module('cnpaContestApp')
-    .controller('CnpaContestController', ['$scope', '$http', '$location', 'fileImageService',
-        function ($scope, $http, $location, fileImageService) {
+    .controller('CnpaContestController', ['$scope', '$http', '$location', 'fileImageService', '$modal',
+        function($scope, $http, $location, fileImageService, $modal) {
+            var modal;
             $scope.scopeName = 'CnpaContestController';
-            if ($scope.contest == undefined) {
+            //hideBusy();
+            if($scope.contest == undefined) {
                 $scope.contest = {
                     rootFolder: '/tmp/cnpa',
                     name: '',
@@ -22,56 +24,77 @@ angular.module('cnpaContestApp')
             getContests();
 
             function errorCallback($scope) {
-                return function (response) {
+                return function(response) {
                     var message = "error " + response.status + ": " + response.data;
                     console.log(message);
                     alert(message);
                     $scope.errorMessages = [response.data];
+                    hideBusy();
                 }
             }
 
+            function showBusy() {
+                $scope.isLoading=true;
+            }
+
+            function hideBusy() {
+                $scope.isLoading=false;
+            }
+
             function getContestsResult(response) {
-                if (response.status === 200) {
+                if(response.status === 200) {
                     $scope.contest.contests = [];
-                    response.data.forEach(function (contestName, index) {
-                        if (index === 0){  // select first contest by default
+                    response.data.forEach(function(contestName, index) {
+                        if(index === 0) {  // select first contest by default
                             $scope.contest.name = contestName;
                         }
                         $scope.contest.contests.push({rootFolder: $scope.contest.rootFolder, name: contestName});
                     });
                     $location.path("/chooseContest");
-                    return(response.data);
+                    hideBusy();
+                    return (response.data);
                 } else {
                     errorCallback($scope)(response);
                 }
+                hideBusy();
+            }
+
+            function getAuthenticationToken(){
+                return $('#mmm')[0].value;
             }
 
             function getContests() {
+                showBusy();
 
-                $scope.contest.authenticity_token=$('#mmm')[0].value
+                $scope.contest.authenticity_token = getAuthenticationToken();
 
-                $http.post('/getContests', $scope.contest, {"authenticity_token": $('#mmm')[0].value, "Content-Type": "application/json"}).then(
+                $http.post('/getContests', $scope.contest, {
+                    "authenticity_token": getAuthenticationToken(),
+                    "Content-Type": "application/json"
+                }).then(
                     getContestsResult,
                     errorCallback($scope)
                 );
             }
 
             function contestResult(response) {
-                if (response.status === 200) {
+                if(response.status === 200) {
                     var result = response.data;
                     $scope.contest.files = fileImageService.updateFiles(result.filenames);
                     $scope.contest.directory = result.directory;
-                    $scope.contest.directories = result.directories.map(function(dirName){
+                    $scope.contest.directories = result.directories.map(function(dirName) {
                         return {value: dirName, text: dirName};
                     });
                     $location.path("/contestFiles");
                 } else {
                     errorCallback($scope)(response);
                 }
+                hideBusy();
             }
 
             function createContest() {
-                $scope.contest.authenticity_token=$('#mmm')[0].value
+                showBusy();
+                $scope.contest.authenticity_token = getAuthenticationToken();
 
                 $http.post('/createContest', $scope.contest, {"Content-Type": "application/json"}).then(
                     contestResult,
@@ -81,6 +104,7 @@ angular.module('cnpaContestApp')
 
             function selectContest() {
 
+                showBusy();
                 $http.get('/contest?rootFolder=' + $scope.contest.rootFolder + "&name=" + $scope.contest.name, {
                     "Content-Type": "application/json"
                 }).then(
@@ -88,7 +112,6 @@ angular.module('cnpaContestApp')
                     errorCallback($scope)
                 )
             }
-
 
 
             $scope.selectContest = selectContest;

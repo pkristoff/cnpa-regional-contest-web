@@ -21,6 +21,7 @@ angular.module('cnpaContestApp')
                     return function (response) {
                         console.log("error " + response.status + ": " + response.data);
                         scope.errorMessages = [response.data];
+                        hideBusy();
                     }
                 }
 
@@ -37,9 +38,11 @@ angular.module('cnpaContestApp')
                     } else {
                         errorCallback(scope)(response);
                     }
+                    hideBusy();
                 }
 
                 scope.changeDirectory = function (select) {
+                    showBusy();
                     $http.get('/directory?rootFolder=' + scope.folder + '&name=' + scope.contestName
                         + '&directory=' + select[select.value].text, {
                         "Content-Type": 'application/json'
@@ -47,7 +50,7 @@ angular.module('cnpaContestApp')
                 };
 
                 scope.deleteFile = function(fileInfo){
-
+                    showBusy();
                     var params = {
                         rootFolder : scope.folder,
                         contestName : scope.contestName,
@@ -73,7 +76,11 @@ angular.module('cnpaContestApp')
                         } else {
                             errorCallback(scope)(response);
                         }
+
+                        hideBusy();
                     }
+
+                    showBusy();
 
                     if (! fileInfo.copyrightNotice.valid){
 
@@ -98,6 +105,7 @@ angular.module('cnpaContestApp')
 
 
                 scope.uploadFile = function (files) {
+                    showBusy();
                     var fd = new FormData();
                     fd.append("authenticity_token", $('#mmm')[0].value);
                     for (var i = 0, len = files.length; i < len; i++) {
@@ -114,8 +122,17 @@ angular.module('cnpaContestApp')
                     }).then(function (response) {
                         var result = response.data;
                         scope.images = fileImageService.sortUpdatedFiles(fileImageService.updateFiles(result.filenames));
+                        hideBusy();
                     });
 
+                };
+
+                function showBusy() {
+                    scope.isLoading=true;
+                }
+
+                function hideBusy() {
+                    scope.isLoading=false;
                 }
             }
         };
