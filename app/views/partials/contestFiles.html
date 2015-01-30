@@ -1,10 +1,24 @@
-<h2>contestFiles</h2>
+<section>
+    <header class="cnpa-header">
+        <p>Editing contest:  {{contest.name}}</p>
+    </header>
 
-<div class="well">Root Folder: {{contest.rootFolder}}</div>
-<div class="well">Contest: {{contest.name}}</div>
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Pictures</h3>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Pictures</h3>
+        </div>
+        <images images="contest.files" folder="contest.rootFolder" contest-name="contest.name" directories="contest.directories" directory="contest.directory"></images>
     </div>
-    <images images="contest.files" folder="contest.rootFolder" contest-name="contest.name" directories="contest.directories" directory="contest.directory"></images>
-</div>
+
+
+    <footer class="cnpa-footer">
+        <div ng-if="contest.errorMessages" class="text-error error-msg">
+            <div ng-repeat="errorMessage in contest.errorMessages">
+                {{errorMessage}}
+            </div>
+        </div>
+        Filename = chooseFiles.html
+        <!--<div>ScopeName={{scopeName}} errorMessages={{contest.errorMessages}} contest={{contest}}</div>-->
+    </footer>
+</section>

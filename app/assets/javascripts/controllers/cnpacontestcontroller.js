@@ -11,12 +11,14 @@ angular.module('cnpaContestApp')
     .controller('CnpaContestController', ['$scope', '$http', '$location', 'fileImageService', '$modal',
         function($scope, $http, $location, fileImageService, $modal) {
             var modal;
-            $scope.scopeName = 'CnpaContestController';
+            $scope.radioModel = 'new-contest';
             //hideBusy();
             if($scope.contest == undefined) {
                 $scope.contest = {
                     rootFolder: '/tmp/cnpa',
                     name: '',
+                    pictureAge: false,
+                    pictureAgeDate: new Date(),
                     contests: [], //{rootFolder: '', name: ''}
                     directories: []  // name of directories
                 };

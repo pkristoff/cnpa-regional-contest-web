@@ -4,5 +4,47 @@
 //@import "bootstrap";
 
 
+
+.cnpa-body {
+  height: 500px;
+  width:  500px;
+  background-color: #00AEFF;
+}
+
+.cnpa-date {
+  border: solid;
+  border-width: 1px;
+  background-color: lightgray;
+}
+
+.cnpa-footer {
+  background-color: red;
+}
+
+.cnpa-header {
+  background-color: red;
+}
+
+.cnpa-help {
+  padding: 20px;
+}
+
+.cnpa-input-file {
+  visibility: hidden;
+}
+
+.cnpa-pictures {
+  margin-top: 10px;
+  border: solid;
+  border-width: 1px;
+  background-color: lightgray;
+}
+
+.cnpa-radio {
+  margin-left: 50px;
+}
+
+
+
 @import "../../../vendor/assets/bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap-sprockets";
 @import "../../../vendor/assets/bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap";
