@@ -64,6 +64,18 @@ angular.module('cnpaContestApp')
                         errorCallback(scope)
                     )
                 };
+                scope.openDate = openDate;
+                scope.dateOptions = {
+                    formatYear: 'yy',
+                    startingDay: 0
+                };
+
+                function openDate($event){
+                    $event.preventDefault();
+                    $event.stopPropagation();
+
+                    scope.dateOpened = true;
+                }
 
                 scope.setCopyright = function(fileInfo){
 

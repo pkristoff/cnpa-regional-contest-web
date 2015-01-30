@@ -1,31 +1,97 @@
-
 <div class="panel-body">
-    <div>isLoading{{isLoading}}</div>
-    <div id="veil2" ng-show="isLoading" style="position: absolute;top:0;left: 0;height: 100%;width: 100%;cursor: not-allowed;filter:alpha(opacity=60);opacity: 0.6;"></div>
-    <div id="feedLoading2" ng-show="isLoading" style="position: absolute;top: 200px;width: 100%;text-align: center;font-size: 4em;color: #000000;text-shadow: 2px 2px 2px gray">Loading...</div>
-    <label>Add images</label><input type="file" name="file" multiple onchange="angular.element(this).scope().uploadFile(this.files)"/>
-    <label>Show Images For:</label>
-    <select ng-model="directory" ng-options="dir.value as dir.text for dir in directories" onchange="angular.element(this).scope().changeDirectory(this)"></select>
 
-    <table class="table" >
-        <thead>
-        <tr>
-            <th ng-if="directory !== 'Originals'"></th><th ng-if="directory !== 'Originals'"></th><th>File</th><th>Name</th><th>Tltle</th><th>Width</th><th>Height</th><th>Copyright</th><th>Created</th><th>size(k)</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="file in images">
-            <td ng-if="directory !== 'Originals'"><button title="generate a copyright" ng-click="setCopyright(file)">©</button></td>
-            <td ng-if="directory !== 'Originals'"><button title="delete file" ng-click="deleteFile(file)">D</button></td>
-            <td title="{{file.filename.title}}">{{file.filename.value}}</td>
-            <td class="{{file.contestantName.valid ? '' : 'alert alert-danger'}}" title="{{file.contestantName.title}}">{{file.contestantName.value}}</td>
-            <td class="{{file.title.valid ? '' : 'alert alert-danger'}}" title="{{file.title.title}}">{{file.title.value}}</td>
-            <td class="{{file.imageWidth.valid ? '' : 'alert alert-danger'}}" title="{{file.imageWidth.title}}">{{file.imageWidth.value}}</td>
-            <td class="{{file.imageHeight.valid ? '' : 'alert alert-danger'}}" title="{{file.imageHeight.title}}">{{file.imageHeight.value}}</td>
-            <td class="{{file.copyrightNotice.valid ? '' : 'alert alert-danger'}}" title="{{file.copyrightNotice.title}}">{{file.copyrightNotice.value}}</td>
-            <td class="{{file.dateCreated.valid ? '' : 'alert alert-danger'}}" title="{{file.dateCreated.title}}">{{file.dateCreated.value}}</td>
-            <td class="{{file.fileSize.valid ? '' : 'alert alert-danger'}}" title="{{file.fileSize.title}}">{{file.fileSize.value}}</td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="cnpa-date">
+        <button type="button" class="btn btn-primary" ng-model="contest.pictureAge" btn-checkbox btn-checkbox-true="1"
+                btn-checkbox-false="0">
+            Picture Age Limit
+        </button>
+        <div class="row" ng-hide="contest.pictureAge">
+            <p class="cnpa-help"> This date represents the oldest a picure can be created and still be in the
+                contest.</p>
+
+            <div class="col-md-6">
+                <p class="input-group">
+                    <input type="text" readonly="true" class="form-control" datepicker-popup="yyyy/MM/dd"
+                           ng-model="contest.pictureAgeDate" is-open="dateOpened"
+                           datepicker-options="dateOptions" date-disabled="false" close-text="Close"/>
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="openDate($event)"><i
+                        class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="veil2" ng-show="isLoading"
+         style="position: absolute;top:0;left: 0;height: 100%;width: 100%;cursor: not-allowed;filter:alpha(opacity=60);opacity: 0.6;"></div>
+
+    <div id="feedLoading2" ng-show="isLoading"
+         style="position: absolute;top: 200px;width: 100%;text-align: center;font-size: 4em;color: #000000;text-shadow: 2px 2px 2px gray">
+        Loading...
+    </div>
+
+    <div class="cnpa-pictures">
+
+        <input type="button" onclick="document.getElementById('fileID').click(); return false;"
+               value="Choose Pictures"
+               class="btn btn-primary"/>
+        <input type="file" id="fileID" accept="image/jpeg" name="pictures" multiple
+               onchange="angular.element(this).scope().uploadFile(this.files)"
+               class="cnpa-input-file"
+                />
+
+        <label>Show Images For:</label>
+        <select ng-model="directory" ng-options="dir.value as dir.text for dir in directories"
+                onchange="angular.element(this).scope().changeDirectory(this)"></select>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th ng-if="directory !== 'Originals'"></th>
+                <th ng-if="directory !== 'Originals'"></th>
+                <th>File</th>
+                <th>Name</th>
+                <th>Tltle</th>
+                <th>Width</th>
+                <th>Height</th>
+                <th>Copyright</th>
+                <th>Created</th>
+                <th>size(k)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="file in images">
+                <td ng-if="directory !== 'Originals'">
+                    <button title="generate a copyright" ng-click="setCopyright(file)">©</button>
+                </td>
+                <td ng-if="directory !== 'Originals'">
+                    <button title="delete file" ng-click="deleteFile(file)">D</button>
+                </td>
+                <td title="{{file.filename.title}}">{{file.filename.value}}</td>
+                <td class="{{file.contestantName.valid ? '' : 'alert alert-danger'}}"
+                    title="{{file.contestantName.title}}">{{file.contestantName.value}}
+                </td>
+                <td class="{{file.title.valid ? '' : 'alert alert-danger'}}" title="{{file.title.title}}">
+                    {{file.title.value}}
+                </td>
+                <td class="{{file.imageWidth.valid ? '' : 'alert alert-danger'}}" title="{{file.imageWidth.title}}">
+                    {{file.imageWidth.value}}
+                </td>
+                <td class="{{file.imageHeight.valid ? '' : 'alert alert-danger'}}" title="{{file.imageHeight.title}}">
+                    {{file.imageHeight.value}}
+                </td>
+                <td class="{{file.copyrightNotice.valid ? '' : 'alert alert-danger'}}"
+                    title="{{file.copyrightNotice.title}}">{{file.copyrightNotice.value}}
+                </td>
+                <td class="{{file.dateCreated.valid ? '' : 'alert alert-danger'}}" title="{{file.dateCreated.title}}">
+                    {{file.dateCreated.value}}
+                </td>
+                <td class="{{file.fileSize.valid ? '' : 'alert alert-danger'}}" title="{{file.fileSize.title}}">
+                    {{file.fileSize.value}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
