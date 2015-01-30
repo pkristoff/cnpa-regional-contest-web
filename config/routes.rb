@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   root 'home#index'
 
-  match '/assets/javascripts/directives/images-template' => 'home#file_list_template', via: :get
+  match '/assets/javascripts/directives/images/images-template' => 'home#file_list_template', via: :get
   match '/views/partials/chooseContest' => 'home#choose_contest', via: :get
   match '/views/partials/contestFiles' => 'home#contest_files', via: :get
   match '/views/partials/busyModal' => 'home#busyModal', via: :get

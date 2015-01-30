@@ -61,12 +61,12 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="file in images">
+            <tr ng-repeat="file in vm.images">
                 <td ng-if="directory !== 'Originals'">
                     <button title="generate a copyright" ng-click="setCopyright(file)">©</button>
                 </td>
                 <td ng-if="directory !== 'Originals'">
-                    <button title="delete file" ng-click="deleteFile(file)">D</button>
+                    <button title="delete file" ng-click="vm.deleteFile(file)">D</button>
                 </td>
                 <td title="{{file.filename.title}}">{{file.filename.value}}</td>
                 <td class="{{file.contestantName.valid ? '' : 'alert alert-danger'}}"

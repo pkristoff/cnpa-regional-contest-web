@@ -7,7 +7,7 @@ class HomeController < ApplicationController
 
 
   def file_list_template
-    render '../assets/javascripts/directives/images-template.html'
+    render '../assets/javascripts/directives/images/images-template.html'
 
   end
 
