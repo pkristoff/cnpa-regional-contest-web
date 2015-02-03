@@ -15,7 +15,7 @@ angular.module('cnpaContestApp')
             //hideBusy();
             if($scope.contest == undefined) {
                 $scope.contest = {
-                    rootFolder: '/tmp/cnpa',
+                    rootFolder: 'Contests',
                     name: '',
                     pictureAge: false,
                     pictureAgeDate: new Date(),
@@ -36,11 +36,11 @@ angular.module('cnpaContestApp')
             }
 
             function showBusy() {
-                $scope.isLoading=true;
+                $scope.isLoading = true;
             }
 
             function hideBusy() {
-                $scope.isLoading=false;
+                $scope.isLoading = false;
             }
 
             function getContestsResult(response) {
@@ -61,7 +61,7 @@ angular.module('cnpaContestApp')
                 hideBusy();
             }
 
-            function getAuthenticationToken(){
+            function getAuthenticationToken() {
                 return $('#mmm')[0].value;
             }
 
@@ -95,13 +95,17 @@ angular.module('cnpaContestApp')
             }
 
             function createContest() {
-                showBusy();
-                $scope.contest.authenticity_token = getAuthenticationToken();
+                if($scope.contest.name.indexOf(' ') > -1) {
+                    window.alert('contest name cannot contain a space: ' + $scope.contest.name);
+                } else {
+                    showBusy();
+                    $scope.contest.authenticity_token = getAuthenticationToken();
 
-                $http.post('/createContest', $scope.contest, {"Content-Type": "application/json"}).then(
-                    contestResult,
-                    errorCallback($scope)
-                )
+                    $http.post('/createContest', $scope.contest, {"Content-Type": "application/json"}).then(
+                        contestResult,
+                        errorCallback($scope)
+                    )
+                }
             }
 
             function selectContest() {
