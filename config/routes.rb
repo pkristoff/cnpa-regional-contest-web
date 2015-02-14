@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   match '/getContests' => 'home#get_contests', via: :post
   match '/setCopyright' => 'home#set_copyright', via: :post
   match '/home_css.css' => 'home#home_css', via: :post
+  match '/generateContest' => 'home#generate_contest', via: :post
+  match '/email_contest' => 'home#email_contest', via: :post
 
   # Install the default routes as the lowest priority.
   # Note: These default routes make all actions in every controller accessible via GET requests. You should

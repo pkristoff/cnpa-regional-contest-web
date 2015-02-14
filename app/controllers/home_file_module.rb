@@ -1,7 +1,12 @@
+require 'fileutils'
+
 module HomeFileModule
   TESTDATA = 'Testdata'
   ORIGINALS = 'Originals'
   EXIFTOOL_FILE_INFO = 'exif.txt'
+  ROOT_FOLDER = 'Contests'
+  NAME_AND_NUMBER = 'name_and_number'
+  NUMBER = 'number'
 
   def HomeFileModule.get_originals_path(root_folder, contest_name)
     HomeFileModule.get_path(root_folder, contest_name, ORIGINALS);
@@ -23,6 +28,18 @@ module HomeFileModule
     TESTDATA
   end
 
+  def HomeFileModule.get_originals()
+    ORIGINALS
+  end
+
+  def HomeFileModule.get_name_and_number()
+    NAME_AND_NUMBER
+  end
+
+  def HomeFileModule.get_number()
+    NUMBER
+  end
+
   def HomeFileModule.get_dir_contents(dir_path, for_dir)
     directories = []
     Dir.foreach(dir_path) do |x|
@@ -30,7 +47,7 @@ module HomeFileModule
       if for_dir
         directories.push(x) if File.directory?(file_path) and (x != '.' and x != '..')
       else
-        directories.push(x) if File.file?(file_path) and (x != '.DS_Store')
+        directories.push(x) if File.file?(file_path) and (x != '.DS_Store') and (!x.include? "_original")
       end
     end
     directories
@@ -41,7 +58,7 @@ module HomeFileModule
     begin
       if Dir.exists?(dir_path)
         contest_content = HomeFileModule.get_dir_contents(dir_path, false)
-        result = HomeFileModule.get_and_return_file_info(contest_content, dir_path, dir)
+        result = HomeFileModule.get_and_return_file_info(contest_content, root_folder, contest_name, dir)
       else
         return 500, "could not find path: #{dir_path}"
       end
@@ -51,12 +68,13 @@ module HomeFileModule
     return result
   end
 
-  def HomeFileModule.get_and_return_file_info(contest_content, dir_path, directory)
+  def HomeFileModule.get_and_return_file_info(contest_content, root_folder, contest_name, directory)
     result = {
         filenames: [],
-        directories: HomeFileModule.get_initial_directories(),
+        directories: HomeFileModule.get_dir_contents(File.join(root_folder, contest_name), true),
         directory: directory
     }
+    dir_path = HomeFileModule.get_path(root_folder, contest_name, directory)
 
     contest_content.each do |filename|
       filename_split = filename.split(".")
@@ -98,6 +116,7 @@ module HomeFileModule
                 end
               end
             end
+            FileUtils.rm(exiftool_filepath)
           rescue Exception => e
             return 500, "could not get exiftool info : #{filename}: #{e.message}"
           end
@@ -154,19 +173,19 @@ module HomeFileModule
       Dir.mkdir(root_folder)
     end
     result = {:filenames => [],
-              :directories => HomeFileModule.get_initial_directories(),
-              :directory => HomeFileModule.get_testdata()
+              :directories => HomeFileModule.get_initial_directories,
+              :directory => HomeFileModule.get_testdata
     }
-    dir_path = root_folder + '/' + contest_name + '/'
-    if Dir.exists?(dir_path)
-      dir_path = HomeFileModule.get_originals_path(root_folder, contest_name)
-      if Dir.exists?(dir_path)
+    contest_dir_path = root_folder + '/' + contest_name + '/'
+    if Dir.exists?(contest_dir_path)
+      contest_dir_path = HomeFileModule.get_originals_path(root_folder, contest_name)
+      if Dir.exists?(contest_dir_path)
         result = HomeFileModule.get_contest_info(root_folder, contest_name, TESTDATA)
       else
-        Dir.mkdir(dir_path)
+        Dir.mkdir(contest_dir_path)
       end
     else
-      Dir.mkdir(dir_path)
+      Dir.mkdir(contest_dir_path)
       Dir.mkdir(HomeFileModule.get_originals_path(root_folder, contest_name))
       Dir.mkdir(HomeFileModule.get_testdata_path(root_folder, contest_name))
     end
@@ -177,6 +196,51 @@ module HomeFileModule
     file_path_testdata = File.join(HomeFileModule.get_testdata_path(root_folder, contest_name), filename)
 
     HomeFileModule.execute_exiftool("-iptc:CopyrightNotice=\"#{copyright}\"", file_path_testdata, "")
+    FileUtils.rm("#{file_path_testdata}_original")
+  end
+
+  def HomeFileModule.generate_contest(contest_name)
+
+    root_folder = ROOT_FOLDER
+    dir_path_originals = HomeFileModule.get_originals_path(root_folder, contest_name)
+    dir_path_testdata = HomeFileModule.get_testdata_path(root_folder, contest_name)
+    dir_path_name_and_number = HomeFileModule.get_path(root_folder, contest_name, NAME_AND_NUMBER)
+    dir_path_number = HomeFileModule.get_path(root_folder, contest_name, NUMBER)
+
+    Dir.mkdir(dir_path_name_and_number)
+    Dir.mkdir(dir_path_number)
+
+    contest_content = HomeFileModule.get_dir_contents(dir_path_testdata, false)
+    file_nums = (0..contest_content.length).to_a.sort { rand() - 0.5 }
+    contest_content.each_index do |i|
+
+      filename = contest_content[i]
+
+      file_path_testdata = File.join(dir_path_testdata, filename)
+      file_path_name_and_number = File.join(dir_path_name_and_number, "#{file_nums[i]}_#{filename}")
+      file_path_number = File.join(dir_path_number, "#{file_nums[i]}.jpg")
+
+      FileUtils.cp(file_path_testdata, file_path_name_and_number)
+      FileUtils.cp(file_path_testdata, file_path_number)
+
+      HomeFileModule.execute_exiftool("-all", file_path_number, "")
+
+    end
+
+    contest_dir = File.join(root_folder, contest_name)
+
+    xxx = "zip #{File.join(contest_dir, "#{ORIGINALS}.zip")} #{dir_path_originals}/*"
+    system xxx
+
+    xxx = "zip #{File.join(contest_dir, "#{TESTDATA}.zip")} #{dir_path_testdata}/*"
+    system xxx
+
+    xxx = "zip #{File.join(contest_dir, "#{NAME_AND_NUMBER}.zip")} #{dir_path_name_and_number}/*"
+    system xxx
+
+    xxx = "zip #{File.join(contest_dir, "#{NUMBER}.zip")} #{dir_path_number}/*"
+    system xxx
+
   end
 
 end

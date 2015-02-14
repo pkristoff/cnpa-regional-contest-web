@@ -58,6 +58,36 @@ angular.module('cnpaContestApp')
                 }
             }
 
+            function generateContest () {
+                showBusy();
+                var params = {
+                    rootFolder: vm.contest.rootFolder,
+                    contestName: vm.contest.name,
+                    authenticity_token: $('#mmm')[0].value
+                };
+
+                $http.post('/generateContest', params, {"Content-Type": "application/json"}).then(
+                    contestResult,
+                    errorCallback($scope)
+                )
+
+            }
+
+            function emailContest () {
+                showBusy();
+                var params = {
+                    rootFolder: vm.contest.rootFolder,
+                    contestName: vm.contest.name,
+                    authenticity_token: $('#mmm')[0].value
+                };
+
+                $http.post('/email_contest', params, {"Content-Type": "application/json"}).then(
+                    contestResult,
+                    errorCallback($scope)
+                )
+
+            }
+
             function hideBusy() {
                 $scope.isLoading = false;
             }
@@ -143,6 +173,8 @@ angular.module('cnpaContestApp')
                 startingDay: 0
             };
             vm.deleteFile = deleteFile;
+            vm.emailContest = emailContest;
+            vm.generateContest = generateContest;
             vm.openDate = openDate;
             vm.setCopyright = setCopyright;
             vm.uploadFile = uploadFile;

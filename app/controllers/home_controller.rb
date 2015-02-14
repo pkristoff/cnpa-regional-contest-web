@@ -4,6 +4,7 @@ require 'home_file_module'
 class HomeController < ApplicationController
 
   ROOT_FOLDER = 'Contests'
+  NAME_AND_NUMBER = 'name_and_number'
 
 
   def file_list_template
@@ -78,7 +79,7 @@ class HomeController < ApplicationController
       if deleted
         dir_path = HomeFileModule.get_path(root_folder, contest_name, directory)
         contest_content = HomeFileModule.get_dir_contents(dir_path, false)
-        handle_return HomeFileModule.get_and_return_file_info(contest_content, dir_path, directory)
+        handle_return HomeFileModule.get_and_return_file_info(contest_content, root_folder, contest_name, directory)
       end
     rescue Exception => e
       return render status: 500, json: "could not delete file: #{file_path_originals}: #{filename}: #{e.message}"
@@ -96,15 +97,44 @@ class HomeController < ApplicationController
     begin
       if Dir.exists?(dir_path)
         contest_content = HomeFileModule.get_dir_contents(dir_path, false)
-        handle_return HomeFileModule.get_and_return_file_info(contest_content, dir_path, directory)
+        handle_return HomeFileModule.get_and_return_file_info(contest_content, root_folder, contest_name, directory)
       else
         return render status: 500, json: "could not find path: #{dir_path}: #{e.message}"
       end
 
     rescue Exception => e
-      return render status: 500, json: "could not cgange directory: #{e.message}"
+      return render status: 500, json: "could not change directory: #{e.message}"
     end
 
+  end
+
+  def email_contest
+
+    contest_dir = File.join(ROOT_FOLDER, params[:contestName])
+
+    originals_dir_name = HomeFileModule.get_originals
+    testdata_dir_name = HomeFileModule.get_testdata
+    name_and_number_dir_name = HomeFileModule.get_name_and_number
+    number_dir_name = HomeFileModule.get_number
+
+    [[File.join(contest_dir, "#{originals_dir_name}.zip"), originals_dir_name],
+     [File.join(contest_dir, "#{testdata_dir_name}.zip"), testdata_dir_name],
+     [File.join(contest_dir, "#{name_and_number_dir_name}.zip"), name_and_number_dir_name],
+     [File.join(contest_dir, "#{number_dir_name}.zip"), number_dir_name]].each do |entry|
+      zip_file_path = entry[0]
+      dir_path = entry[1]
+      ContestMailer.contest_email(params[:contestName], dir_path, zip_file_path)
+
+    end
+
+    handle_return HomeFileModule.get_contest_info(ROOT_FOLDER, params[:contestName], HomeFileModule.get_testdata())
+  end
+
+  def generate_contest
+
+    HomeFileModule.generate_contest(params[:contestName])
+
+    handle_return HomeFileModule.get_contest_info(ROOT_FOLDER, params[:contestName], HomeFileModule.get_testdata())
   end
 
   def get_contests
