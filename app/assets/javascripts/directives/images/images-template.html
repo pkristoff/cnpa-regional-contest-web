@@ -64,7 +64,7 @@
             <tbody>
             <tr ng-repeat="file in vm.contest.files">
                 <td ng-if="vm.contest.directory !== 'Originals'">
-                    <button title="rename file" ng-click="vm.renameFile(file)">R</button>
+                    <button title="rename file" ng-click="vm.rename_file(file)">R</button>
                 </td>
                 <td ng-if="vm.contest.directory !== 'Originals'">
                     <button title="generate a copyright" ng-click="vm.setCopyright(file)">©</button>

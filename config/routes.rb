@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   match '/views/partials/chooseContest' => 'home#choose_contest', via: :get
   match '/views/partials/contestFiles' => 'home#contest_files', via: :get
   match '/views/partials/busyModal' => 'home#busyModal', via: :get
+  match 'rename-file-template' => 'home#rename_file_template', via: :get
 
 
   match '/addFiles' => 'home#add_files', via: :post
@@ -18,6 +19,7 @@ Rails.application.routes.draw do
   match '/home_css.css' => 'home#home_css', via: :post
   match '/generateContest' => 'home#generate_contest', via: :post
   match '/email_contest' => 'home#email_contest', via: :post
+  match '/rename_file' => 'home#rename_file', via: :post
 
   # Install the default routes as the lowest priority.
   # Note: These default routes make all actions in every controller accessible via GET requests. You should

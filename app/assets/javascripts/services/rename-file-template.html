@@ -1,0 +1,17 @@
+<div class="modal-header">
+    <h3>{{modalOptions.headerText}}</h3>
+</div>
+<form ng-submit="modalOptions.submit()">
+    <div class="modal-body">
+        <label>Constant's Name (Spaces between names: No '-' or '_' needed)</label>
+        <input type="text" data-ng-model="fileName.contestantName">
+        <label>Title (Spaces between words: No '-' or '_' needed)</label>
+        <input type="text" data-ng-model="fileName.imageTitle">
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn" data-ng-click="modalOptions.close()">{{modalOptions.closeButtonText}}</button>
+        <button type="submit" class="btn btn-primary" data-ng-click="modalOptions.ok(mydata)">
+            {{modalOptions.actionButtonText}}
+        </button>
+    </div>
+</form>

@@ -4,8 +4,8 @@
 
 
 angular.module('cnpaContestApp')
-    .controller('imagesController', ['$scope', '$http', 'fileImageService', '$location',
-        function($scope, $http, fileImageService, $location) {
+    .controller('imagesController', ['$scope', '$http', 'fileImageService', '$location', 'renameFileService',
+        function($scope, $http, fileImageService, $location, renameFileService) {
 
             var vm = this;
 
@@ -58,7 +58,7 @@ angular.module('cnpaContestApp')
                 }
             }
 
-            function generateContest () {
+            function generateContest() {
                 showBusy();
                 var params = {
                     rootFolder: vm.contest.rootFolder,
@@ -73,7 +73,7 @@ angular.module('cnpaContestApp')
 
             }
 
-            function emailContest () {
+            function emailContest() {
                 showBusy();
                 var params = {
                     rootFolder: vm.contest.rootFolder,
@@ -97,6 +97,42 @@ angular.module('cnpaContestApp')
                 $event.stopPropagation();
 
                 vm.dateOpened = true;
+            }
+
+            function rename_file(old_filename) {
+
+                $scope.fileName = {
+                    contestantName: old_filename.contestantName.value,
+                    imageTitle: old_filename.title.value
+                };
+
+                showModal = function() {
+
+                    var modalOptions = {
+                        closeButtonText: 'Cancel',
+                        actionButtonText: 'Rename',
+                        headerText: 'Rename Dialog'
+                    };
+
+                    renameFileService.showModal({}, modalOptions).then(function(newFileName) {
+                        var params = {
+                            rootFolder: vm.contest.rootFolder,
+                            contestName: vm.contest.name,
+                            old_filename: old_filename.filename.value,
+                            new_filename: newFileName.contestantName + "-" + newFileName.imageTitle + ".jpg",
+                            directory: vm.contest.directory,
+                            authenticity_token: $('#mmm')[0].value
+                        };
+
+                        $http.post('/rename_file', params, {"Content-Type": "application/json"}).then(
+                            contestResult,
+                            errorCallback($scope)
+                        )
+                    });
+                }
+
+                showModal();
+
             }
 
             function setCopyright(fileInfo) {
@@ -173,6 +209,7 @@ angular.module('cnpaContestApp')
                 startingDay: 0
             };
             vm.deleteFile = deleteFile;
+            vm.rename_file = rename_file;
             vm.emailContest = emailContest;
             vm.generateContest = generateContest;
             vm.openDate = openDate;

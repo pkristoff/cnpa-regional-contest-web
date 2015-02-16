@@ -243,4 +243,13 @@ module HomeFileModule
 
   end
 
+  def HomeFileModule.rename_file(root_folder, contest_name, old_filename, new_filename)
+    old_file_path_testdata = File.join(HomeFileModule.get_testdata_path(root_folder, contest_name), old_filename)
+    new_file_path_testdata = File.join(HomeFileModule.get_testdata_path(root_folder, contest_name), new_filename)
+
+    if File.exists?(old_file_path_testdata)
+      File.rename(old_file_path_testdata,new_file_path_testdata)
+    end
+  end
+
 end

@@ -12,6 +12,11 @@ class HomeController < ApplicationController
 
   end
 
+  def rename_file_template
+    render '../assets/javascripts/services/rename-file-template.html'
+
+  end
+
   def choose_contest
     render '../views/partials/chooseContest.html'
   end
@@ -142,6 +147,20 @@ class HomeController < ApplicationController
     dir_path = root_folder + '/'
     # since it returns an array then don't call handle_return
     render json: HomeFileModule.get_dir_contents(dir_path, true)
+  end
+
+  def rename_file
+    root_folder = ROOT_FOLDER
+    contest_name = params[:contestName]
+    old_filename = params[:old_filename]
+    new_filename = params[:new_filename]
+    directory = params[:directory]
+
+    dir_path = HomeFileModule.get_path(root_folder, contest_name, directory)
+
+    HomeFileModule.rename_file(root_folder, contest_name, old_filename, new_filename)
+
+    handle_return HomeFileModule.get_contest_info(ROOT_FOLDER, params[:contestName], HomeFileModule.get_testdata())
   end
 
   def set_copyright
