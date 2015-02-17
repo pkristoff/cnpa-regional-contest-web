@@ -80,7 +80,6 @@ module HomeFileModule
       filename_split = filename.split(".")
       if filename_split.length === 2 && (filename_split[1] === "jpg" || filename_split[1] === "JPG" || filename_split[1] === "jpeg" || filename_split[1] === "JPEG")
         file_path = File.join(dir_path, filename)
-
         if File.file?(file_path)
           begin
             exiftool_filepath = File.join(dir_path, EXIFTOOL_FILE_INFO)
@@ -157,6 +156,7 @@ module HomeFileModule
     HomeFileModule.get_files(params).each do |file|
 
       name = file.original_filename
+      name = name.gsub("'", "")
 
       file_path_originals = File.join(dir_path_originals, name)
       file_path_testdata = File.join(dir_path_testdata, name)
@@ -211,7 +211,7 @@ module HomeFileModule
     Dir.mkdir(dir_path_number)
 
     contest_content = HomeFileModule.get_dir_contents(dir_path_testdata, false)
-    file_nums = (0..contest_content.length).to_a.sort { rand() - 0.5 }
+    file_nums = (1..contest_content.length+1).to_a.sort { rand() - 0.5 }
     contest_content.each_index do |i|
 
       filename = contest_content[i]

@@ -12,6 +12,7 @@ config(['$routeProvider', '$locationProvider', ($routeProvider, $locationProvide
 factory('$exceptionHandler', () ->
   return (exception, cause) ->
     alert(exception.message)
+    alert(exception.stack)
     console.log(exception.message)
     console.log(exception.stack)
 )
