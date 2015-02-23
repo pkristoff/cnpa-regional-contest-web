@@ -211,7 +211,7 @@ module HomeFileModule
     Dir.mkdir(dir_path_number)
 
     contest_content = HomeFileModule.get_dir_contents(dir_path_testdata, false)
-    file_nums = (1..contest_content.length+1).to_a.sort { rand() - 0.5 }
+    file_nums = (1..contest_content.length).to_a.sort { rand() - 0.5 }
     contest_content.each_index do |i|
 
       filename = contest_content[i]
