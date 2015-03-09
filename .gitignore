@@ -27,3 +27,5 @@ Contests/**/*
 
 # npm-debug.log
 *.log
+
+public/assets/**
