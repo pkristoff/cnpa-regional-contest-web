@@ -44,6 +44,7 @@ angular.module('cnpaContestApp')
             }
 
             function getContestsResult(response) {
+                console.log(response);
                 if(response.status === 200) {
                     $scope.contest.contests = [];
                     response.data.forEach(function(contestName, index) {
