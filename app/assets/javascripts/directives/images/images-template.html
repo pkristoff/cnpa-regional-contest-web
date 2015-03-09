@@ -1,21 +1,24 @@
 <div class="panel-body">
     <button type="button" class="btn btn-default navbar-btn" ng-click="vm.generateContest()">Generate Contest</button>
     <button type="button" class="btn btn-default navbar-btn" ng-click="vm.emailContest()">Email Contest</button>
+    <input type="email" name="emailAddress" ng-model="vm.contest.email" ng-focus="vm.saveConfigInfo()"/>
     <div class="cnpa-date">
-        <button type="button" class="btn btn-primary" ng-model="vm.contest.pictureAge" btn-checkbox
+        <button type="button" class="btn btn-primary" ng-model="vm.contest.isPictureAgeRequired" btn-checkbox
                 btn-checkbox-true="true"
-                btn-checkbox-false="false">
+                btn-checkbox-false="false"
+                ng-click="vm.saveConfigInfo()">
             Picture Age Limit
         </button>
-        <div class="row" ng-hide="! vm.contest.pictureAge">
-            <p class="cnpa-help"> This date represents the oldest a picure can be created and still be in the
+        <div class="row" ng-hide="! vm.contest.showPictureAge">
+            <p class="cnpa-help"> This date represents the oldest a picture can be created and still be in the
                 contest.</p>
 
             <div class="col-md-6">
                 <p class="input-group">
                     <input type="text" readonly="true" class="form-control" datepicker-popup="yyyy/MM/dd"
                            ng-model="contest.pictureAgeDate" is-open="vm.dateOpened"
-                           datepicker-options="vm.dateOptions" date-disabled="false" close-text="Close"/>
+                           datepicker-options="vm.dateOptions" date-disabled="false" close-text="Close"
+                            ng-change="vm.saveConfigInfo()"/>
               <span class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-click="vm.openDate($event)"><i
                         class="glyphicon glyphicon-calendar"></i></button>

@@ -59,6 +59,11 @@ module HomeFileModule
       if Dir.exists?(dir_path)
         contest_content = HomeFileModule.get_dir_contents(dir_path, false)
         result = HomeFileModule.get_and_return_file_info(contest_content, root_folder, contest_name, dir)
+        config_info = HomeFileModule.get_config_info(root_folder, contest_name)
+        result[:hasGeneratedContest] = false
+        result[:email] = config_info[:email]
+        result[:is_picture_age_required] = config_info[:is_picture_age_required]
+        result[:picture_age_date] = config_info[:picture_age_date]
       else
         return 500, "could not find path: #{dir_path}"
       end
@@ -174,7 +179,11 @@ module HomeFileModule
     end
     result = {:filenames => [],
               :directories => HomeFileModule.get_initial_directories,
-              :directory => HomeFileModule.get_testdata
+              :directory => HomeFileModule.get_testdata,
+              :hasGeneratedContest => false,
+              :email => 'foo@bar.com',
+              :isPictureAgeRequired => false,
+              :pictureAgeDate => Date.today
     }
     contest_dir_path = root_folder + '/' + contest_name + '/'
     if Dir.exists?(contest_dir_path)
@@ -186,10 +195,32 @@ module HomeFileModule
       end
     else
       Dir.mkdir(contest_dir_path)
+      HomeFileModule.save_config_info(root_folder, contest_name, result[:email], result[:isPictureAgeRequired],
+                                      result[:pictureAgeDate])
       Dir.mkdir(HomeFileModule.get_originals_path(root_folder, contest_name))
       Dir.mkdir(HomeFileModule.get_testdata_path(root_folder, contest_name))
     end
     return result
+  end
+
+  def HomeFileModule.save_config_info(root_folder, contest_name, email, is_picture_age_required, picture_age_date)
+    contest_config_path = "#{root_folder}/#{contest_name}/config.json"
+    config_info = {'email' => email, 'is_picture_age_required' => is_picture_age_required, 'picture_age_date' =>
+        picture_age_date}
+    File.open(contest_config_path, "w") { |f| f.write(config_info.to_json) }
+    # File.open(contest_config_path, 'w') do |configFile|
+    #   configFile.puts(config_info.to_json)
+    # end
+  end
+
+  def HomeFileModule.get_config_info(root_folder, contest_name)
+    contest_config_path = "#{root_folder}/#{contest_name}/config.json"
+    if (File.exist? contest_config_path)
+      return JSON.parse(File.read(contest_config_path))
+    else
+      HomeFileModule.save_config_info(root_folder, contest_name, "foo@bar.com", false, Date.today)
+      return HomeFileModule.get_config_info(root_folder, contest_name)
+    end
   end
 
   def HomeFileModule.set_copyright(root_folder, contest_name, filename, copyright)
@@ -248,7 +279,7 @@ module HomeFileModule
     new_file_path_testdata = File.join(HomeFileModule.get_testdata_path(root_folder, contest_name), new_filename)
 
     if File.exists?(old_file_path_testdata)
-      File.rename(old_file_path_testdata,new_file_path_testdata)
+      File.rename(old_file_path_testdata, new_file_path_testdata)
     end
   end
 

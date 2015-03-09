@@ -15,4 +15,5 @@ factory('$exceptionHandler', () ->
     alert(exception.stack)
     console.log(exception.message)
     console.log(exception.stack)
+    $rootScope.errorMessages = [exception.message]
 )

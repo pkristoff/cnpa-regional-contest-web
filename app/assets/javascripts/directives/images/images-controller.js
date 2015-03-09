@@ -27,6 +27,9 @@ angular.module('cnpaContestApp')
                     vm.contest.directories = result.directories.map(function(dirName) {
                         return {value: dirName, text: dirName};
                     });
+                    vm.contest.email = result.email
+                    vm.contest.is_picture_age_required = result.is_picture_age_required
+                    vm.contest.picture_age_date = result.picture_age_date
                     $location.path("/contestFiles");
                 } else {
                     errorCallback($scope)(response);
@@ -129,7 +132,7 @@ angular.module('cnpaContestApp')
                             errorCallback($scope)
                         )
                     });
-                }
+                };
 
                 showModal();
 
@@ -179,6 +182,22 @@ angular.module('cnpaContestApp')
                 $scope.isLoading = true;
             }
 
+            function saveConfigInfo(){
+                var params = {
+                    rootFolder: vm.contest.rootFolder,
+                    contestName: vm.contest.name,
+                    email: vm.contest.email,
+                    directory: vm.contest.directory,
+                    authenticity_token: $('#mmm')[0].value
+                };
+
+
+                $http.post('/saveConfigInfo', params, {"Content-Type": "application/json"}).then(
+                    contestResult,
+                    errorCallback($scope)
+                )
+            }
+
             function uploadFile(files) {
                 showBusy();
                 var fd = new FormData();
@@ -214,6 +233,7 @@ angular.module('cnpaContestApp')
             vm.generateContest = generateContest;
             vm.openDate = openDate;
             vm.setCopyright = setCopyright;
+            vm.saveConfigInfo = saveConfigInfo;
             vm.uploadFile = uploadFile;
 
         }]);

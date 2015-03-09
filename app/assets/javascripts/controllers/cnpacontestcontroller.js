@@ -27,10 +27,10 @@ angular.module('cnpaContestApp')
 
             function errorCallback($scope) {
                 return function(response) {
-                    var message = "error " + response.status + ": " + response.data;
+                    var message = "error " + response.status + ": " + response.data.message;
                     console.log(message);
                     alert(message);
-                    $scope.errorMessages = [response.data];
+                    $scope.errorMessages = message;
                     hideBusy();
                 }
             }

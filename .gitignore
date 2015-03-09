@@ -24,3 +24,6 @@ node_modules/karma-phantomjs-launcher/**/*
 
 
 Contests/**/*
+
+# npm-debug.log
+*.log

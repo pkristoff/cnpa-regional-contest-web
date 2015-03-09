@@ -33,7 +33,7 @@ class HomeController < ApplicationController
 
   def handle_return info
     if info.kind_of? Array # error
-      render status: info[0], json: info[1]
+      render status: info[0], json: {message: info[1]}
     else
       render json: info
     end
@@ -56,12 +56,12 @@ class HomeController < ApplicationController
       result = HomeFileModule.create_contest(root_folder, contest_name)
       handle_return result
     rescue Exception => e
-      render status: 500, json: "could not find path: #{root_folder}/#{contest_name}: #{e.message}"
+      render status: 500, json: {"message" => "could not find path: #{root_folder}/#{contest_name}: #{e.message}"}
     end
   end
 
   def delete_file
-    root_folder = ROOT_FOLDER
+    root_folder = ROOT_FOLDERF
     contest_name = params[:contestName]
     filename = params[:filename]
     directory = params[:directory]
@@ -73,13 +73,13 @@ class HomeController < ApplicationController
         File.delete(file_path_originals)
         deleted=true
       else
-        return render status: 500, json: file_path_originals + " does not exist"
+        return render status: 500, json: {"message" => file_path_originals + " does not exist"}
       end
       if File.exists?(file_path_testdata)
         File.delete(file_path_testdata)
         deleted=true
       else
-        return render status: 500, json: file_path_testdata + " does not exist"
+        return render status: 500, json: {"message" => file_path_testdata + " does not exist"}
       end
       if deleted
         dir_path = HomeFileModule.get_path(root_folder, contest_name, directory)
@@ -87,7 +87,7 @@ class HomeController < ApplicationController
         handle_return HomeFileModule.get_and_return_file_info(contest_content, root_folder, contest_name, directory)
       end
     rescue Exception => e
-      return render status: 500, json: "could not delete file: #{file_path_originals}: #{filename}: #{e.message}"
+      return render status: 500, json: {"message" => "could not delete file: #{file_path_originals}: #{filename}: #{e.message}"}
 
     end
 
@@ -104,11 +104,11 @@ class HomeController < ApplicationController
         contest_content = HomeFileModule.get_dir_contents(dir_path, false)
         handle_return HomeFileModule.get_and_return_file_info(contest_content, root_folder, contest_name, directory)
       else
-        return render status: 500, json: "could not find path: #{dir_path}: #{e.message}"
+        return render status: 500, json: {"message" => "could not find path: #{dir_path}: #{e.message}"}
       end
 
     rescue Exception => e
-      return render status: 500, json: "could not change directory: #{e.message}"
+      return render status: 500, json: {"message" => "could not change directory: #{e.message}"}
     end
 
   end
@@ -159,6 +159,21 @@ class HomeController < ApplicationController
     dir_path = HomeFileModule.get_path(root_folder, contest_name, directory)
 
     HomeFileModule.rename_file(root_folder, contest_name, old_filename, new_filename)
+
+    handle_return HomeFileModule.get_contest_info(ROOT_FOLDER, params[:contestName], HomeFileModule.get_testdata())
+  end
+
+  def save_config_info
+    root_folder = ROOT_FOLDER
+    contest_name = params[:contestName]
+    email = params[:email]
+    is_picture_age_required = params[:isPictureAgeRequired]
+    picture_age_date = params[:pictureAgeDate]
+    directory = params[:directory]
+
+    dir_path = HomeFileModule.get_path(root_folder, contest_name, directory)
+
+    HomeFileModule.save_config_info(root_folder, contest_name, email, is_picture_age_required, picture_age_date)
 
     handle_return HomeFileModule.get_contest_info(ROOT_FOLDER, params[:contestName], HomeFileModule.get_testdata())
   end
