@@ -1,15 +1,28 @@
 <div class="panel-body">
-    <button type="button" class="btn btn-default navbar-btn" ng-click="vm.generateContest()">Generate Contest</button>
-    <button type="button" class="btn btn-default navbar-btn" ng-click="vm.emailContest()">Email Contest</button>
-    <input type="email" name="emailAddress" ng-model="vm.contest.email" ng-focus="vm.saveConfigInfo()"/>
+    <pre>vm.contest.files.length:{{vm.contest.files.length}}</pre>
+    <pre>vm.contest.directories.length:{{vm.contest.directories.length}}</pre>
+    <pre>vm.contest.directories.length<=2:{{vm.contest.directories.length<=2}}</pre>
+    <pre> vm.email:{{ vm.email}}</pre>
+    <pre>vm.contest.showGenerateContest:{{vm.contest.showGenerateContest}}</pre>
+    <button type="button"
+            class="btn btn-default navbar-btn"
+            ng-click="vm.generateContest()"
+            ng-show="vm.contest.showGenerateContest">Generate Contest</button>
+    <button type="button"
+            class="btn btn-default navbar-btn"
+            ng-click="vm.emailContest()"
+            ng-show="vm.contest.showEmailContest">Email Contest</button>
+    <label for="emailAddressId">Email Address</label>
+    <input type="email" id="emailAddressId" name="emailAddress" ng-model="vm.contest.email"
+           ng-change="vm.saveConfigInfo()"/>
     <div class="cnpa-date">
         <button type="button" class="btn btn-primary" ng-model="vm.contest.isPictureAgeRequired" btn-checkbox
                 btn-checkbox-true="true"
                 btn-checkbox-false="false"
-                ng-click="vm.saveConfigInfo()">
+                ng-click="vm.isPictureAgeRequiredClicked()">
             Picture Age Limit
         </button>
-        <div class="row" ng-hide="! vm.contest.showPictureAge">
+        <div class="row" ng-hide="! vm.contest.isPictureAgeRequired">
             <p class="cnpa-help"> This date represents the oldest a picture can be created and still be in the
                 contest.</p>
 

@@ -60,10 +60,10 @@ module HomeFileModule
         contest_content = HomeFileModule.get_dir_contents(dir_path, false)
         result = HomeFileModule.get_and_return_file_info(contest_content, root_folder, contest_name, dir)
         config_info = HomeFileModule.get_config_info(root_folder, contest_name)
-        result[:hasGeneratedContest] = false
-        result[:email] = config_info[:email]
-        result[:is_picture_age_required] = config_info[:is_picture_age_required]
-        result[:picture_age_date] = config_info[:picture_age_date]
+        result[:hasGeneratedContest] = [result[:directories].size > 2]
+        result[:email] = config_info['email']
+        result[:isPictureAgeRequired] = config_info['is_picture_age_required']
+        result[:pictureAgeDate] = config_info['picture_age_date']
       else
         return 500, "could not find path: #{dir_path}"
       end

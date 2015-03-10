@@ -27,9 +27,11 @@ angular.module('cnpaContestApp')
                     vm.contest.directories = result.directories.map(function(dirName) {
                         return {value: dirName, text: dirName};
                     });
-                    vm.contest.email = result.email
-                    vm.contest.is_picture_age_required = result.is_picture_age_required
-                    vm.contest.picture_age_date = result.picture_age_date
+                    vm.contest.email = result.email;
+                    vm.contest.showGenerateContest = vm.contest.files.length > 0 && vm.contest.directories.length <= 2;
+                    vm.contest.showEmailContest = vm.contest.directories.length > 2 && vm.contest.email;
+                    vm.contest.isPictureAgeRequired = result.isPictureAgeRequired;
+                    vm.contest.pictureAgeDate = result.pictureAgeDate;
                     $location.path("/contestFiles");
                 } else {
                     errorCallback($scope)(response);
@@ -93,6 +95,11 @@ angular.module('cnpaContestApp')
 
             function hideBusy() {
                 $scope.isLoading = false;
+            }
+
+            function isPictureAgeRequiredClicked(){
+                vm.contest.isPictureAgeRequired = !vm.contest.isPictureAgeRequired;
+                saveConfigInfo();
             }
 
             function openDate($event) {
@@ -187,6 +194,8 @@ angular.module('cnpaContestApp')
                     rootFolder: vm.contest.rootFolder,
                     contestName: vm.contest.name,
                     email: vm.contest.email,
+                    pictureAgeDate: vm.contest.pictureAgeDate,
+                    isPictureAgeRequired: vm.contest.isPictureAgeRequired,
                     directory: vm.contest.directory,
                     authenticity_token: $('#mmm')[0].value
                 };

@@ -13,6 +13,9 @@ Rails.application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
+  # Don't care if the mailer can't send.
+  config.action_mailer.raise_delivery_errors = false
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
@@ -23,6 +26,9 @@ Rails.application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
+
+  # Set to :debug to see everything in the log.
+  config.log_level = :debug
 
   # Adds additional error checking when serving assets at runtime.
   # Checks for improperly declared sprockets dependencies.
@@ -37,13 +43,13 @@ Rails.application.configure do
 
   ActionMailer::Base.delivery_method = :smtp
   ActionMailer::Base.smtp_settings = {
-      :address => "smtp.kristoffs.com",
-      :port => 25,
-      :domain => "kristoffs.com",
-      :user_name => "paul@kristoffs.com",
-      :password => "Paul58@k",
+      :address => "gemini.ocssolutions.com",
+      :port => 465,
+      :domain => "paulkristoff.com",
+      :user_name => "photo@paulkristoff.com",
+      :password => "jobhunting58",
       :enable_starttls_auto => false,
-      :authentication => "login",
+      :authentication => "plain",
       openssl_verify_mode: 0
   }
 end
