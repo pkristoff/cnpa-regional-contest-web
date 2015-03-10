@@ -29,7 +29,7 @@ angular.module('cnpaContestApp')
                     });
                     vm.contest.email = result.email;
                     vm.contest.showGenerateContest = vm.contest.files.length > 0 && vm.contest.directories.length <= 2;
-                    vm.contest.showEmailContest = vm.contest.directories.length > 2 && vm.contest.email;
+                    vm.contest.showEmailContest = true;//vm.contest.directories.length > 2 && vm.contest.email;
                     vm.contest.isPictureAgeRequired = result.isPictureAgeRequired;
                     vm.contest.pictureAgeDate = result.pictureAgeDate;
                     $location.path("/contestFiles");
