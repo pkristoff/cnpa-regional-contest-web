@@ -91,7 +91,7 @@ angular.module('cnpaContestApp')
 
                     $scope.contest.email = result.email;
                     $scope.contest.showGenerateContest = $scope.contest.files.length > 0 && $scope.contest.directories.length <= 2;
-                    $scope.contest.showEmailContest = $scope.contest.directories.length > 2 && $scope.contest.email;
+                    $scope.contest.showEmailContest = true;//$scope.contest.directories.length > 2 && $scope.contest.email;
                     $scope.contest.isPictureAgeRequired = result.isPictureAgeRequired;
                     $scope.contest.pictureAgeDate = result.pictureAgeDate;
 
