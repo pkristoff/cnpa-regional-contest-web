@@ -41,15 +41,16 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
 
+
   ActionMailer::Base.delivery_method = :smtp
   ActionMailer::Base.smtp_settings = {
-      :address => "gemini.ocssolutions.com",
-      :port => 465,
-      :domain => "paulkristoff.com",
-      :user_name => "photo@paulkristoff.com",
-      :password => "jobhunting58",
+      :address => "mail.kristoffs.com",
+      :port => 2525,
+      :domain => "kristoffs.com",
+      :user_name => "programming@kristoffs.com",
+      :password => "Program58@k",
       :enable_starttls_auto => false,
-      :authentication => "plain",
+      :authentication => "login",
       openssl_verify_mode: 0
   }
 end

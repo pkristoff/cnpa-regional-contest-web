@@ -105,8 +105,8 @@ Rails.application.configure do
       :address => "localhost",
       :port => 25,
       :domain => "paulkristoff.com",
-      :user_name => "photo@paulkristoff.com",
-      :password => "jobhunting58",
+      :user_name => "programming@paulkristoff.com",
+      :password => "Program58@k",
       :enable_starttls_auto => false,
       :authentication => "plain",
       openssl_verify_mode: 0

@@ -1,9 +1,8 @@
 <div class="panel-body">
-    <pre>vm.contest.files.length:{{vm.contest.files.length}}</pre>
-    <pre>vm.contest.directories.length:{{vm.contest.directories.length}}</pre>
-    <pre>vm.contest.directories.length<=2:{{vm.contest.directories.length<=2}}</pre>
-    <pre> vm.email:{{ vm.email}}</pre>
-    <pre>vm.contest.showGenerateContest:{{vm.contest.showGenerateContest}}</pre>
+    <button type="button"
+            class="btn btn-default navbar-btn"
+            ng-click="vm.generateContest()"
+            ng-show="vm.contest.showRegenerateContest">Regenerate Contest</button>
     <button type="button"
             class="btn btn-default navbar-btn"
             ng-click="vm.generateContest()"

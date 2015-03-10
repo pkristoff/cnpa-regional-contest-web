@@ -142,6 +142,14 @@ class HomeController < ApplicationController
     handle_return HomeFileModule.get_contest_info(ROOT_FOLDER, params[:contestName], HomeFileModule.get_testdata())
   end
 
+  def regenerate_contest
+
+    HomeFileModule.delete_generated_contest(params[:contestName])
+    HomeFileModule.generate_contest(params[:contestName])
+
+    handle_return HomeFileModule.get_contest_info(ROOT_FOLDER, params[:contestName], HomeFileModule.get_testdata())
+  end
+
   def get_contests
     root_folder = ROOT_FOLDER
     dir_path = root_folder + '/'

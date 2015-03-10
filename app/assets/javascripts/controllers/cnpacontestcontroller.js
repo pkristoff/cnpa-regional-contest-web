@@ -83,17 +83,19 @@ angular.module('cnpaContestApp')
             function contestResult(response) {
                 if(response.status === 200) {
                     var result = response.data;
-                    $scope.contest.files = fileImageService.updateFiles(result.filenames);
-                    $scope.contest.directory = result.directory;
-                    $scope.contest.directories = result.directories.map(function(dirName) {
+                    var contest = $scope.contest;
+                    contest.files = fileImageService.updateFiles(result.filenames);
+                    contest.directory = result.directory;
+                    contest.directories = result.directories.map(function(dirName) {
                         return {value: dirName, text: dirName};
                     });
 
-                    $scope.contest.email = result.email;
-                    $scope.contest.showGenerateContest = $scope.contest.files.length > 0 && $scope.contest.directories.length <= 2;
-                    $scope.contest.showEmailContest = true;//$scope.contest.directories.length > 2 && $scope.contest.email;
-                    $scope.contest.isPictureAgeRequired = result.isPictureAgeRequired;
-                    $scope.contest.pictureAgeDate = result.pictureAgeDate;
+                    contest.email = result.email;
+                    contest.showGenerateContest = contest.files.length > 0 && contest.directories.length <= 2;
+                    contest.showRegenerateContest = contest.files.length > 0 && ! contest.showGenerateContest;
+                    contest.showEmailContest = contest.directories.length > 2 && contest.email;
+                    contest.isPictureAgeRequired = result.isPictureAgeRequired;
+                    contest.pictureAgeDate = result.pictureAgeDate;
 
 
                     $location.path("/contestFiles");

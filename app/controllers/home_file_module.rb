@@ -230,6 +230,28 @@ module HomeFileModule
     FileUtils.rm("#{file_path_testdata}_original")
   end
 
+  def HomeFileModule.delete_generated_contest(contest_name)
+
+    dir_path_name_and_number = HomeFileModule.get_path(root_folder, contest_name, NAME_AND_NUMBER)
+    dir_path_number = HomeFileModule.get_path(root_folder, contest_name, NUMBER)
+
+    HomeFileModule.empty_and_delete dir_path_name_and_number
+    HomeFileModule.empty_and_delete dir_path_number
+
+  end
+
+  def HomeFileModule.empty_and_delete(dir_path)
+
+    if Dir.exists? dir_path
+      Dir.foreach(dir_path)do |filenane|
+        if (File.file? filenane) && (Dir.exists? filenane)
+          File.delete filenane
+        end
+      end
+      Dir.delete(dir_path)
+    end
+  end
+
   def HomeFileModule.generate_contest(contest_name)
 
     root_folder = ROOT_FOLDER

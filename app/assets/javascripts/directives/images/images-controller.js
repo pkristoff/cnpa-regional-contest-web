@@ -22,16 +22,18 @@ angular.module('cnpaContestApp')
             function contestResult(response) {
                 if(response.status === 200) {
                     var result = response.data;
-                    vm.contest.files = fileImageService.updateFiles(result.filenames);
-                    vm.contest.directory = result.directory;
-                    vm.contest.directories = result.directories.map(function(dirName) {
+                    var contest = vm.contest;
+                    contest.files = fileImageService.updateFiles(result.filenames);
+                    contest.directory = result.directory;
+                    contest.directories = result.directories.map(function(dirName) {
                         return {value: dirName, text: dirName};
                     });
-                    vm.contest.email = result.email;
-                    vm.contest.showGenerateContest = vm.contest.files.length > 0 && vm.contest.directories.length <= 2;
-                    vm.contest.showEmailContest = true;//vm.contest.directories.length > 2 && vm.contest.email;
-                    vm.contest.isPictureAgeRequired = result.isPictureAgeRequired;
-                    vm.contest.pictureAgeDate = result.pictureAgeDate;
+                    contest.email = result.email;
+                    contest.showGenerateContest = contest.files.length > 0 && contest.directories.length <= 2;
+                    contest.showRegenerateContest = contest.files.length > 0 && ! contest.showGenerateContest;
+                    contest.showEmailContest = contest.directories.length > 2 && contest.email;
+                    contest.isPictureAgeRequired = result.isPictureAgeRequired;
+                    contest.pictureAgeDate = result.pictureAgeDate;
                     $location.path("/contestFiles");
                 } else {
                     errorCallback($scope)(response);
@@ -72,6 +74,21 @@ angular.module('cnpaContestApp')
                 };
 
                 $http.post('/generateContest', params, {"Content-Type": "application/json"}).then(
+                    contestResult,
+                    errorCallback($scope)
+                )
+
+            }
+
+            function regenerateContest() {
+                showBusy();
+                var params = {
+                    rootFolder: vm.contest.rootFolder,
+                    contestName: vm.contest.name,
+                    authenticity_token: $('#mmm')[0].value
+                };
+
+                $http.post('/regenerateContest', params, {"Content-Type": "application/json"}).then(
                     contestResult,
                     errorCallback($scope)
                 )
