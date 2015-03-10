@@ -232,8 +232,20 @@ module HomeFileModule
 
   def HomeFileModule.delete_generated_contest(contest_name)
 
+    root_folder = ROOT_FOLDER
     dir_path_name_and_number = HomeFileModule.get_path(root_folder, contest_name, NAME_AND_NUMBER)
     dir_path_number = HomeFileModule.get_path(root_folder, contest_name, NUMBER)
+
+    dir_path_contest = File.join(root_folder, contest_name)
+
+    zip_path_name_and_number = File.join(dir_path_contest, "#{NAME_AND_NUMBER}.zip")
+    File.delete(zip_path_name_and_number) if File.exist? zip_path_name_and_number
+    zip_path_number = File.join(dir_path_contest, "#{NUMBER}.zip")
+    File.delete(zip_path_number) if File.exist? zip_path_number
+    zip_path_originals = File.join(dir_path_contest, "#{ORIGINALS}.zip")
+    File.delete(zip_path_originals) if File.exist? zip_path_originals
+    zip_path_testdata = File.join(dir_path_contest, "#{TESTDATA}.zip")
+    File.delete(zip_path_testdata) if File.exist? zip_path_testdata
 
     HomeFileModule.empty_and_delete dir_path_name_and_number
     HomeFileModule.empty_and_delete dir_path_number
@@ -244,8 +256,9 @@ module HomeFileModule
 
     if Dir.exists? dir_path
       Dir.foreach(dir_path)do |filenane|
-        if (File.file? filenane) && (Dir.exists? filenane)
-          File.delete filenane
+        filename_path = File.join(dir_path, filenane)
+        if (! Dir.exists? filename_path)
+          File.delete filename_path
         end
       end
       Dir.delete(dir_path)

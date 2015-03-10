@@ -254,10 +254,11 @@ angular.module('cnpaContestApp')
                 startingDay: 0
             };
             vm.deleteFile = deleteFile;
-            vm.rename_file = rename_file;
             vm.emailContest = emailContest;
             vm.generateContest = generateContest;
             vm.openDate = openDate;
+            vm.regenerateContest = regenerateContest;
+            vm.rename_file = rename_file;
             vm.setCopyright = setCopyright;
             vm.saveConfigInfo = saveConfigInfo;
             vm.uploadFile = uploadFile;
