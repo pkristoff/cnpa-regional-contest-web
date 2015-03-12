@@ -61,7 +61,7 @@ class HomeController < ApplicationController
   end
 
   def delete_file
-    root_folder = ROOT_FOLDERF
+    root_folder = ROOT_FOLDER
     contest_name = params[:contestName]
     filename = params[:filename]
     directory = params[:directory]
@@ -128,7 +128,7 @@ class HomeController < ApplicationController
      [File.join(contest_dir, "#{number_dir_name}.zip"), number_dir_name]].each do |entry|
       zip_file_path = entry[0]
       dir_path = entry[1]
-      ContestMailer.contest_email(params[:contestName], dir_path, zip_file_path)
+      ContestMailer.contest_email(params[:contestName], params[:emailAddress], dir_path, zip_file_path)
 
     end
 
@@ -140,6 +140,16 @@ class HomeController < ApplicationController
     HomeFileModule.generate_contest(params[:contestName])
 
     handle_return HomeFileModule.get_contest_info(ROOT_FOLDER, params[:contestName], HomeFileModule.get_testdata())
+  end
+
+  def delete_contest
+
+    HomeFileModule.delete_generated_contest(params[:contestName])
+    HomeFileModule.delete_contest(params[:contestName])
+
+    get_contests
+
+    # handle_return HomeFileModule.get_contest_info(ROOT_FOLDER, params[:contestName], HomeFileModule.get_testdata())
   end
 
   def regenerate_contest

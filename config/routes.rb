@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   match '/addFiles' => 'home#add_files', via: :post
   match '/contest' => 'home#contest', via: :get
   match '/createContest' => 'home#create_contest', via: :post
+  match '/deleteContest' => 'home#delete_contest', via: :post
   match '/deleteFile' => 'home#delete_file', via: :post
   match '/directory' => 'home#directory', via: :get
   match '/email_contest' => 'home#email_contest', via: :post

@@ -11,7 +11,6 @@ angular.module('cnpaContestApp')
     .controller('CnpaContestController', ['$scope', '$http', '$location', 'fileImageService', '$modal',
         function($scope, $http, $location, fileImageService, $modal) {
             var modal;
-            $scope.radioModel = 'new-contest';
             //hideBusy();
             if($scope.contest == undefined) {
                 $scope.contest = {
@@ -53,6 +52,11 @@ angular.module('cnpaContestApp')
                         }
                         $scope.contest.contests.push({rootFolder: $scope.contest.rootFolder, name: contestName});
                     });
+                    if($scope.contest.contests.length > 0) {
+                        $scope.radioModel = 'existing-contest';
+                    } else {
+                        $scope.radioModel = 'new-contest';
+                    }
                     $location.path("/chooseContest");
                     hideBusy();
                     return (response.data);
@@ -69,6 +73,7 @@ angular.module('cnpaContestApp')
             function getContests() {
                 showBusy();
 
+
                 $scope.contest.authenticity_token = getAuthenticationToken();
 
                 $http.post('/getContests', $scope.contest, {
@@ -82,21 +87,7 @@ angular.module('cnpaContestApp')
 
             function contestResult(response) {
                 if(response.status === 200) {
-                    var result = response.data;
-                    var contest = $scope.contest;
-                    contest.files = fileImageService.updateFiles(result.filenames);
-                    contest.directory = result.directory;
-                    contest.directories = result.directories.map(function(dirName) {
-                        return {value: dirName, text: dirName};
-                    });
-
-                    contest.email = result.email;
-                    contest.showGenerateContest = contest.files.length > 0 && contest.directories.length <= 2;
-                    contest.showRegenerateContest = contest.files.length > 0 && ! contest.showGenerateContest;
-                    contest.showEmailContest = contest.directories.length > 2 && contest.email;
-                    contest.isPictureAgeRequired = result.isPictureAgeRequired;
-                    contest.pictureAgeDate = result.pictureAgeDate;
-
+                    fileImageService.updateContest(response, $scope);
 
                     $location.path("/contestFiles");
                 } else {
@@ -110,13 +101,26 @@ angular.module('cnpaContestApp')
                     window.alert('contest name cannot contain a space: ' + $scope.contest.name);
                 } else {
                     showBusy();
-                    $scope.contest.authenticity_token = getAuthenticationToken();
+                    //$scope.contest.authenticity_token = getAuthenticationToken();
 
                     $http.post('/createContest', $scope.contest, {"Content-Type": "application/json"}).then(
                         contestResult,
                         errorCallback($scope)
                     )
                 }
+            }
+
+            function deleteContest() {
+
+                showBusy();
+                $scope.contest.authenticity_token = getAuthenticationToken();
+                $http.post('/deleteContest?contestName=' + $scope.contest.name, {
+                    "authenticity_token": getAuthenticationToken(),
+                    "Content-Type": "application/json"
+                }).then(
+                    getContestsResult,
+                    errorCallback($scope)
+                )
             }
 
             function selectContest() {
@@ -131,10 +135,11 @@ angular.module('cnpaContestApp')
             }
 
 
-            $scope.selectContest = selectContest;
             $scope.createContest = createContest;
+            $scope.deleteContest = deleteContest;
             $scope.getContests = getContests;
-
+            $scope.selectContest = selectContest;
+            // test
             $scope._errorCallback = errorCallback;
             $scope._getContestsResult = getContestsResult;
             $scope._contestResult = contestResult;

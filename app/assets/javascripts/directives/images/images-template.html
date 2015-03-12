@@ -13,7 +13,7 @@
             ng-show="vm.contest.showEmailContest">Email Contest</button>
     <label for="emailAddressId">Email Address</label>
     <input type="email" id="emailAddressId" name="emailAddress" ng-model="vm.contest.email"
-           ng-change="vm.saveConfigInfo()"/>
+           ng-blur="vm.saveConfigInfo()"/>
     <div class="cnpa-date">
         <button type="button" class="btn btn-primary" ng-model="vm.contest.isPictureAgeRequired" btn-checkbox
                 btn-checkbox-true="true"
@@ -63,9 +63,9 @@
         <table class="table">
             <thead>
             <tr>
-                <th ng-if="vm.contest.directory !== 'Originals'"></th>
-                <th ng-if="vm.contest.directory !== 'Originals'"></th>
-                <th ng-if="vm.contest.directory !== 'Originals'"></th>
+                <th ng-if="vm.contest.directory === 'Testdata'"></th>
+                <th ng-if="vm.contest.directory === 'Testdata'"></th>
+                <th ng-if="vm.contest.directory === 'Testdata'"></th>
                 <th>File</th>
                 <th>Name</th>
                 <th>Tltle</th>
@@ -78,13 +78,13 @@
             </thead>
             <tbody>
             <tr ng-repeat="file in vm.contest.files">
-                <td ng-if="vm.contest.directory !== 'Originals'">
+                <td ng-if="vm.contest.directory === 'Testdata'">
                     <button title="rename file" ng-click="vm.rename_file(file)">R</button>
                 </td>
-                <td ng-if="vm.contest.directory !== 'Originals'">
+                <td ng-if="vm.contest.directory === 'Testdata'">
                     <button title="generate a copyright" ng-click="vm.setCopyright(file)">©</button>
                 </td>
-                <td ng-if="vm.contest.directory !== 'Originals'">
+                <td ng-if="vm.contest.directory === 'Testdata'">
                     <button title="delete file" ng-click="vm.deleteFile(file)">D</button>
                 </td>
                 <td title="{{file.filename.title}}">{{file.filename.value}}</td>
@@ -103,7 +103,8 @@
                 <td class="{{file.copyrightNotice.valid ? '' : 'alert alert-danger'}}"
                     title="{{file.copyrightNotice.title}}">{{file.copyrightNotice.value}}
                 </td>
-                <td class="{{file.dateCreated.valid ? '' : 'alert alert-danger'}}" title="{{file.dateCreated.title}}">
+                <td class="{{file.dateCreated.valid ? '' : 'alert alert-danger'}}"
+                    title="{{file.dateCreated.title}}">
                     {{file.dateCreated.value}}
                 </td>
                 <td class="{{file.fileSize.valid ? '' : 'alert alert-danger'}}" title="{{file.fileSize.title}}">

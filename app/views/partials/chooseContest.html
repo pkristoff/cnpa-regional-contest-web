@@ -4,11 +4,25 @@
         <p>Welcome to the CNPA contest maintainer.</p>
     </header>
     <div class="cnpa-body">
-        <div class="btn-group">
+        <div class="btn-group cnpa-button-group">
+            <label class="btn btn-primary cnpa-radio" ng-model="radioModel" btn-radio="'existing-contest'"
+                   ng-disable="contest.contests.length === 0">Choose Existing Contest</label>
             <label class="btn btn-primary cnpa-radio" ng-model="radioModel" btn-radio="'new-contest'">Create New Contest</label>
-            <label class="btn btn-primary cnpa-radio" ng-model="radioModel" btn-radio="'existing-contest'" ng-disable="contest.contests.length === 0">Choose Existing Contest</label>
+            <label class="btn btn-primary cnpa-radio" ng-model="radioModel" btn-radio="'delete-contest'"
+                   ng-disable="contest.contests.length === 0">Delete Existing Contest</label>
         </div>
-        <div ng-hide="radioModel !=='existing-contest'">
+        <div ng-show="radioModel ==='delete-contest'">
+            <label for="deleteContest-id"> Choose existing contest</label>
+            <span>
+                <select id="deleteContest-id" ng-model="contest.name" name="contest"
+                        ng-options="contest.name as contest.name for contest in contest.contests"></select>
+            </span>
+            <button type="button" id="deleteContestBtn-id" data-loading-text="Deleting..." class="btn btn-primary"
+                    ng-click="deleteContest(this)">
+                Delete contest
+            </button>
+        </div>
+        <div ng-show="radioModel ==='existing-contest'">
             <label for="selectContest-id"> Choose existing contest</label>
             <span>
                 <select id="selectContest-id" ng-model="contest.name" name="contest"
@@ -19,7 +33,7 @@
                 Select contest
             </button>
         </div>
-        <div ng-hide="radioModel !== 'new-contest'">
+        <div ng-show="radioModel === 'new-contest'">
             <p class="cnpa-help"> Create a new contest.  Give it a name like: Q1 2015</p>
             <label for="createContest-id"> Create new contest</label>
             <span>

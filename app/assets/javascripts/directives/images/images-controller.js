@@ -21,19 +21,7 @@ angular.module('cnpaContestApp')
             // this is copied from CnpaContestController - need to merge
             function contestResult(response) {
                 if(response.status === 200) {
-                    var result = response.data;
-                    var contest = vm.contest;
-                    contest.files = fileImageService.updateFiles(result.filenames);
-                    contest.directory = result.directory;
-                    contest.directories = result.directories.map(function(dirName) {
-                        return {value: dirName, text: dirName};
-                    });
-                    contest.email = result.email;
-                    contest.showGenerateContest = contest.files.length > 0 && contest.directories.length <= 2;
-                    contest.showRegenerateContest = contest.files.length > 0 && ! contest.showGenerateContest;
-                    contest.showEmailContest = contest.directories.length > 2 && contest.email;
-                    contest.isPictureAgeRequired = result.isPictureAgeRequired;
-                    contest.pictureAgeDate = result.pictureAgeDate;
+                    fileImageService.updateContest(response, vm);
                     $location.path("/contestFiles");
                 } else {
                     errorCallback($scope)(response);
@@ -100,6 +88,7 @@ angular.module('cnpaContestApp')
                 var params = {
                     rootFolder: vm.contest.rootFolder,
                     contestName: vm.contest.name,
+                    emailAddress: vm.contest.email,
                     authenticity_token: $('#mmm')[0].value
                 };
 
@@ -239,11 +228,10 @@ angular.module('cnpaContestApp')
                     headers: {'Content-Type': undefined},
                     transformRequest: angular.identity,
                     multiple: true
-                }).then(function(response) {
-                    var result = response.data;
-                    vm.contest.files = fileImageService.sortUpdatedFiles(fileImageService.updateFiles(result.filenames));
-                    hideBusy();
-                });
+                }).then(
+                    contestResult,
+                    errorCallback($scope)
+                );
 
             }
 

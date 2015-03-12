@@ -110,7 +110,9 @@ module HomeFileModule
               elsif key == 'Title'
                 file_info[:title] = value.strip
               elsif key == 'Date/Time Original'
-                file_info[:dateCreated] = value.strip
+                dateStr = line[line.index(':') + 1, line.size].chomp.strip
+                date = Date.strptime(dateStr, "%Y:%m:%d")
+                file_info[:dateCreated] = date
               elsif key == 'File Size'
                 size_split = value.strip.split(' ')
                 if size_split[1].strip == 'kB'
@@ -208,13 +210,14 @@ module HomeFileModule
     config_info = {'email' => email, 'is_picture_age_required' => is_picture_age_required, 'picture_age_date' =>
         picture_age_date}
     File.open(contest_config_path, "w") { |f| f.write(config_info.to_json) }
-    # File.open(contest_config_path, 'w') do |configFile|
-    #   configFile.puts(config_info.to_json)
-    # end
+  end
+
+  def HomeFileModule.get_config_file(root_folder, contest_name)
+    return "#{root_folder}/#{contest_name}/config.json"
   end
 
   def HomeFileModule.get_config_info(root_folder, contest_name)
-    contest_config_path = "#{root_folder}/#{contest_name}/config.json"
+    contest_config_path = get_config_file(root_folder, contest_name)
     if (File.exist? contest_config_path)
       return JSON.parse(File.read(contest_config_path))
     else
@@ -228,6 +231,24 @@ module HomeFileModule
 
     HomeFileModule.execute_exiftool("-iptc:CopyrightNotice=\"#{copyright}\"", file_path_testdata, "")
     FileUtils.rm("#{file_path_testdata}_original")
+  end
+
+  def HomeFileModule.delete_contest(contest_name)
+
+    root_folder = ROOT_FOLDER
+    dir_path_originals = HomeFileModule.get_path(root_folder, contest_name, ORIGINALS)
+    dir_path_testdata = HomeFileModule.get_path(root_folder, contest_name, TESTDATA)
+
+    HomeFileModule.empty_and_delete dir_path_originals
+    HomeFileModule.empty_and_delete dir_path_testdata
+
+    file_path_config = HomeFileModule.get_config_file(root_folder, contest_name)
+    File.delete file_path_config
+
+    dir_path_contest = File.join(root_folder, contest_name)
+
+    Dir.delete (dir_path_contest)
+
   end
 
   def HomeFileModule.delete_generated_contest(contest_name)
