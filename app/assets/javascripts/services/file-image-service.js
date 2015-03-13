@@ -6,16 +6,12 @@ angular.module( 'cnpaContestApp' )
     .service( 'fileImageService', [ function() {
 
 
-        function isFileAgeValid( date, pictureAgeDate ) {
-            if( pictureAgeDate && date ) {
-                console.log('isFileAgeValid: found both');
+        function isFileAgeValid( date, isPictureAgeRequired, pictureAgeDate ) {
+            if( isPictureAgeRequired && pictureAgeDate && date ) {
                 return date >= pictureAgeDate;
             } else {
-                console.log('isFileAgeValid: not found both');
-                console.log(date);
-                console.log(pictureAgeDate);
-
-                return !!date; // age is within limits.
+                // if cannot find date and/or pictureAgeDate then valid only if not required.
+                return !isPictureAgeRequired;
             }
         }
 
@@ -59,7 +55,7 @@ angular.module( 'cnpaContestApp' )
             var contest = vm.contest;
             contest.isPictureAgeRequired = result.isPictureAgeRequired;
             contest.pictureAgeDate = result.pictureAgeDate ? new Date( result.pictureAgeDate ) : new Date();
-            contest.files = updateFiles( result.filenames, contest.pictureAgeDate );
+            contest.files = updateFiles( result.filenames, contest.isPictureAgeRequired, contest.pictureAgeDate );
             contest.directory = result.directory;
             contest.directories = result.directories.map( function( dirName ) {
                 return { value: dirName, text: dirName };
@@ -72,7 +68,7 @@ angular.module( 'cnpaContestApp' )
             console.log( contest );
         }
 
-        function updateFiles( rawFiles, pictureAgeDate ) {
+        function updateFiles( rawFiles, isPictureAgeRequired, pictureAgeDate ) {
             var files = [];
             rawFiles.forEach( function( fileEntry ) {
                 var fn = fileEntry.filename;
@@ -118,7 +114,7 @@ angular.module( 'cnpaContestApp' )
                         value: fileEntry.dateCreated,
                         title: fileEntry.dateCreated,
                         date: date2,
-                        valid: isFileAgeValid( date2, pictureAgeDate )
+                        valid: isFileAgeValid( date2, isPictureAgeRequired, pictureAgeDate )
                     }
                 };
                 files.push( newEntry );
