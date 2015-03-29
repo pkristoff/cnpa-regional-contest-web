@@ -4,8 +4,8 @@
 
 
 angular.module('cnpaContestApp')
-    .controller('imagesController', ['$scope', '$http', 'fileImageService', '$location', 'renameFileService',
-        function($scope, $http, fileImageService, $location, renameFileService) {
+    .controller('imagesController', ['$scope', '$http', 'fileImageService', '$location',
+        function($scope, $http, fileImageService, $location) {
 
             var vm = this;
 
@@ -117,37 +117,67 @@ angular.module('cnpaContestApp')
 
             function rename_file(old_filename) {
 
-                $scope.fileName = {
+                var filename = {
                     contestantName: old_filename.contestantName.value,
                     imageTitle: old_filename.title.value
                 };
+                console.log($scope.filename);
 
-                showModal = function() {
+                var modalInstance = $modal.open({
+                    templateUrl: '/assets/javascripts/directives/rename-file/rename-file-template.html',
+                    controller: 'renameFileController',
+                    resolve: {
+                        filename: function () {
+                            return filename;
+                        }
+                    }
+                });
 
-                    var modalOptions = {
-                        closeButtonText: 'Cancel',
-                        actionButtonText: 'Rename',
-                        headerText: 'Rename Dialog'
+                modalInstance.result.then(function (filename) {
+                    var params = {
+                        rootFolder:         vm.contest.rootFolder,
+                        contestName:        vm.contest.name,
+                        old_filename:       old_filename.filename.value,
+                        new_filename:       newFileName.contestantName + "-" + newFileName.imageTitle + ".jpg",
+                        directory:          vm.contest.directory,
+                        authenticity_token: $( '#mmm' )[ 0 ].value
                     };
 
-                    renameFileService.showModal({}, modalOptions).then(function(newFileName) {
-                        var params = {
-                            rootFolder: vm.contest.rootFolder,
-                            contestName: vm.contest.name,
-                            old_filename: old_filename.filename.value,
-                            new_filename: newFileName.contestantName + "-" + newFileName.imageTitle + ".jpg",
-                            directory: vm.contest.directory,
-                            authenticity_token: $('#mmm')[0].value
-                        };
+                    $http.post( '/rename_file', params, { "Content-Type": "application/json" } ).then(
+                        contestResult,
+                        errorCallback( $scope )
+                    )
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
 
-                        $http.post('/rename_file', params, {"Content-Type": "application/json"}).then(
-                            contestResult,
-                            errorCallback($scope)
-                        )
-                    });
-                };
 
-                showModal();
+                //showModal = function() {
+                //
+                //    var modalOptions = {
+                //        closeButtonText: 'Cancel',
+                //        actionButtonText: 'Rename',
+                //        headerText: 'Rename Dialog'
+                //    };
+                //
+                //    renameFileService.showModal({inputs:{filename: $scope.filename}}, modalOptions).then(function(newFileName) {
+                //        var params = {
+                //            rootFolder: vm.contest.rootFolder,
+                //            contestName: vm.contest.name,
+                //            old_filename: old_filename.filename.value,
+                //            new_filename: newFileName.contestantName + "-" + newFileName.imageTitle + ".jpg",
+                //            directory: vm.contest.directory,
+                //            authenticity_token: $('#mmm')[0].value
+                //        };
+                //
+                //        $http.post('/rename_file', params, {"Content-Type": "application/json"}).then(
+                //            contestResult,
+                //            errorCallback($scope)
+                //        )
+                //    });
+                //};
+                //
+                //showModal();
 
             }
 

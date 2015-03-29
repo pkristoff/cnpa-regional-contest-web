@@ -1,117 +1,135 @@
-<div class="panel-body">
-    <button type="button"
-            class="btn btn-default navbar-btn"
-            ng-click="vm.regenerateContest()"
-            ng-show="vm.contest.showRegenerateContest">Regenerate Contest</button>
-    <button type="button"
-            class="btn btn-default navbar-btn"
-            ng-click="vm.generateContest()"
-            ng-show="vm.contest.showGenerateContest">Generate Contest</button>
-    <button type="button"
-            class="btn btn-default navbar-btn"
-            ng-click="vm.emailContest()"
-            ng-show="vm.contest.showEmailContest">Email Contest</button>
-    <label for="emailAddressId">Email Address</label>
-    <input type="email" id="emailAddressId" name="emailAddress" ng-model="vm.contest.email"
-           ng-blur="vm.saveConfigInfo()"/>
+<div class = "panel-body" >
+    <button type = "button"
+            class = "btn btn-default navbar-btn"
+            ng-click = "vm.regenerateContest()"
+            ng-show = "vm.contest.showRegenerateContest" >Regenerate Contest
+    </button >
+    <button type = "button"
+            class = "btn btn-default navbar-btn"
+            ng-click = "vm.generateContest()"
+            ng-show = "vm.contest.showGenerateContest" >Generate Contest
+    </button >
+    <button type = "button"
+            class = "btn btn-default navbar-btn"
+            ng-click = "vm.emailContest()"
+            ng-show = "vm.contest.showEmailContest" >Email Contest
+    </button >
     <div class="cnpa-date">
-        <button type="button" class="btn btn-primary" ng-model="vm.contest.isPictureAgeRequired" btn-checkbox
-                btn-checkbox-true="true"
-                btn-checkbox-false="false"
-                ng-click="vm.isPictureAgeRequiredClicked()">
+        <label for = "emailAddressId" >Email Address</label >
+        <input type = "email" id = "emailAddressId" name = "emailAddress" ng-model = "vm.contest.email"
+               ng-blur = "vm.saveConfigInfo()" />
+        <p class = "cnpa-help" >
+            The email address will be where the contest files will be mailed.
+        </p >
+    </div >
+
+    <div class = "cnpa-date" >
+        <button type = "button" class = "btn btn-primary" ng-model = "vm.contest.isPictureAgeRequired" btn-checkbox
+                btn-checkbox-true = "true"
+                btn-checkbox-false = "false"
+                ng-click = "vm.isPictureAgeRequiredClicked()" >
             Picture Age Limit
-        </button>
-        <div class="row" ng-hide="! vm.contest.isPictureAgeRequired">
-            <p class="cnpa-help"> This date represents the oldest a picture can be created and still be in the
-                contest.</p>
+        </button >
+        <div class = "" ng-hide = "! vm.contest.isPictureAgeRequired" >
+            <p class = "cnpa-help" >
+                This date represents the oldest a picture can be created and still be in the
+                contest.  Any file that is too young will be marked in pink.
+            </p >
 
-            <div class="col-md-6">
-                <p class="input-group">
-                    <input type="text" readonly="true" class="form-control" datepicker-popup="yyyy/MM/dd"
-                           ng-model="contest.pictureAgeDate" is-open="vm.dateOpened"
-                           datepicker-options="vm.dateOptions" date-disabled="false" close-text="Close"
-                            ng-change="vm.saveConfigInfo()"/>
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="vm.openDate($event)"><i
-                        class="glyphicon glyphicon-calendar"></i></button>
-              </span>
-                </p>
-            </div>
-        </div>
-    </div>
+            <div class = "col-md-6" >
+                <p class = "input-group" >
+                    <input type = "text" readonly = "true" class = "form-control" datepicker-popup = "yyyy/MM/dd"
+                           ng-model = "contest.pictureAgeDate" is-open = "vm.dateOpened"
+                           datepicker-options = "vm.dateOptions" date-disabled = "false" close-text = "Close"
+                           ng-change = "vm.saveConfigInfo()" />
+              <span class = "input-group-btn" >
+                <button type = "button" class = "btn btn-default" ng-click = "vm.openDate($event)" ><i
+                        class = "glyphicon glyphicon-calendar" ></i ></button >
+              </span >
+                </p >
+            </div >
+        </div >
+    </div >
 
-    <div class="veil2" ng-show="isLoading"></div>
+    <div class = "veil2" ng-show = "isLoading" ></div >
 
-    <div class="feedLoading2" ng-show="isLoading">
+    <div class = "feedLoading2" ng-show = "isLoading" >
         Loading...
-    </div>
+    </div >
 
-    <div class="cnpa-pictures">
+    <div class = "cnpa-pictures" >
 
-        <input type="button" onclick="document.getElementById('fileID').click(); return false;"
-               value="Choose Pictures"
-               class="btn btn-primary"/>
-        <input type="file" id="fileID" accept="image/jpeg" name="pictures" multiple
-               onchange="angular.element(this).scope().vm.uploadFile(this.files)"
-               class="cnpa-input-file"
-                />
+        <input type = "button" onclick = "document.getElementById('fileID').click(); return false;"
+               value = "Choose Pictures"
+               class = "btn btn-primary" />
 
-        <label>Show Images For:</label>
-        <select ng-model="vm.contest.directory" ng-options="dir.value as dir.text for dir in vm.contest.directories"
-                ng-change="vm.changeDirectory(this)"></select>
+        <div class = "cnpa-picture-inner" >
+            <input type = "file" id = "fileID" accept = "image/jpeg" name = "pictures" multiple
+                   onchange = "angular.element(this).scope().vm.uploadFile(this.files)"
+                   class = "cnpa-input-file"
+                    />
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th ng-if="vm.contest.directory === 'Testdata'"></th>
-                <th ng-if="vm.contest.directory === 'Testdata'"></th>
-                <th ng-if="vm.contest.directory === 'Testdata'"></th>
-                <th>File</th>
-                <th>Name</th>
-                <th>Tltle</th>
-                <th>Width</th>
-                <th>Height</th>
-                <th>Copyright</th>
-                <th>Created</th>
-                <th>size(k)</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="file in vm.contest.files">
-                <td ng-if="vm.contest.directory === 'Testdata'">
-                    <button title="rename file" ng-click="vm.rename_file(file)">R</button>
-                </td>
-                <td ng-if="vm.contest.directory === 'Testdata'">
-                    <button title="generate a copyright" ng-click="vm.setCopyright(file)">©</button>
-                </td>
-                <td ng-if="vm.contest.directory === 'Testdata'">
-                    <button title="delete file" ng-click="vm.deleteFile(file)">D</button>
-                </td>
-                <td title="{{file.filename.title}}">{{file.filename.value}}</td>
-                <td class="{{file.contestantName.valid ? '' : 'alert alert-danger'}}"
-                    title="{{file.contestantName.title}}">{{file.contestantName.value}}
-                </td>
-                <td class="{{file.title.valid ? '' : 'alert alert-danger'}}" title="{{file.title.title}}">
-                    {{file.title.value}}
-                </td>
-                <td class="{{file.imageWidth.valid ? '' : 'alert alert-danger'}}" title="{{file.imageWidth.title}}">
-                    {{file.imageWidth.value}}
-                </td>
-                <td class="{{file.imageHeight.valid ? '' : 'alert alert-danger'}}" title="{{file.imageHeight.title}}">
-                    {{file.imageHeight.value}}
-                </td>
-                <td class="{{file.copyrightNotice.valid ? '' : 'alert alert-danger'}}"
-                    title="{{file.copyrightNotice.title}}">{{file.copyrightNotice.value}}
-                </td>
-                <td class="{{file.dateCreated.valid ? '' : 'alert alert-danger'}}"
-                    title="{{file.dateCreated.title}}">
-                    {{file.dateCreated.value}}
-                </td>
-                <td class="{{file.fileSize.valid ? '' : 'alert alert-danger'}}" title="{{file.fileSize.title}}">
-                    {{file.fileSize.value}}
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+            <label >Show Images For:</label >
+            <select ng-model = "vm.contest.directory"
+                    ng-options = "dir.value as dir.text for dir in vm.contest.directories"
+                    ng-change = "vm.changeDirectory(this)" ></select >
+
+            <table class = "table" >
+                <thead >
+                <tr >
+                    <th ng-if = "vm.contest.directory === 'Testdata'" ></th >
+                    <th ng-if = "vm.contest.directory === 'Testdata'" ></th >
+                    <th ng-if = "vm.contest.directory === 'Testdata'" ></th >
+                    <th >File</th >
+                    <th >Name</th >
+                    <th >Tltle</th >
+                    <th >Width</th >
+                    <th >Height</th >
+                    <th >Copyright</th >
+                    <th >Created</th >
+                    <th >size(k)</th >
+                </tr >
+                </thead >
+                <tbody >
+                <tr ng-repeat = "file in vm.contest.files" >
+                    <td ng-if = "vm.contest.directory === 'Testdata'" >
+                        <button title = "rename file" ng-click = "vm.rename_file(file)" >R</button >
+                    </td >
+                    <td ng-if = "vm.contest.directory === 'Testdata'" >
+                        <button title = "generate a copyright" ng-click = "vm.setCopyright(file)" >©</button >
+                    </td >
+                    <td ng-if = "vm.contest.directory === 'Testdata'" >
+                        <button title = "delete file" ng-click = "vm.deleteFile(file)" >D</button >
+                    </td >
+                    <td title = "{{file.filename.title}}" >{{file.filename.value}}</td >
+                    <td class = "{{file.contestantName.valid ? '' : 'alert alert-danger'}}"
+                        title = "{{file.contestantName.title}}" >{{file.contestantName.value}}
+                    </td >
+                    <td class = "{{file.title.valid ? '' : 'alert alert-danger'}}" title = "{{file.title.title}}" >
+                        {{file.title.value}}
+                    </td >
+                    <td class = "{{file.imageWidth.valid ? '' : 'alert alert-danger'}}"
+                        title = "{{file.imageWidth.title}}" >
+                        {{file.imageWidth.value}}
+                    </td >
+                    <td class = "{{file.imageHeight.valid ? '' : 'alert alert-danger'}}"
+                        title = "{{file.imageHeight.title}}" >
+                        {{file.imageHeight.value}}
+                    </td >
+                    <td class = "{{file.copyrightNotice.valid ? '' : 'alert alert-danger'}}"
+                        title = "{{file.copyrightNotice.title}}" >{{file.copyrightNotice.value}}
+                    </td >
+                    <td class = "{{file.dateCreated.valid ? '' : 'alert alert-danger'}}"
+                        title = "{{file.dateCreated.title}}" >
+                        {{file.dateCreated.value}}
+                    </td >
+                    <td class = "{{file.fileSize.valid ? '' : 'alert alert-danger'}}"
+                        title = "{{file.fileSize.title}}" >
+                        {{file.fileSize.value}}
+                    </td >
+                </tr >
+                </tbody >
+            </table >
+        </div >
+    </div >
+</div >

@@ -1,24 +1,96 @@
-<section>
-    <header class="cnpa-header">
-        <p>Editing contest:  {{contest.name}}</p>
-    </header>
+<section >
+    <header class = "cnpa-header" >
+        <p >Editing contest: {{contest.name}}</p >
+    </header >
 
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Pictures</h3>
-        </div>
-        <images-directive contest=contest></images-directive>
-    </div>
+    <div class = "panel panel-default" >
+        <div class = "panel-heading" >
+            <h3 class = "panel-title" >Pictures</h3 >
+        </div >
+
+        <button ng-click = "showHelp = !showHelp" >Show Help</button >
+        <div class = "cnpa-help" ng-show = "showHelp" >
+            Creating a contest will causes two directories to be created.
+
+            <ul >
+                <li >Original: This is where a copy of the pictures being added will go.
+                     They will never be modified.
+                </li >
+                <li >
+                    Testdata: probably miss-named, any changes be done to files in this directory.
+                </li >
+            </ul >
+            You should next
+            <ul >
+                <li >Email Address: this is necessary when it comes time to "Email Contest"</li >
+                <li >Picture Age Limit: Any picture taken before this date should not be in the contest</li >
+                <li >
+                    Choose Picture: Click the Choose Picture - select pictures to add. They will be shown in a table.
+                </li >
+                <li >
+                    From the table you can see some basic information:
+                    <ul >
+                        <li >
+                            Filename: The original name unless changed via the "R" button
+                        </li >
+                        <li >
+                            Name: As parsed from the Filename
+                        </li >
+                        <li >
+                            Title: As parsed from the Filename
+                        </li >
+                        <li >
+                            Width: Invalid if > 1024
+                        </li >
+                        <li >
+                            Height: Invalid if > 1024
+                        </li >
+                        <li >
+                            Copyright: If invalid can click the Copyright button in which one will be generated
+                        </li >
+                        <li >
+                            Size: Invalid if > 300 K
+                        </li >
+                    </ul >
+                </li >
+                <li>
+                    Table buttons: only available when directory is Testdata.
+                    <ul>
+                        <li>
+                            R: rename file
+                        </li>
+                        <li>
+                            Copyright: generate a valid copyright
+                        </li>
+                        <li>
+                            D: delete picture
+                        </li>
+                    </ul>
+                </li>
+            </ul >
+            Once you are ready
+            <ul>
+                <li>
+                    Generate Contest:  This will create the necessary copies of the directories with zip file
+                    to be emails
+                </li>
+                <li>
+                    Email Contest:  This will send 4 emails: one for each zipped directory.  Be very patient
+                    this will take 10 to 15 minutes.
+                </li>
+            </ul>
+        </div >
+        <images-directive contest = contest ></images-directive >
+    </div >
 
 
-    <footer class="cnpa-footer">
-        <div ng-if="contest.errorMessages" class="text-error error-msg">
-            <div ng-repeat="errorMessage in contest.errorMessages">
+    <footer class = "cnpa-footer" >
+        <div ng-if = "contest.errorMessages" class = "text-error error-msg" >
+            <div ng-repeat = "errorMessage in contest.errorMessages" >
                 {{errorMessage}}
-            </div>
-        </div>
+            </div >
+        </div >
         Filename = chooseFiles.html
-        <!--<div>ScopeName={{scopeName}} errorMessages={{contest.errorMessages}} contest={{contest}}</div>-->
-    </footer>
-</section>
+    </footer >
+</section >

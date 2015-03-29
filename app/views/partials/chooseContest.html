@@ -1,60 +1,75 @@
-
-<section>
-    <header class="cnpa-header">
-        <p>Welcome to the CNPA contest maintainer.</p>
-    </header>
-    <div class="cnpa-body">
-        <div class="btn-group cnpa-button-group">
-            <label class="btn btn-primary cnpa-radio" ng-model="radioModel" btn-radio="'existing-contest'"
-                   ng-disable="contest.contests.length === 0">Choose Existing Contest</label>
-            <label class="btn btn-primary cnpa-radio" ng-model="radioModel" btn-radio="'new-contest'">Create New Contest</label>
-            <label class="btn btn-primary cnpa-radio" ng-model="radioModel" btn-radio="'delete-contest'"
-                   ng-disable="contest.contests.length === 0">Delete Existing Contest</label>
-        </div>
-        <div ng-show="radioModel ==='delete-contest'">
-            <label for="deleteContest-id"> Choose existing contest</label>
-            <span>
-                <select id="deleteContest-id" ng-model="contest.name" name="contest"
-                        ng-options="contest.name as contest.name for contest in contest.contests"></select>
-            </span>
-            <button type="button" id="deleteContestBtn-id" data-loading-text="Deleting..." class="btn btn-primary"
-                    ng-click="deleteContest(this)">
+<section >
+    <header class = "cnpa-header" >
+        <h2 >Welcome to the CNPA contest generator.</h2 >
+    </header >
+    <div class = "cnpa-body" >
+        <div class = "btn-group cnpa-button-group" >
+            <label class = "btn btn-primary cnpa-radio" ng-model = "radioModel" btn-radio = "'existing-contest'"
+                   ng-disable = "contest.contests.length === 0" >Choose Existing Contest</label >
+            <label class = "btn btn-primary cnpa-radio" ng-model = "radioModel" btn-radio = "'new-contest'" >Create New
+                                                                                                             Contest</label >
+            <label class = "btn btn-primary cnpa-radio" ng-model = "radioModel" btn-radio = "'delete-contest'"
+                   ng-disable = "contest.contests.length === 0" >Delete Existing Contest</label >
+        </div >
+        <!-- DELETE -->
+        <div ng-show = "radioModel ==='delete-contest'" class="cnpa-radio-button" >
+            <label for = "deleteContest-id" > Choose existing contest</label >
+            <span >
+                <select id = "deleteContest-id" ng-model = "contest.name" name = "contest"
+                        ng-options = "contest.name as contest.name for contest in contest.contests" ></select >
+            </span >
+            <button type = "button" id = "deleteContestBtn-id" data-loading-text = "Deleting..."
+                    class = "btn btn-primary"
+                    ng-click = "deleteContest(this)" >
                 Delete contest
-            </button>
-        </div>
-        <div ng-show="radioModel ==='existing-contest'">
-            <label for="selectContest-id"> Choose existing contest</label>
-            <span>
-                <select id="selectContest-id" ng-model="contest.name" name="contest"
-                        ng-options="contest.name as contest.name for contest in contest.contests"></select>
-            </span>
-            <button type="button" id="selectContestBtn-id" data-loading-text="Getting..." class="btn btn-primary"
-                    ng-click="selectContest(this)">
+            </button >
+            <pre class = "cnpa-help" >
+                Choose a contest to delete. There is no undo.
+            </pre>
+        </div >
+        <!-- EXISTING -->
+        <div ng-show = "radioModel ==='existing-contest'" class="cnpa-radio-button">
+            <label for = "selectContest-id" > Choose existing contest</label >
+            <span >
+                <select id = "selectContest-id" ng-model = "contest.name" name = "contest"
+                        ng-options = "contest.name as contest.name for contest in contest.contests" ></select >
+            </span >
+            <button type = "button" id = "selectContestBtn-id" data-loading-text = "Getting..."
+                    class = "btn btn-primary"
+                    ng-click = "selectContest(this)" >
                 Select contest
-            </button>
-        </div>
-        <div ng-show="radioModel === 'new-contest'">
-            <p class="cnpa-help"> Create a new contest.  Give it a name like: Q1 2015</p>
-            <label for="createContest-id"> Create new contest</label>
-            <span>
-                <input id="createContest-id" type="text" ng-model="contest.name" name="name" value="Type in contest name <no spaces>"
-                       ng-keypress="updateInput(this)"/>
-            </span>
-            <button type="button" id="createContestBtn-id" data-loading-text="Getting..." class="btn btn-primary"
-                    ng-disabled="contest.name.length <= 0" ng-click="createContest()">
+            </button >
+            <pre class = "cnpa-help" >
+                Choose an existing contest. It allows you to edit the contest.
+            </pre>
+        </div >
+        <!-- CREATE/NEW -->
+        <div ng-show = "radioModel === 'new-contest'" class="cnpa-radio-button" >
+            <label for = "createContest-id" > Create new contest</label >
+            <span >
+        <input id = "createContest-id" type = "text" ng-model = "contest.name" name = "name"
+               value = "Type in contest name <no spaces>"
+               ng-keypress = "updateInput(this)" />
+            </span >
+            <button type = "button" id = "createContestBtn-id" data-loading-text = "Getting..."
+                    class = "btn btn-primary"
+                    ng-disabled = "contest.name.length <= 0" ng-click = "createContest()" >
                 Create contest
-            </button>
-        </div>
-    </div>
+            </button >
+            <pre class = "cnpa-help" >
+                Create a new contest. This will create an empty contest and then allows you to edit it like add
+                pictures. Give it a name like: Q1_2015
+            </pre>
+        </div >
+    </div >
 
-
-    <footer class="cnpa-footer">
-        <div ng-if="contest.errorMessages" class="text-error error-msg">
-            <div ng-repeat="errorMessage in contest.errorMessages">
+    <footer class = "cnpa-footer" ng-show = "debugInfo === true" ng-click = "debugInfo=!debugInfo" >
+        <div ng-if = "contest.errorMessages" class = "text-error error-msg" >
+            <div ng-repeat = "errorMessage in contest.errorMessages" >
                 {{errorMessage}}
-            </div>
-        </div>
+            </div >
+        </div >
         Filename = chooseContest.html
         <!--<div>ScopeName={{scopeName}} errorMessages={{contest.errorMessages}} contest={{contest}}</div>-->
-    </footer>
-</section>
+    </footer >
+</section >

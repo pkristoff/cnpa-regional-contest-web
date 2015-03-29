@@ -22,15 +22,18 @@
 }
 
 .cnpa-footer {
-  background-color: red;
+  background-color: transparent;
 }
 
 .cnpa-header {
-  background-color: red;
+  background-color: transparent;
 }
 
 .cnpa-help {
-  padding: 20px;
+  margin-top: 20px;
+  background: transparent;
+  font-family: cursive;
+  padding: 10px;
 }
 
 .cnpa-input-file {
@@ -44,9 +47,17 @@
   background-color: lightgray;
 }
 
+.cnpa-picture-inner {
+  padding: 10px;
+}
+
 .cnpa-radio {
   margin-left: 50px;
   width: 33%;
+}
+
+.cnpa-radio-button {
+  margin-top: 20px;
 }
 
 
