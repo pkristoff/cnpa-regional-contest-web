@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   match '/views/partials/chooseContest' => 'home#choose_contest', via: :get
   match '/views/partials/contestFiles' => 'home#contest_files', via: :get
   match '/views/partials/busyModal' => 'home#busyModal', via: :get
-  match 'rename-file-template' => 'home#rename_file_template', via: :get
+  match '/assets/javascripts/directives/rename-file/rename-file-template' => 'home#rename_file_template', via: :get
 
 
   match '/addFiles' => 'home#add_files', via: :post

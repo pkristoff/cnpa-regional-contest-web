@@ -1,20 +1,23 @@
-<div class="modal-header">
-    <h3>{{modalOptions.headerText}}</h3>
-</div>
-<form ng-submit="modalOptions.submit()">
-    <pre>{{ filename }}</pre>
-    <div class="modal-body">
-        <label for="contestant-name-id">Constestant's Name:</label>
-        <input id="contestant-name-id" type="text" ng-model="filename.contestantName"/>
-        </br>
-        <label for="image-title-id">Title:</label>
-        <input id="image-title-id" type="text" ng-model="filename.imageTitle"/>
-        <p>(Only spaces between words: No '-' or '_' needed)</p>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn" data-ng-click="modalOptions.close()">{{modalOptions.closeButtonText}}</button>
-        <button type="submit" class="btn btn-primary" data-ng-click="modalOptions.ok(mydata)">
-            {{modalOptions.actionButtonText}}
-        </button>
-    </div>
-</form>
+<div class = "modal-header" >
+    <h3 >{{modalOptions.headerText}}</h3 >
+</div >
+<form ng-submit = "modalOptions.submit()" >
+
+    <div class = "modal-body" >
+        <div >
+            <label class="rename-label" for = "contestant-name-id" >Constestant's Name:</label >
+            <input class="rename-input" id = "contestant-name-id" type = "text" ng-model = "filename.contestantName" />
+        </div >
+        <div >
+            <label class="rename-label" for = "image-title-id" >Title:</label >
+            <input class="rename-input" id = "image-title-id" type = "text" ng-model = "filename.imageTitle" />
+        </div >
+        <p class="rename-p" >(Only spaces between words: No '-' or '_' needed)</p >
+    </div >
+    <div class = "modal-footer" >
+        <button type = "button" class = "btn" ng-click = "cancel()" >Cancel</button >
+        <button type = "submit" class = "btn btn-primary" ng-click = "ok(filename)" >
+            OK
+        </button >
+    </div >
+</form >

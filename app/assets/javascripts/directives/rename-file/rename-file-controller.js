@@ -3,17 +3,21 @@
  */
 
 angular.module('cnpaContestApp')
-    .controller('renameFileController', ['$scope',
+    .controller('renameFileController', ['$scope', 'filename',
         function($scope, filename) {
             $scope.filename = filename;
 
             $scope.ok = function () {
-                $modalInstance.close($scope.filename);
+                $scope.$close($scope.filename);
             };
 
             $scope.cancel = function () {
-                $modalInstance.dismiss('cancel');
+                $scope.$dismiss('cancel');
             };
+
+            console.log('renameFileController: $scope=');
+            console.log($scope);
+
 
         }]
 );

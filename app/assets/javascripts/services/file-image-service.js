@@ -72,7 +72,8 @@ angular.module( 'cnpaContestApp' )
             var files = [];
             rawFiles.forEach( function( fileEntry ) {
                 var fn = fileEntry.filename;
-                var fnSplit = fn.split( "-" );
+                var rootFilename = fn.split('.');
+                var fnSplit = rootFilename[0].split( "-" );
                 var date2 = fileEntry.dateCreated ? Date.parse( fileEntry.dateCreated ) : '';
                 var newEntry = {
                     filename:        {

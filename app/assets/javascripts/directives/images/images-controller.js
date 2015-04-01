@@ -4,8 +4,8 @@
 
 
 angular.module('cnpaContestApp')
-    .controller('imagesController', ['$scope', '$http', 'fileImageService', '$location',
-        function($scope, $http, fileImageService, $location) {
+    .controller('imagesController', ['$scope', '$http', 'fileImageService', '$location', '$modal',
+        function($scope, $http, fileImageService, $location, $modal) {
 
             var vm = this;
 
@@ -133,7 +133,7 @@ angular.module('cnpaContestApp')
                     }
                 });
 
-                modalInstance.result.then(function (filename) {
+                modalInstance.result.then(function (newFileName) {
                     var params = {
                         rootFolder:         vm.contest.rootFolder,
                         contestName:        vm.contest.name,
@@ -148,7 +148,7 @@ angular.module('cnpaContestApp')
                         errorCallback( $scope )
                     )
                 }, function () {
-                    $log.info('Modal dismissed at: ' + new Date());
+                    console.log('Modal dismissed at: ' + new Date());
                 });
 
 

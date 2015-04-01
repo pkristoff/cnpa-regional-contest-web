@@ -13,7 +13,7 @@ class HomeController < ApplicationController
   end
 
   def rename_file_template
-    render '../assets/javascripts/services/rename-file-template.html'
+    render '../assets/javascripts/directives/rename-file/rename-file-template.html'
 
   end
 
