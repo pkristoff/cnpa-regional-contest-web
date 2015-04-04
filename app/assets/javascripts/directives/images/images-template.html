@@ -14,7 +14,7 @@
             ng-click = "vm.emailContest()"
             ng-show = "vm.contest.showEmailContest" >Email Contest
     </button >
-    <div class="cnpa-date">
+    <div class="cnpa-email">
         <label for = "emailAddressId" >Email Address</label >
         <input type = "email" id = "emailAddressId" name = "emailAddress" ng-model = "vm.contest.email"
                ng-blur = "vm.saveConfigInfo()" />
@@ -49,12 +49,6 @@
                 </p >
             </div >
         </div >
-    </div >
-
-    <div class = "veil2" ng-show = "isLoading" ></div >
-
-    <div class = "feedLoading2" ng-show = "isLoading" >
-        Loading...
     </div >
 
     <div class = "cnpa-pictures" >
@@ -132,4 +126,9 @@
             </table >
         </div >
     </div >
+
+
+    <div id="veil" ng-show="isLoading" style="position: absolute;top:0;left: 0;height: 50%;width: 50%;cursor: not-allowed;filter:alpha(opacity=60);opacity: 0.6;"></div>
+    <div id="feedLoading" ng-show="isLoading" style="position: absolute;top: 200px;width: 100%;text-align: center;font-size: 4em;color: #000000;text-shadow: 2px 2px 2px gray">Loading...</div>
+
 </div >
