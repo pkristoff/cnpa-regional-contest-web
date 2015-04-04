@@ -1,18 +1,19 @@
 <div class = "modal-header" >
-    <h3 >{{modalOptions.headerText}}</h3 >
+    <h3 >Editing {{filename.original}}</h3 >
 </div >
 <form ng-submit = "modalOptions.submit()" >
 
     <div class = "modal-body" >
         <div >
-            <label class="rename-label" for = "contestant-name-id" >Constestant's Name:</label >
-            <input class="rename-input" id = "contestant-name-id" type = "text" ng-model = "filename.contestantName" />
+            <label class = "rename-label" for = "contestant-name-id" >Constestant's Name:</label >
+            <input class = "rename-input" id = "contestant-name-id" type = "text"
+                   ng-model = "filename.contestantName" />
         </div >
         <div >
-            <label class="rename-label" for = "image-title-id" >Title:</label >
-            <input class="rename-input" id = "image-title-id" type = "text" ng-model = "filename.imageTitle" />
+            <label class = "rename-label" for = "image-title-id" >Title:</label >
+            <input class = "rename-input" id = "image-title-id" type = "text" ng-model = "filename.imageTitle" />
         </div >
-        <p class="rename-p" >(Only spaces between words: No '-' or '_' needed)</p >
+        <p class = "rename-p" >(Only spaces between words: No '-' or '_' needed)</p >
     </div >
     <div class = "modal-footer" >
         <button type = "button" class = "btn" ng-click = "cancel()" >Cancel</button >

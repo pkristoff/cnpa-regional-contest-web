@@ -118,6 +118,7 @@ angular.module('cnpaContestApp')
             function rename_file(old_filename) {
 
                 var filename = {
+                    original: old_filename.filename.value,
                     contestantName: old_filename.contestantName.value,
                     imageTitle: old_filename.title.value
                 };

@@ -31,7 +31,7 @@ angular.module( 'cnpaContestApp' )
         }
 
         function isFileSizeValid( fileSize ) {
-            return ((fileSize / 1024) <= 300);
+            return (fileSize <= 300);
         }
 
         function sortByKey( array, key ) {

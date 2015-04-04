@@ -9,10 +9,23 @@
   height: 500px;
   width:  600px;
   background-color: #00AEFF;
+  padding: 10px;
 }
 
 .cnpa-button-group {
   width: 100%;
+}
+
+.cnpa-create-input {
+  height: 50px;
+}
+
+.cnpa-create-middle {
+  height: calc(100% - 350px);
+}
+
+.cnpa-create-bottom {
+  height: 300px;
 }
 
 .cnpa-date {
@@ -33,7 +46,10 @@
   margin-top: 20px;
   background: transparent;
   font-family: fantasy;
-  padding: 10px;
+}
+
+.cnpa-main-help {
+  overflow-y: auto;
 }
 
 .cnpa-input-file {

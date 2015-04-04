@@ -12,7 +12,7 @@
                    ng-disable = "contest.contests.length === 0" >Delete Existing Contest</label >
         </div >
         <!-- DELETE -->
-        <div ng-show = "radioModel ==='delete-contest'" class="cnpa-radio-button" >
+        <div ng-show = "radioModel ==='delete-contest'" class = "cnpa-radio-button" >
             <label for = "deleteContest-id" > Choose existing contest</label >
             <span >
                 <select id = "deleteContest-id" ng-model = "contest.name" name = "contest"
@@ -25,10 +25,10 @@
             </button >
             <pre class = "cnpa-help" >
                 Choose a contest to delete. There is no undo.
-            </pre>
+            </pre >
         </div >
         <!-- EXISTING -->
-        <div ng-show = "radioModel ==='existing-contest'" class="cnpa-radio-button">
+        <div ng-show = "radioModel ==='existing-contest'" class = "cnpa-radio-button" >
             <label for = "selectContest-id" > Choose existing contest</label >
             <span >
                 <select id = "selectContest-id" ng-model = "contest.name" name = "contest"
@@ -41,25 +41,74 @@
             </button >
             <pre class = "cnpa-help" >
                 Choose an existing contest. It allows you to edit the contest.
-            </pre>
+            </pre >
         </div >
         <!-- CREATE/NEW -->
-        <div ng-show = "radioModel === 'new-contest'" class="cnpa-radio-button" >
-            <label for = "createContest-id" > Create new contest</label >
-            <span >
-        <input id = "createContest-id" type = "text" ng-model = "contest.name" name = "name"
-               value = "Type in contest name <no spaces>"
-               ng-keypress = "updateInput(this)" />
-            </span >
-            <button type = "button" id = "createContestBtn-id" data-loading-text = "Getting..."
-                    class = "btn btn-primary"
-                    ng-disabled = "contest.name.length <= 0" ng-click = "createContest()" >
-                Create contest
-            </button >
-            <pre class = "cnpa-help" >
+        <div ng-show = "radioModel === 'new-contest'" class = "cnpa-radio-button" >
+            <div class="cnpa-create-input">
+                <label for = "createContest-id" > Create new contest</label >
+                <span >
+                    <input id = "createContest-id" type = "text" ng-model = "contest.name" name = "name"
+                           value = "Type in contest name <no spaces>"
+                           ng-keypress = "updateInput(this)" />
+                </span >
+                <button type = "button" id = "createContestBtn-id" data-loading-text = "Getting..."
+                        class = "btn btn-primary"
+                        ng-disabled = "contest.name.length <= 0" ng-click = "createContest()" >
+                    Create contest
+                </button >
+            </div >
+            <p class = "cnpa-help" >
                 Create a new contest. This will create an empty contest and then allows you to edit it like add
                 pictures. Give it a name like: Q1_2015
-            </pre>
+            </p >
+            <div class = "cnpa-create-bottom cnpa-help cnpa-main-help" >
+                <p >The purpose: To generate 4 sets of files to be used in the CNPA Contest</p >
+                <ul >
+                    <li ><p >Original files - these will never be modified</p ></li >
+                    <li >Testdata - these are the files which could have its metadata modified like copyright,
+                         filename
+                    </li >
+                    <li >Name and Number - these are the files which are generated from the Testdata directory. The
+                         pictures are given a random number along with a the picture title and owner's name
+                    </li >
+                    <li >Number only - these are the files which just have the numbers only. All metadata has been
+                         removed.
+                    </li >
+                </ul >
+                The process:
+                <ul >
+                    <li >Create a new contest</li >
+                    <li >Edit contest</li >
+                    <ul >
+                        <li >Give an email address</li >
+                        <li >If the contest has an age limit choose the date of the limit</li >
+                        <li >Add pictures: Once they are added a grid will show with some metadata shown. if it is
+                             red it means it has been deemed in valid
+                        </li >
+                        <ul >
+                            <li >File: the current filename</li >
+                            <li >Name: as pulled from the filename</li >
+                            <li >Title: as pulled from the filename</li >
+                            <li >Width: Invalid if > 1024</li >
+                            <li >Height: invalid if > 1024</li >
+                            <li >Copyright: invalid if missing name, year or blank</li >
+                            <li >Created: the date the picture was created</li >
+                            <li >Size: invalid if > 300k</li >
+                            <li >Editing: you can do limited editing on the files</li >
+                            <ul >
+                                <li >Rename file if it is messed up.</li >
+                                <li >If the copyright is invalid the you can create one based on created date or
+                                     current year if current date ia blank.
+                                </li >
+                                <li >Delete file.</li >
+                            </ul >
+                        </ul >
+                    </ul >
+                    <li >Generate remaining directories</li >
+                    <li >Email directories as zip files. Each zip will be a separate email</li >
+                </ul >
+            </div >
         </div >
     </div >
 
