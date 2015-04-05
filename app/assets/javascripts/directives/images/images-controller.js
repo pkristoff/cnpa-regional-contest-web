@@ -152,34 +152,6 @@ angular.module('cnpaContestApp')
                     console.log('Modal dismissed at: ' + new Date());
                 });
 
-
-                //showModal = function() {
-                //
-                //    var modalOptions = {
-                //        closeButtonText: 'Cancel',
-                //        actionButtonText: 'Rename',
-                //        headerText: 'Rename Dialog'
-                //    };
-                //
-                //    renameFileService.showModal({inputs:{filename: $scope.filename}}, modalOptions).then(function(newFileName) {
-                //        var params = {
-                //            rootFolder: vm.contest.rootFolder,
-                //            contestName: vm.contest.name,
-                //            old_filename: old_filename.filename.value,
-                //            new_filename: newFileName.contestantName + "-" + newFileName.imageTitle + ".jpg",
-                //            directory: vm.contest.directory,
-                //            authenticity_token: $('#mmm')[0].value
-                //        };
-                //
-                //        $http.post('/rename_file', params, {"Content-Type": "application/json"}).then(
-                //            contestResult,
-                //            errorCallback($scope)
-                //        )
-                //    });
-                //};
-                //
-                //showModal();
-
             }
 
             function setCopyright(fileInfo) {

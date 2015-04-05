@@ -101,8 +101,7 @@ class HomeController < ApplicationController
 
     begin
       if Dir.exists?(dir_path)
-        contest_content = HomeFileModule.get_dir_contents(dir_path, false)
-        handle_return HomeFileModule.get_and_return_file_info(contest_content, root_folder, contest_name, directory)
+        handle_return HomeFileModule.get_contest_info(ROOT_FOLDER, contest_name, directory)
       else
         return render status: 500, json: {"message" => "could not find path: #{dir_path}: #{e.message}"}
       end

@@ -310,7 +310,7 @@ module HomeFileModule
       FileUtils.cp(file_path_testdata, file_path_name_and_number)
       FileUtils.cp(file_path_testdata, file_path_number)
 
-      HomeFileModule.execute_exiftool("-all", file_path_number, "")
+      HomeFileModule.execute_exiftool("-all=", file_path_number, "")
 
     end
 
