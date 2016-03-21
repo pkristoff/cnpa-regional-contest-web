@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.1.5'
+ruby '2.3.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.7'
 # Use sqlite3 as the database for Active Record
@@ -32,16 +32,16 @@ gem 'sprockets', '~> 2.12.3'
 
 gem 'mini_exiftool'
 
-gem "foreman"
+gem 'foreman'
 # group :production, :staging do
-#   gem "rails_12factor"
-#   gem "rails_stdout_logging"
-#   gem "rails_serve_static_assets"
+#   gem 'rails_12factor'
+#   gem 'rails_stdout_logging'
+#   gem 'rails_serve_static_assets'
 # end
 
 group :test, :development do
-  gem "rspec"
-  gem "rspec-rails", "~> 2.0"
+  gem 'rspec'
+  gem 'rspec-rails', '~> 2.0'
 end
 
 # Use ActiveModel has_secure_password
