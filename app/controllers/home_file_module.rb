@@ -333,12 +333,12 @@ module HomeFileModule
     end
   end
 
-  def HomeFileModule.save_files_info(files_info, contest_name, root_folder=ROOT_FOLDER)
+  def HomeFileModule.save_files_info(files_info, contest_name, root_folder=HomeHelper::ROOT_FOLDER)
     file_path = HomeHelper.get_testdata_path(root_folder, contest_name)
     File.open(File.join(file_path, HomeHelper::ROOT_FOLDER), 'w') { |fo| fo.puts files_info.to_json }
   end
 
-  def HomeFileModule.get_files_info(contest_name, root_folder=ROOT_FOLDER)
+  def HomeFileModule.get_files_info(contest_name, root_folder=HomeHelper::ROOT_FOLDER)
     file_path = HomeHelper.get_testdata_path(root_folder, contest_name)
     files_info_string = '[]'
     begin
