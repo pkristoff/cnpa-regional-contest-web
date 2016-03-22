@@ -61,35 +61,21 @@ class HomeController < ApplicationController
     root_folder = HomeHelper::ROOT_FOLDER
     contest_name = params[:contestName]
     filename = params[:filename]
-
-    file_info = HomeFileModule.get_file_info contest_name, filename, root_folder
-
-    original_filename = file_info[:original_filename]
     directory = params[:directory]
-    file_path_originals = File.join(HomeHelper.get_originals_path(root_folder, contest_name), original_filename)
-    file_path_testdata = File.join(HomeHelper.get_testdata_path(root_folder, contest_name), filename)
+
     begin
-      deleted = false
-      if File.exists?(file_path_originals)
-        File.delete(file_path_originals)
-        deleted=true
-      else
-        return render status: 500, json: {message: "#{file_path_originals} does not exist"}
-      end
-      if File.exists?(file_path_testdata)
-        File.delete(file_path_testdata)
-        deleted=true
-      else
-        return render status: 500, json: {message: "#{file_path_originals} does not exist"}
-      end
-      if deleted
-        HomeFileModule.remove_file_info contest_name, filename, root_folder
+
+      error_message = HomeFileModule.delete_file contest_name, filename
+      if error_message.empty?
         dir_path = HomeHelper.get_path(root_folder, contest_name, directory)
         contest_content = HomeFileModule.get_dir_contents(dir_path, false)
         handle_return HomeFileModule.get_and_return_file_info(contest_content, root_folder, contest_name, directory)
+      else
+        render status: 500, json: {message: error_message}
       end
+
     rescue Exception => e
-      return render status: 500, json: {message: "could not delete file: #{file_path_originals}: #{filename}: #{e.message}"}
+      return render status: 500, json: {message: "could not delete file: #{contest_name}: #{filename}: #{e.message}"}
 
     end
 

@@ -33,7 +33,7 @@
         <div class = "" ng-hide = "! vm.contest.isPictureAgeRequired" >
             <p class = "cnpa-help" >
                 This date represents the oldest a picture can be created and still be in the
-                contest.  Any file that is too young will be marked in pink.
+                contest.  Any file that is too old will be marked in pink.
             </p >
 
             <div class = "col-md-6" >
@@ -126,6 +126,21 @@
             </table >
         </div >
     </div >
+    <button type = "button"
+            class = "btn btn-default navbar-btn"
+            ng-click = "vm.regenerateContest()"
+            ng-show = "vm.contest.showRegenerateContest" >Regenerate Contest
+    </button >
+    <button type = "button"
+            class = "btn btn-default navbar-btn"
+            ng-click = "vm.generateContest()"
+            ng-show = "vm.contest.showGenerateContest" >Generate Contest
+    </button >
+    <button type = "button"
+            class = "btn btn-default navbar-btn"
+            ng-click = "vm.emailContest()"
+            ng-show = "vm.contest.showEmailContest" >Email Contest
+    </button >
 
 
     <div id="veil" ng-show="isLoading" style="position: absolute;top:0;left: 0;height: 50%;width: 50%;cursor: not-allowed;filter:alpha(opacity=60);opacity: 0.6;"></div>

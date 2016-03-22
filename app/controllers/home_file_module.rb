@@ -222,7 +222,7 @@ module HomeFileModule
 
   def HomeFileModule.delete_contest(contest_name)
 
-    root_folder = ROOT_FOLDER
+    root_folder = HomeHelper::ROOT_FOLDER
     dir_path_originals = HomeHelper.get_path(root_folder, contest_name, HomeHelper::ORIGINALS)
     dir_path_testdata = HomeHelper.get_path(root_folder, contest_name, HomeHelper::TESTDATA)
 
@@ -240,7 +240,7 @@ module HomeFileModule
 
   def HomeFileModule.delete_generated_contest(contest_name)
 
-    root_folder = ROOT_FOLDER
+    root_folder = HomeHelper::ROOT_FOLDER
     dir_path_name_and_number = HomeHelper.get_path(root_folder, contest_name, HomeHelper::NAME_AND_NUMBER)
     dir_path_number = HomeHelper.get_path(root_folder, contest_name, HomeHelper::NAME_AND_NUMBER)
 
@@ -279,7 +279,7 @@ module HomeFileModule
 
   def HomeFileModule.generate_contest(contest_name)
 
-    root_folder = ROOT_FOLDER
+    root_folder = HomeHelper::ROOT_FOLDER
     dir_path_originals = HomeHelper.get_originals_path(root_folder, contest_name)
     dir_path_testdata = HomeHelper.get_testdata_path(root_folder, contest_name)
     dir_path_name_and_number = HomeHelper.get_path(root_folder, contest_name, HomeHelper::NAME_AND_NUMBER)
@@ -333,6 +333,30 @@ module HomeFileModule
     end
   end
 
+  def HomeFileModule.delete_file(contest_name, filename)
+    root_folder = HomeHelper::ROOT_FOLDER
+
+    file_info = HomeFileModule.get_file_info contest_name, filename, root_folder
+
+    original_filename = file_info[:original_filename]
+    file_path_originals = File.join(HomeHelper.get_originals_path(root_folder, contest_name), original_filename)
+    file_path_testdata = File.join(HomeHelper.get_testdata_path(root_folder, contest_name), filename)
+
+    if File.exists?(file_path_originals)
+      File.delete(file_path_originals)
+    else
+      return "#{file_path_originals} does not exist"
+    end
+    if File.exists?(file_path_testdata)
+      File.delete(file_path_testdata)
+    else
+      return "#{file_path_testdata} does not exist"
+    end
+    HomeFileModule.remove_file_info contest_name, filename, root_folder
+    return ''
+
+  end
+
   def HomeFileModule.save_files_info(files_info, contest_name, root_folder=HomeHelper::ROOT_FOLDER)
     file_path = HomeHelper.get_testdata_path(root_folder, contest_name)
     File.open(File.join(file_path, HomeHelper::ROOT_FOLDER), 'w') { |fo| fo.puts files_info.to_json }
@@ -348,7 +372,7 @@ module HomeFileModule
     end
 
     files_info_string = files_info_string.strip.empty? ? '{}' : files_info_string
-    JSON.parse(files_info_string,:symbolize_names => true)
+    JSON.parse(files_info_string, :symbolize_names => true)
   end
 
   def HomeFileModule.get_file_info(contest_name, filename, root_folder)
