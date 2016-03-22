@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>The requested menu options was too big (413)</title>
+    <title>The requested items was too big (413)</title>
     <meta name="viewport" content="width=device-width,initial-scale=1"><!DOCTYPE html>
 </head>
 <body>
 <div>
-    File size = <!--#fsize -->
+    The requested items was too big (413)
 </div>
 </body>
 </html>
