@@ -69,14 +69,15 @@ describe HomeController, :type => :controller do
 
       get :delete_file, :contestName => 'q1', :filename => TEST_FILENAME_1, :directory => 'Testdata'
 
-      response.status.should == 200
       response.body.should == {
           :filenames => [],
           directories: %w(Originals Testdata),
           directory: 'Testdata'
       }.to_json
+      response.status.should == 200
       HomeFileModule.get_file_info('q1', TEST_FILENAME_1, 'TestContest').nil?.should == true
     end
+
     it 'deletes a renamed file & returns  empty file info + creates: TestContest/q1/Testdata & TestContest/q1/Originals' do
 
       setup_contest
@@ -194,7 +195,7 @@ def copy_file(filename, dir)
   end
 end
 
-def cleanup_dirs_and_files path
+def cleanup_dirs_and_files(path)
   if Dir.exists? path and !path.end_with?('.') and !path.end_with?('..')
     if File.directory? path
       Dir.foreach(path) do |entry|
