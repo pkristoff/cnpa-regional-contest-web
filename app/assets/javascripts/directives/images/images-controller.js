@@ -209,6 +209,11 @@ angular.module( 'cnpaContestApp' )
                 )
             }
 
+            function isPictureAgeRequiredClicked() {
+                vm.contest.isPictureAgeRequired = !vm.contest.isPictureAgeRequired;
+                saveConfigInfo();
+            }
+
             function uploadFile( files ) {
                 showBusy();
                 var fd = new FormData();
@@ -240,6 +245,7 @@ angular.module( 'cnpaContestApp' )
             vm.deleteFile = deleteFile;
             vm.emailContest = emailContest;
             vm.generateContest = generateContest;
+            vm.isPictureAgeRequiredClicked = isPictureAgeRequiredClicked;
             vm.openDate = openDate;
             vm.regenerateContest = regenerateContest;
             vm.rename_file = rename_file;
