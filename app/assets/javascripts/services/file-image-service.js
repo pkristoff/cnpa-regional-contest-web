@@ -64,6 +64,7 @@ angular.module( 'cnpaContestApp' )
             contest.showGenerateContest = contest.files.length > 0 && contest.directories.length <= 2;
             contest.showRegenerateContest = contest.files.length > 0 && !contest.showGenerateContest;
             contest.showEmailContest = contest.directories.length > 2 && contest.email;
+            contest.showDownloadContest = contest.directories.length > 2 && contest.email;
             console.log( 'updateContest-contest' );
             console.log( contest );
         }

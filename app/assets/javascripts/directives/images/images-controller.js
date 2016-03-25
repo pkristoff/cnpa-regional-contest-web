@@ -101,6 +101,26 @@ angular.module( 'cnpaContestApp' )
 
             }
 
+            function downloadContest() {
+
+                download_download_contest_path
+
+                //showBusy();
+                //var params = {
+                //    rootFolder:         vm.contest.rootFolder,
+                //    contestName:        vm.contest.name,
+                //    authenticity_token: $( '#mmm' )[ 0 ].value
+                //};
+
+
+
+                //$http.post( '/download_contest', params, { "Content-Type": "application/json" } ).then(
+                //    contestResult,
+                //    errorCallback( $scope )
+                //)
+
+            }
+
             function hideBusy() {
                 $scope.isLoading = false;
             }
@@ -244,6 +264,7 @@ angular.module( 'cnpaContestApp' )
             };
             vm.deleteFile = deleteFile;
             vm.emailContest = emailContest;
+            vm.downloadContest = downloadContest;
             vm.generateContest = generateContest;
             vm.isPictureAgeRequiredClicked = isPictureAgeRequiredClicked;
             vm.openDate = openDate;

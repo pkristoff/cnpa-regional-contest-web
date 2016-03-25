@@ -10,7 +10,7 @@ module HomeFileModule
       if for_dir
         directories.push(x) if File.directory?(file_path) and (x != '.' and x != '..')
       else
-        directories.push(x) if File.file?(file_path) and (x != '.DS_Store') and (!x.include? '_original') and (!x.include? '.json')
+        directories.push(x) if File.file?(file_path) and (x.end_with? '.jpg')
       end
     end
     directories
@@ -53,7 +53,7 @@ module HomeFileModule
 
       contest_content.each do |filename|
         filename_split = filename.split('.')
-        if filename_split.length === 2 && (filename_split[1] === 'jpg' || filename_split[1] === 'JPG' || filename_split[1] === 'jpeg' || filename_split[1] === 'JPEG')
+        if filename_split.length === 2 && filename_split[1] === 'jpg'
           file_path = File.join(dir_path, filename)
 
           result[:filenames].push(HomeFileModule.extract_file_info(file_path, dir_path, filename, false))
@@ -242,7 +242,7 @@ module HomeFileModule
 
     root_folder = HomeHelper::ROOT_FOLDER
     dir_path_name_and_number = HomeHelper.get_path(root_folder, contest_name, HomeHelper::NAME_AND_NUMBER)
-    dir_path_number = HomeHelper.get_path(root_folder, contest_name, HomeHelper::NAME_AND_NUMBER)
+    dir_path_number = HomeHelper.get_path(root_folder, contest_name, HomeHelper::NUMBER)
 
     dir_path_contest = File.join(root_folder, contest_name)
 
@@ -307,16 +307,16 @@ module HomeFileModule
 
     contest_dir = File.join(root_folder, contest_name)
 
-    xxx = "zip #{File.join(contest_dir, "#{HomeHelper::ORIGINALS}.zip")} #{dir_path_originals}/*"
+    xxx = "zip #{File.join(contest_dir, "#{HomeHelper::ORIGINALS}.zip")} #{dir_path_originals}/*.jpg"
     system xxx
 
-    xxx = "zip #{File.join(contest_dir, "#{HomeHelper::TESTDATA}.zip")} #{dir_path_testdata}/*"
+    xxx = "zip #{File.join(contest_dir, "#{HomeHelper::TESTDATA}.zip")} #{dir_path_testdata}/*.jpg"
     system xxx
 
-    xxx = "zip #{File.join(contest_dir, "#{HomeHelper::NAME_AND_NUMBER}.zip")} #{dir_path_name_and_number}/*"
+    xxx = "zip #{File.join(contest_dir, "#{HomeHelper::NAME_AND_NUMBER}.zip")} #{dir_path_name_and_number}/*.jpg"
     system xxx
 
-    xxx = "zip #{File.join(contest_dir, "#{HomeHelper::NUMBER}.zip")} #{dir_path_number}/*"
+    xxx = "zip #{File.join(contest_dir, "#{HomeHelper::NUMBER}.zip")} #{dir_path_number}/*.jpg"
     system xxx
 
   end

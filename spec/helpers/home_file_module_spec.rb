@@ -272,10 +272,6 @@ describe HomeFileModule do
 
   describe 'set_copyright' do
 
-    before(:each) do
-      cleanup_dirs_and_files('TestContest')
-    end
-
     it 'should change the copyright of Testdata file' do
 
       setup_contest
@@ -285,6 +281,70 @@ describe HomeFileModule do
       HomeFileModule.get_file_info('q1', TEST_FILENAME_1, 'TestContest')[:copyrightNotice].should == 'copyright baby'
       get_copyright("TestContest/q1/Testdata/#{TEST_FILENAME_1}").should == 'copyright baby'
       get_copyright("TestContest/q1/Originals/#{TEST_FILENAME_1}").should_not == 'copyright baby'
+    end
+
+  end
+
+  describe 'delete_generated_contest' do
+
+    it 'should handle nothing there' do
+
+      contest_name = 'q1'
+
+      HomeFileModule.delete_generated_contest(contest_name)
+
+      assert_generated_contest(contest_name, false)
+
+    end
+
+    it 'should handle contest not generated there' do
+
+      setup_contest
+
+      contest_name = 'q1'
+
+      HomeFileModule.delete_generated_contest(contest_name)
+
+      assert_generated_contest(contest_name, false)
+
+    end
+
+    it 'should handle contest generated there' do
+
+      setup_contest
+
+      contest_name = 'q1'
+
+      HomeFileModule.generate_contest(contest_name)
+
+      assert_generated_contest(contest_name, true)
+
+      HomeFileModule.delete_generated_contest(contest_name)
+
+      assert_generated_contest(contest_name, false)
+
+    end
+
+    it 'should handle contest generated there with renamed file' do
+
+      setup_contest
+
+      contest_name = 'q1'
+
+      HomeFileModule.rename_file(HomeHelper::ROOT_FOLDER, contest_name, TEST_FILENAME_1, 'Paul kristoff - New Medow.jpg')
+
+      HomeFileModule.generate_contest(contest_name)
+
+      assert_generated_contest(contest_name, true)
+
+      HomeFileModule.delete_generated_contest(contest_name)
+
+      assert_generated_contest(contest_name, false)
+
+      HomeFileModule.generate_contest(contest_name)
+
+      assert_generated_contest(contest_name, true)
+
     end
 
   end
@@ -322,6 +382,8 @@ end
 
 def setup_contest(should_copy_file=true)
 
+  stub_const('HomeHelper::ROOT_FOLDER', 'TestContest')
+
   Dir.mkdir('TestContest')
   Dir.mkdir('TestContest/q1')
   Dir.mkdir('TestContest/q1/Testdata')
@@ -348,6 +410,23 @@ def create_and_save_files_info(should_copy_file=true)
                       dateCreated: '2012-01-15',
                       fileSize: 249
                   }]
+  end
+
+  def assert_generated_contest(contest_name, is_generated)
+    root_folder = HomeHelper::ROOT_FOLDER
+    dir_path_name_and_number = HomeHelper.get_path(root_folder, contest_name, HomeHelper::NAME_AND_NUMBER)
+    dir_path_number = HomeHelper.get_path(root_folder, contest_name, HomeHelper::NUMBER)
+
+    dir_path_contest = File.join(root_folder, contest_name)
+
+    File.exist?(dir_path_name_and_number).should == is_generated
+    File.exist?(dir_path_number).should == is_generated
+
+    contest_dir = File.join(root_folder, contest_name)
+    File.exist?(File.join(contest_dir, "#{HomeHelper::ORIGINALS}.zip")).should == is_generated
+    File.exist?(File.join(contest_dir, "#{HomeHelper::TESTDATA}.zip")).should == is_generated
+    File.exist?(File.join(contest_dir, "#{HomeHelper::NAME_AND_NUMBER}.zip")).should == is_generated
+    File.exist?(File.join(contest_dir, "#{HomeHelper::NUMBER}.zip")).should == is_generated
   end
 
   HomeFileModule.save_files_info files_info, 'q1', 'TestContest'

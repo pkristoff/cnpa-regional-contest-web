@@ -14,6 +14,12 @@
             ng-click = "vm.emailContest()"
             ng-show = "vm.contest.showEmailContest" >Email Contest
     </button >
+    <%= link_to 'Download Contest', download_download_contest_path %>
+    <button type = "button"
+            class = "btn btn-default navbar-btn"
+            ng-click = "vm.downloadContest()"
+            ng-show = "vm.contest.showDownloadContest" >Download Contest
+    </button >
     <div class="cnpa-email">
         <label for = "emailAddressId" >Email Address</label >
         <input type = "email" id = "emailAddressId" name = "emailAddress" ng-model = "vm.contest.email"
@@ -140,6 +146,11 @@
             class = "btn btn-default navbar-btn"
             ng-click = "vm.emailContest()"
             ng-show = "vm.contest.showEmailContest" >Email Contest
+    </button >
+    <button type = "button"
+            class = "btn btn-default navbar-btn"
+            ng-click = "vm.downloadContest()"
+            ng-show = "vm.contest.showDownloadContest" >Download Contest
     </button >
 
 
