@@ -148,5 +148,22 @@ class HomeController < ApplicationController
     render status: 200, text: copyright
   end
 
+  def generate_contest
+
+    contest_name = params[:contestName]
+    HomeFileModule.generate_contest(contest_name)
+
+    handle_return HomeFileModule.get_contest_info(HomeHelper::ROOT_FOLDER, contest_name, HomeHelper::TESTDATA)
+  end
+
+  def regenerate_contest
+
+    contest_name = params[:contestName]
+    HomeFileModule.delete_generated_contest(contest_name)
+    HomeFileModule.generate_contest(contest_name)
+
+    handle_return HomeFileModule.get_contest_info(HomeHelper::ROOT_FOLDER, contest_name, HomeHelper::TESTDATA)
+  end
+
 
 end

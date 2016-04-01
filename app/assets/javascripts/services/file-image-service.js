@@ -60,7 +60,9 @@ angular.module( 'cnpaContestApp' )
             contest.directories = result.directories.map( function( dirName ) {
                 return { value: dirName, text: dirName };
             } );
-            contest.showDownloadContest = contest.files.length > 0;
+            contest.showGenerateContest = contest.files.length > 0 && contest.directories.length <= 2;
+            contest.showRegenerateContest = contest.files.length > 0 && !contest.showGenerateContest;
+            contest.showDownloadContest = contest.files.length > 0 && contest.directories.length > 2;
             console.log( 'updateContest-contest' );
             console.log( contest );
         }

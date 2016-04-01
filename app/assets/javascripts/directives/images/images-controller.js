@@ -189,6 +189,36 @@ angular.module( 'cnpaContestApp' )
 
             }
 
+            function generateContest() {
+                showBusy();
+                var params = {
+                    rootFolder:         vm.contest.rootFolder,
+                    contestName:        vm.contest.name,
+                    authenticity_token: $( '#mmm' )[ 0 ].value
+                };
+
+                $http.post( '/generateContest', params, { "Content-Type": "application/json" } ).then(
+                    contestResult,
+                    errorCallback( $scope )
+                )
+
+            }
+
+            function regenerateContest() {
+                showBusy();
+                var params = {
+                    rootFolder:         vm.contest.rootFolder,
+                    contestName:        vm.contest.name,
+                    authenticity_token: $( '#mmm' )[ 0 ].value
+                };
+
+                $http.post( '/regenerateContest', params, { "Content-Type": "application/json" } ).then(
+                    contestResult,
+                    errorCallback( $scope )
+                )
+
+            }
+
             //API
             vm.changeDirectory = changeDirectory;
             vm.dateOptions = {
@@ -196,8 +226,10 @@ angular.module( 'cnpaContestApp' )
                 startingDay: 0
             };
             vm.deleteFile = deleteFile;
+            vm.generateContest = generateContest;
             vm.isPictureAgeRequiredClicked = isPictureAgeRequiredClicked;
             vm.openDate = openDate;
+            vm.regenerateContest = regenerateContest;
             vm.rename_file = rename_file;
             vm.setCopyright = setCopyright;
             vm.saveConfigInfo = saveConfigInfo;

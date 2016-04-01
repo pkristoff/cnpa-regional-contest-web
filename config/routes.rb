@@ -17,8 +17,6 @@ Rails.application.routes.draw do
   match '/deleteContest' => 'home#delete_contest', via: :post
   match '/deleteFile' => 'home#delete_file', via: :post
   match '/directory' => 'home#directory', via: :get
-  get 'home/download_contest'
-  match '/email_contest' => 'home#email_contest', via: :post
   match '/generateContest' => 'home#generate_contest', via: :post
   match '/getContests' => 'home#get_contests', via: :post
   match '/home_css.css' => 'home#home_css', via: :post
