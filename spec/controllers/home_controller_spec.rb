@@ -6,10 +6,6 @@ describe HomeController, :type => :controller do
 
   before(:each) do
     cleanup_dirs_and_files('TestContest')
-    Dir.mkdir('TestContest')
-    # Dir.mkdir('TestContest/q1')
-    # Dir.mkdir('TestContest/q1/Testdata')
-    # Dir.mkdir('TestContest/q1/Originals')
   end
 
   describe "GET 'contest'" do
@@ -20,6 +16,7 @@ describe HomeController, :type => :controller do
       response.status.should == 500
     end
     it 'returns an error if contest dir does not exist' do
+      Dir.mkdir('TestContest')
       Dir.mkdir('TestContest/q1')
       stub_const('HomeHelper::ROOT_FOLDER', 'TestContest')
       get :contest, :name => 'q1'
@@ -38,7 +35,6 @@ describe HomeController, :type => :controller do
           directories: %w(Originals Testdata),
           directory: 'Testdata',
           hasGeneratedContest: [false],
-          email: 'foo@bar.com',
           isPictureAgeRequired: false,
           pictureAgeDate: "#{Date.today}"
       }.to_json
@@ -55,7 +51,6 @@ describe HomeController, :type => :controller do
           directories: %w(Originals Testdata),
           directory: 'Testdata',
           hasGeneratedContest: false,
-          email: 'foo@bar.com',
           isPictureAgeRequired: false,
           pictureAgeDate: "#{Date.today}"
       }.to_json
@@ -110,7 +105,6 @@ describe HomeController, :type => :controller do
           directories: %w(Originals Testdata),
           directory: 'Testdata',
           hasGeneratedContest: [false],
-          email: 'foo@bar.com',
           isPictureAgeRequired: false,
           pictureAgeDate: "#{Date.today}"
       }.to_json
@@ -123,7 +117,6 @@ describe HomeController, :type => :controller do
           directories: %w(Originals Testdata),
           directory: 'Originals',
           hasGeneratedContest: [false],
-          email: 'foo@bar.com',
           isPictureAgeRequired: false,
           pictureAgeDate: "#{Date.today}"
       }.to_json
@@ -158,55 +151,4 @@ describe HomeController, :type => :controller do
     cleanup_dirs_and_files('TestContest')
   end
 
-  def setup_contest(should_copy_file=true)
-    stub_const('HomeHelper::ROOT_FOLDER', 'TestContest')
-
-    Dir.mkdir('TestContest/q1')
-    Dir.mkdir('TestContest/q1/Testdata')
-    Dir.mkdir('TestContest/q1/Originals')
-
-    files_info = []
-
-    if should_copy_file
-      copy_file(TEST_FILENAME_1, 'Testdata')
-      copy_file(TEST_FILENAME_1, 'Originals')
-      files_info = [{
-                        :filename => TEST_FILENAME_1,
-                        :original_filename => TEST_FILENAME_1,
-                        :imageWidth => 1024,
-                        :imageHeight => 683,
-                        :copyrightNotice => 'Paul Kristoff',
-                        :title => 'Grassland',
-                        :dateCreated => '2012-01-15',
-                        :fileSize => 249
-                    }]
-    end
-
-    HomeFileModule.save_files_info files_info, 'q1', 'TestContest'
-  end
-
-end
-
-
-def copy_file(filename, dir)
-  file_path = "spec/test_data/#{filename}"
-  File.open(file_path, 'r') do |from_file|
-    File.open("TestContest/q1/#{dir}/#{filename}", 'wb') { |to_file| to_file.write(from_file.read) }
-  end
-end
-
-def cleanup_dirs_and_files(path)
-  if Dir.exists? path and !path.end_with?('.') and !path.end_with?('..')
-    if File.directory? path
-      Dir.foreach(path) do |entry|
-        file_path = File.join(path, entry)
-        cleanup_dirs_and_files(file_path)
-      end
-      Dir.rmdir(path)
-    else
-      if File.exists? path and !path.end_with?('.') and !path.end_with?('..')
-        File.delete(path)
-      end
-    end
-  end
 end

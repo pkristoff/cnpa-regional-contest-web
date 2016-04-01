@@ -24,7 +24,6 @@ module HomeFileModule
         result = HomeFileModule.get_and_return_file_info(contest_content, root_folder, contest_name, dir)
         config_info = HomeFileModule.get_config_info(root_folder, contest_name)
         result[:hasGeneratedContest] = [result[:directories].size > 2]
-        result[:email] = config_info['email']
         result[:isPictureAgeRequired] = config_info['is_picture_age_required']
         result[:pictureAgeDate] = config_info['picture_age_date']
       else
@@ -171,7 +170,6 @@ module HomeFileModule
               directories: HomeHelper.get_initial_directories,
               directory: HomeHelper::TESTDATA,
               hasGeneratedContest: false,
-              email: 'foo@bar.com',
               isPictureAgeRequired: false,
               pictureAgeDate: Date.today
     }
@@ -181,16 +179,16 @@ module HomeFileModule
     end
 
     Dir.mkdir(contest_dir_path)
-    HomeFileModule.save_config_info(root_folder, contest_name, result[:email], result[:isPictureAgeRequired],
+    HomeFileModule.save_config_info(root_folder, contest_name, result[:isPictureAgeRequired],
                                     result[:pictureAgeDate])
     Dir.mkdir(HomeHelper.get_originals_path(root_folder, contest_name))
     Dir.mkdir(HomeHelper.get_testdata_path(root_folder, contest_name))
     result
   end
 
-  def HomeFileModule.save_config_info(root_folder, contest_name, email, is_age_required, picture_age_date)
+  def HomeFileModule.save_config_info(root_folder, contest_name, is_age_required, picture_age_date)
     contest_config_path = "#{root_folder}/#{contest_name}/config.json"
-    config_info = {email: email, is_picture_age_required: is_age_required, picture_age_date:
+    config_info = {is_picture_age_required: is_age_required, picture_age_date:
         picture_age_date}
     File.open(contest_config_path, 'w') { |f| f.write(config_info.to_json) }
   end
@@ -204,7 +202,7 @@ module HomeFileModule
     if File.exist? contest_config_path
       return JSON.parse(File.read(contest_config_path))
     else
-      HomeFileModule.save_config_info(root_folder, contest_name, 'foo@bar.com', false, Date.today)
+      HomeFileModule.save_config_info(root_folder, contest_name, false, Date.today)
       return HomeFileModule.get_config_info(root_folder, contest_name)
     end
   end
@@ -230,7 +228,7 @@ module HomeFileModule
     HomeFileModule.empty_and_delete dir_path_testdata
 
     file_path_config = HomeFileModule.get_config_file(root_folder, contest_name)
-    File.delete file_path_config
+    File.delete file_path_config if File.exist? file_path_config
 
     dir_path_contest = File.join(root_folder, contest_name)
 
@@ -246,6 +244,14 @@ module HomeFileModule
 
     dir_path_contest = File.join(root_folder, contest_name)
 
+    zip_path_contest = File.join(dir_path_contest, 'contest.zip')
+    File.delete(zip_path_contest) if File.exist? zip_path_contest
+
+    HomeFileModule.empty_and_delete dir_path_name_and_number
+    HomeFileModule.empty_and_delete dir_path_number
+
+    # kept around to remove old generated zip files
+
     zip_path_name_and_number = File.join(dir_path_contest, "#{HomeHelper::NAME_AND_NUMBER}.zip")
     File.delete(zip_path_name_and_number) if File.exist? zip_path_name_and_number
     zip_path_number = File.join(dir_path_contest, "#{HomeHelper::NUMBER}.zip")
@@ -254,9 +260,6 @@ module HomeFileModule
     File.delete(zip_path_originals) if File.exist? zip_path_originals
     zip_path_testdata = File.join(dir_path_contest, "#{HomeHelper::TESTDATA}.zip")
     File.delete(zip_path_testdata) if File.exist? zip_path_testdata
-
-    HomeFileModule.empty_and_delete dir_path_name_and_number
-    HomeFileModule.empty_and_delete dir_path_number
 
   end
 
@@ -305,19 +308,15 @@ module HomeFileModule
 
     end
 
-    contest_dir = File.join(root_folder, contest_name)
+    zip_path = File.join(File.join(root_folder, contest_name), 'contest.zip')
 
-    xxx = "zip #{File.join(contest_dir, "#{HomeHelper::ORIGINALS}.zip")} #{dir_path_originals}/*.jpg"
-    system xxx
+    system "zip #{zip_path} #{dir_path_originals}/*.jpg"
 
-    xxx = "zip #{File.join(contest_dir, "#{HomeHelper::TESTDATA}.zip")} #{dir_path_testdata}/*.jpg"
-    system xxx
+    system "zip #{zip_path} #{dir_path_testdata}/*.jpg"
 
-    xxx = "zip #{File.join(contest_dir, "#{HomeHelper::NAME_AND_NUMBER}.zip")} #{dir_path_name_and_number}/*.jpg"
-    system xxx
+    system "zip #{zip_path} #{dir_path_name_and_number}/*.jpg"
 
-    xxx = "zip #{File.join(contest_dir, "#{HomeHelper::NUMBER}.zip")} #{dir_path_number}/*.jpg"
-    system xxx
+    system "zip #{zip_path} #{dir_path_number}/*.jpg"
 
   end
 

@@ -99,55 +99,6 @@ class HomeController < ApplicationController
 
   end
 
-  def download_contest
-
-    contest_dir = File.join(HomeHelper::ROOT_FOLDER, params[:contestName])
-    originals_dir_name = HomeHelper::ORIGINALS
-    testdata_dir_name = HomeHelper::TESTDATA
-    name_and_number_dir_name = HomeHelper::NAME_AND_NUMBER
-    number_dir_name = HomeHelper::NUMBER
-
-    [[File.join(contest_dir, "#{originals_dir_name}.zip"), originals_dir_name],
-     [File.join(contest_dir, "#{testdata_dir_name}.zip"), testdata_dir_name],
-     [File.join(contest_dir, "#{name_and_number_dir_name}.zip"), name_and_number_dir_name],
-     [File.join(contest_dir, "#{number_dir_name}.zip"), number_dir_name]].each do |entry|
-      zip_file_path = entry[0]
-      dir_path = entry[1]
-      # ContestMailer.contest_email(params[:contestName], params[:emailAddress], dir_path, zip_file_path)
-      send_file zip_file_path, :type=>'application/zip', :x_sendfile=>true, :disposition=>'attachment'
-
-    end
-  end
-
-  def email_contest
-
-    contest_dir = File.join(HomeHelper::ROOT_FOLDER, params[:contestName])
-
-    originals_dir_name = HomeHelper::ORIGINALS
-    testdata_dir_name = HomeHelper::TESTDATA
-    name_and_number_dir_name = HomeHelper::NAME_AND_NUMBER
-    number_dir_name = HomeHelper.NUMBER
-
-    [[File.join(contest_dir, "#{originals_dir_name}.zip"), originals_dir_name],
-     [File.join(contest_dir, "#{testdata_dir_name}.zip"), testdata_dir_name],
-     [File.join(contest_dir, "#{name_and_number_dir_name}.zip"), name_and_number_dir_name],
-     [File.join(contest_dir, "#{number_dir_name}.zip"), number_dir_name]].each do |entry|
-      zip_file_path = entry[0]
-      dir_path = entry[1]
-      ContestMailer.contest_email(params[:contestName], params[:emailAddress], dir_path, zip_file_path)
-
-    end
-
-    handle_return HomeFileModule.get_contest_info(HomeHelper::ROOT_FOLDER, params[:contestName], HomeHelper::TESTDATA)
-  end
-
-  def generate_contest
-
-    HomeFileModule.generate_contest(params[:contestName])
-
-    handle_return HomeFileModule.get_contest_info(HomeHelper::ROOT_FOLDER, params[:contestName], HomeHelper::TESTDATA)
-  end
-
   def delete_contest
 
     HomeFileModule.delete_generated_contest(params[:contestName])
@@ -156,14 +107,6 @@ class HomeController < ApplicationController
     get_contests
 
     # handle_return HomeFileModule.get_contest_info(HomeHelper::ROOT_FOLDER, params[:contestName], HomeHelper::TESTDATA)
-  end
-
-  def regenerate_contest
-
-    HomeFileModule.delete_generated_contest(params[:contestName])
-    HomeFileModule.generate_contest(params[:contestName])
-
-    handle_return HomeFileModule.get_contest_info(HomeHelper::ROOT_FOLDER, params[:contestName], HomeHelper::TESTDATA)
   end
 
   def get_contests
@@ -187,11 +130,10 @@ class HomeController < ApplicationController
   def save_config_info
     root_folder = HomeHelper::ROOT_FOLDER
     contest_name = params[:contestName]
-    email = params[:email]
     is_picture_age_required = params[:isPictureAgeRequired]
     picture_age_date = params[:pictureAgeDate]
 
-    HomeFileModule.save_config_info(root_folder, contest_name, email, is_picture_age_required, picture_age_date)
+    HomeFileModule.save_config_info(root_folder, contest_name, is_picture_age_required, picture_age_date)
 
     handle_return HomeFileModule.get_contest_info(HomeHelper::ROOT_FOLDER, params[:contestName], HomeHelper::TESTDATA)
   end

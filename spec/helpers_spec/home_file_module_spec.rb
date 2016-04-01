@@ -170,7 +170,7 @@ describe HomeFileModule do
       {filenames: [
           TEST_FILE_INFO_TESTDATA],
        directories: %w(Originals Testdata),
-       directory: 'Testdata', hasGeneratedContest: [false], email: 'foo@bar.com', isPictureAgeRequired: false, pictureAgeDate: "#{Date.today}"
+       directory: 'Testdata', hasGeneratedContest: [false], isPictureAgeRequired: false, pictureAgeDate: "#{Date.today}"
       })
 
     end
@@ -188,7 +188,6 @@ describe HomeFileModule do
           directories: %w(Originals Testdata),
           directory: 'Testdata',
           hasGeneratedContest: false,
-          email: 'foo@bar.com',
           isPictureAgeRequired: false,
           pictureAgeDate: Date.today
       }
@@ -211,7 +210,6 @@ describe HomeFileModule do
           directories: %w(Originals Testdata),
           directory: 'Testdata',
           hasGeneratedContest: false,
-          email: 'foo@bar.com',
           isPictureAgeRequired: false,
           pictureAgeDate: Date.today}
 
@@ -231,7 +229,6 @@ describe HomeFileModule do
           directories: %w(Originals Testdata),
           directory: 'Testdata',
           hasGeneratedContest: false,
-          email: 'foo@bar.com',
           isPictureAgeRequired: false,
           pictureAgeDate: Date.today
       }
@@ -252,7 +249,6 @@ describe HomeFileModule do
            directories: %w(Originals Testdata),
            directory: 'Testdata',
            hasGeneratedContest: false,
-           email: 'foo@bar.com',
            isPictureAgeRequired: false,
            pictureAgeDate: Date.today
           }
@@ -378,56 +374,4 @@ def get_copyright(filepath)
   HomeFileModule.execute_exiftool('-iptc:CopyrightNotice', filepath, exiftool_filepath)
   lines = IO.readlines(exiftool_filepath)
   lines[0].split(':')[1].strip.chomp
-end
-
-def setup_contest(should_copy_file=true)
-
-  stub_const('HomeHelper::ROOT_FOLDER', 'TestContest')
-
-  Dir.mkdir('TestContest')
-  Dir.mkdir('TestContest/q1')
-  Dir.mkdir('TestContest/q1/Testdata')
-  Dir.mkdir('TestContest/q1/Originals')
-  copy_file(TEST_FILENAME_1, 'Testdata') if should_copy_file
-  copy_file(TEST_FILENAME_1, 'Originals') if should_copy_file
-
-  create_and_save_files_info should_copy_file
-
-end
-
-def create_and_save_files_info(should_copy_file=true)
-
-  files_info = []
-
-  if should_copy_file
-    files_info = [{
-                      filename: TEST_FILENAME_1,
-                      original_filename: TEST_FILENAME_1,
-                      imageWidth: 1024,
-                      imageHeight: 683,
-                      copyrightNotice: 'Paul Kristoff',
-                      title: 'Grassland',
-                      dateCreated: '2012-01-15',
-                      fileSize: 249
-                  }]
-  end
-
-  def assert_generated_contest(contest_name, is_generated)
-    root_folder = HomeHelper::ROOT_FOLDER
-    dir_path_name_and_number = HomeHelper.get_path(root_folder, contest_name, HomeHelper::NAME_AND_NUMBER)
-    dir_path_number = HomeHelper.get_path(root_folder, contest_name, HomeHelper::NUMBER)
-
-    dir_path_contest = File.join(root_folder, contest_name)
-
-    File.exist?(dir_path_name_and_number).should == is_generated
-    File.exist?(dir_path_number).should == is_generated
-
-    contest_dir = File.join(root_folder, contest_name)
-    File.exist?(File.join(contest_dir, "#{HomeHelper::ORIGINALS}.zip")).should == is_generated
-    File.exist?(File.join(contest_dir, "#{HomeHelper::TESTDATA}.zip")).should == is_generated
-    File.exist?(File.join(contest_dir, "#{HomeHelper::NAME_AND_NUMBER}.zip")).should == is_generated
-    File.exist?(File.join(contest_dir, "#{HomeHelper::NUMBER}.zip")).should == is_generated
-  end
-
-  HomeFileModule.save_files_info files_info, 'q1', 'TestContest'
 end

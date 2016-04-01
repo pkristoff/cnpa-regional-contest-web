@@ -55,72 +55,6 @@ angular.module( 'cnpaContestApp' )
                 }
             }
 
-            function generateContest() {
-                showBusy();
-                var params = {
-                    rootFolder:         vm.contest.rootFolder,
-                    contestName:        vm.contest.name,
-                    authenticity_token: $( '#mmm' )[ 0 ].value
-                };
-
-                $http.post( '/generateContest', params, { "Content-Type": "application/json" } ).then(
-                    contestResult,
-                    errorCallback( $scope )
-                )
-
-            }
-
-            function regenerateContest() {
-                showBusy();
-                var params = {
-                    rootFolder:         vm.contest.rootFolder,
-                    contestName:        vm.contest.name,
-                    authenticity_token: $( '#mmm' )[ 0 ].value
-                };
-
-                $http.post( '/regenerateContest', params, { "Content-Type": "application/json" } ).then(
-                    contestResult,
-                    errorCallback( $scope )
-                )
-
-            }
-
-            function emailContest() {
-                showBusy();
-                var params = {
-                    rootFolder:         vm.contest.rootFolder,
-                    contestName:        vm.contest.name,
-                    emailAddress:       vm.contest.email,
-                    authenticity_token: $( '#mmm' )[ 0 ].value
-                };
-
-                $http.post( '/email_contest', params, { "Content-Type": "application/json" } ).then(
-                    contestResult,
-                    errorCallback( $scope )
-                )
-
-            }
-
-            function downloadContest() {
-
-                download_download_contest_path
-
-                //showBusy();
-                //var params = {
-                //    rootFolder:         vm.contest.rootFolder,
-                //    contestName:        vm.contest.name,
-                //    authenticity_token: $( '#mmm' )[ 0 ].value
-                //};
-
-
-
-                //$http.post( '/download_contest', params, { "Content-Type": "application/json" } ).then(
-                //    contestResult,
-                //    errorCallback( $scope )
-                //)
-
-            }
-
             function hideBusy() {
                 $scope.isLoading = false;
             }
@@ -215,7 +149,6 @@ angular.module( 'cnpaContestApp' )
                 var params = {
                     rootFolder:           vm.contest.rootFolder,
                     contestName:          vm.contest.name,
-                    email:                vm.contest.email,
                     pictureAgeDate:       vm.contest.pictureAgeDate,
                     isPictureAgeRequired: vm.contest.isPictureAgeRequired,
                     directory:            vm.contest.directory,
@@ -263,12 +196,8 @@ angular.module( 'cnpaContestApp' )
                 startingDay: 0
             };
             vm.deleteFile = deleteFile;
-            vm.emailContest = emailContest;
-            vm.downloadContest = downloadContest;
-            vm.generateContest = generateContest;
             vm.isPictureAgeRequiredClicked = isPictureAgeRequiredClicked;
             vm.openDate = openDate;
-            vm.regenerateContest = regenerateContest;
             vm.rename_file = rename_file;
             vm.setCopyright = setCopyright;
             vm.saveConfigInfo = saveConfigInfo;

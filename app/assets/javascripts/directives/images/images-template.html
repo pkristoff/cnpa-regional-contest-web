@@ -1,33 +1,7 @@
 <div class = "panel-body" >
-    <button type = "button"
-            class = "btn btn-default navbar-btn"
-            ng-click = "vm.regenerateContest()"
-            ng-show = "vm.contest.showRegenerateContest" >Regenerate Contest
-    </button >
-    <button type = "button"
-            class = "btn btn-default navbar-btn"
-            ng-click = "vm.generateContest()"
-            ng-show = "vm.contest.showGenerateContest" >Generate Contest
-    </button >
-    <button type = "button"
-            class = "btn btn-default navbar-btn"
-            ng-click = "vm.emailContest()"
-            ng-show = "vm.contest.showEmailContest" >Email Contest
-    </button >
-    <%= link_to 'Download Contest', download_download_contest_path %>
-    <button type = "button"
-            class = "btn btn-default navbar-btn"
-            ng-click = "vm.downloadContest()"
-            ng-show = "vm.contest.showDownloadContest" >Download Contest
-    </button >
-    <div class="cnpa-email">
-        <label for = "emailAddressId" >Email Address</label >
-        <input type = "email" id = "emailAddressId" name = "emailAddress" ng-model = "vm.contest.email"
-               ng-blur = "vm.saveConfigInfo()" />
-        <p class = "cnpa-help" >
-            The email address will be where the contest files will be mailed.
-        </p >
-    </div >
+    <div ng-show = "vm.contest.showDownloadContest">
+        <%= link_to 'Download Contest', URI::decode_www_form_component(download_download_contest_path(:contestName => '{{vm.contest.name}}')) %>
+    </div>
 
     <div class = "cnpa-date" >
         <button type = "button" class = "btn btn-primary" ng-model = "vm.contest.isPictureAgeRequired" btn-checkbox
@@ -132,26 +106,9 @@
             </table >
         </div >
     </div >
-    <button type = "button"
-            class = "btn btn-default navbar-btn"
-            ng-click = "vm.regenerateContest()"
-            ng-show = "vm.contest.showRegenerateContest" >Regenerate Contest
-    </button >
-    <button type = "button"
-            class = "btn btn-default navbar-btn"
-            ng-click = "vm.generateContest()"
-            ng-show = "vm.contest.showGenerateContest" >Generate Contest
-    </button >
-    <button type = "button"
-            class = "btn btn-default navbar-btn"
-            ng-click = "vm.emailContest()"
-            ng-show = "vm.contest.showEmailContest" >Email Contest
-    </button >
-    <button type = "button"
-            class = "btn btn-default navbar-btn"
-            ng-click = "vm.downloadContest()"
-            ng-show = "vm.contest.showDownloadContest" >Download Contest
-    </button >
+    <div ng-show = "vm.contest.showDownloadContest">
+        <%= link_to 'Download Contest', URI::decode_www_form_component(download_download_contest_path(:contestName => '{{vm.contest.name}}')) %>
+    </div>
 
 
     <div id="veil" ng-show="isLoading" style="position: absolute;top:0;left: 0;height: 50%;width: 50%;cursor: not-allowed;filter:alpha(opacity=60);opacity: 0.6;"></div>
