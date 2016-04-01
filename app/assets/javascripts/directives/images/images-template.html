@@ -1,6 +1,6 @@
 <div class = "panel-body" >
     <div ng-show = "vm.contest.showDownloadContest">
-        <%= link_to 'Download Contest', URI::decode_www_form_component(download_download_contest_path(:contestName => '{{vm.contest.name}}')) %>
+        <%= link_to 'Download Contest', URI::decode_www_form_component(download_download_contest_path(:contestName => '{{vm.contest.name}}')), :class => 'btn btn-default navbar-btn' %>
     </div>
 
     <div class = "cnpa-date" >
@@ -107,7 +107,7 @@
         </div >
     </div >
     <div ng-show = "vm.contest.showDownloadContest">
-        <%= link_to 'Download Contest', URI::decode_www_form_component(download_download_contest_path(:contestName => '{{vm.contest.name}}')) %>
+        <%= link_to 'Download Contest', URI::decode_www_form_component(download_download_contest_path(:contestName => '{{vm.contest.name}}')), :class => 'btn btn-default navbar-btn' %>
     </div>
 
 
