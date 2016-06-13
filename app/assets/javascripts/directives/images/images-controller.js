@@ -15,7 +15,7 @@ angular.module( 'cnpaContestApp' )
                 showBusy();
                 $http.get( '/directory?rootFolder=' + vm.contest.rootFolder + '&name=' + vm.contest.name
                            + '&directory=' + vm.contest.directory, {
-                    "Content-Type": 'application/json'
+                    'Content-Type': 'application/json'
                 } ).then( contestResult, errorCallback( $scope ) );
             }
 
@@ -23,7 +23,7 @@ angular.module( 'cnpaContestApp' )
             function contestResult( response ) {
                 if ( response.status === 200 ) {
                     fileImageService.updateContest( response, vm );
-                    $location.path( "/contestFiles" );
+                    $location.path( '/contestFiles' );
                 }
                 else {
                     errorCallback( $scope )( response );
@@ -41,18 +41,18 @@ angular.module( 'cnpaContestApp' )
                     authenticity_token: $( '#mmm' )[ 0 ].value
                 };
 
-                $http.post( '/deleteFile', params, { "Content-Type": "application/json" } ).then(
+                $http.post( '/deleteFile', params, { 'Content-Type': 'application/json' } ).then(
                     contestResult,
                     errorCallback( $scope )
-                )
+                );
             }
 
             function errorCallback( scope ) {
                 return function ( response ) {
-                    console.log( "error " + response.status + ": " + response.data );
+                    console.log( 'error ' + response.status + ': ' + response.data );
                     scope.errorMessages = [ response.data ];
                     hideBusy();
-                }
+                };
             }
 
             function hideBusy() {
@@ -90,15 +90,15 @@ angular.module( 'cnpaContestApp' )
                         rootFolder:         vm.contest.rootFolder,
                         contestName:        vm.contest.name,
                         old_filename:       old_filename.filename.value,
-                        new_filename:       newFileName.contestantName + "-" + newFileName.imageTitle + ".jpg",
+                        new_filename:       newFileName.contestantName + '-' + newFileName.imageTitle + '.jpg',
                         directory:          vm.contest.directory,
                         authenticity_token: $( '#mmm' )[ 0 ].value
                     };
 
-                    $http.post( '/rename_file', params, { "Content-Type": "application/json" } ).then(
+                    $http.post( '/rename_file', params, { 'Content-Type': 'application/json' } ).then(
                         contestResult,
                         errorCallback( $scope )
-                    )
+                    );
                 }, function () {
                     console.log( 'Modal dismissed at: ' + new Date() );
                 } );
@@ -112,7 +112,7 @@ angular.module( 'cnpaContestApp' )
                         fileInfo.copyrightNotice.value = response.data;
                         fileInfo.copyrightNotice.title = response.data;
                         fileInfo.copyrightNotice.valid = true;
-                        $location.path( "/contestFiles" );
+                        $location.path( '/contestFiles' );
                     }
                     else {
                         errorCallback( $scope )( response );
@@ -125,7 +125,7 @@ angular.module( 'cnpaContestApp' )
 
                 var dateSplit       = fileInfo.dateCreated.value ? fileInfo.dateCreated.value.split( ':' ) : [],
                     year            = dateSplit && dateSplit.length > 0 ? dateSplit[ 0 ].split( '-' )[ 0 ] : '2015',
-                    copyrightNotice = "©" + " " + year + " " + fileInfo.contestantName.value;
+                    copyrightNotice = '©' + ' ' + year + ' ' + fileInfo.contestantName.value;
 
                 var params = {
                     rootFolder:         vm.contest.rootFolder,
@@ -135,10 +135,10 @@ angular.module( 'cnpaContestApp' )
                     authenticity_token: $( '#mmm' )[ 0 ].value
                 };
 
-                $http.post( '/setCopyright', params, { "Content-Type": "application/json" } ).then(
+                $http.post( '/setCopyright', params, { 'Content-Type': 'application/json' } ).then(
                     setCopyrightResult,
                     errorCallback( $scope )
-                )
+                );
             }
 
             function showBusy() {
@@ -156,10 +156,10 @@ angular.module( 'cnpaContestApp' )
                 };
 
 
-                $http.post( '/saveConfigInfo', params, { "Content-Type": "application/json" } ).then(
+                $http.post( '/saveConfigInfo', params, { 'Content-Type': 'application/json' } ).then(
                     contestResult,
                     errorCallback( $scope )
-                )
+                );
             }
 
             function isPictureAgeRequiredClicked() {
@@ -170,7 +170,7 @@ angular.module( 'cnpaContestApp' )
             function uploadFile( files ) {
                 showBusy();
                 var fd = new FormData();
-                fd.append( "authenticity_token", $( '#mmm' )[ 0 ].value );
+                fd.append( 'authenticity_token', $( '#mmm' )[ 0 ].value );
                 for ( var i = 0, len = files.length; i < len; i++ ) {
                     fd.append( 'file' + i, files.item( i ) );
                 }
@@ -197,10 +197,10 @@ angular.module( 'cnpaContestApp' )
                     authenticity_token: $( '#mmm' )[ 0 ].value
                 };
 
-                $http.post( '/generateContest', params, { "Content-Type": "application/json" } ).then(
+                $http.post( '/generateContest', params, { 'Content-Type': 'application/json' } ).then(
                     contestResult,
                     errorCallback( $scope )
-                )
+                );
 
             }
 
@@ -212,10 +212,10 @@ angular.module( 'cnpaContestApp' )
                     authenticity_token: $( '#mmm' )[ 0 ].value
                 };
 
-                $http.post( '/regenerateContest', params, { "Content-Type": "application/json" } ).then(
+                $http.post( '/regenerateContest', params, { 'Content-Type': 'application/json' } ).then(
                     contestResult,
                     errorCallback( $scope )
-                )
+                );
 
             }
 

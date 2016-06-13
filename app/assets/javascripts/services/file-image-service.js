@@ -17,8 +17,8 @@ angular.module( 'cnpaContestApp' )
 
         function isCopyrightValid( copyrightNotice ) {
             return !!copyrightNotice &&
-                (copyrightNotice.indexOf( "©" ) >= 0 ||
-                copyrightNotice.indexOf( "Copyright" ) >= 0);
+                (copyrightNotice.indexOf( '©' ) >= 0 ||
+                copyrightNotice.indexOf( 'Copyright' ) >= 0);
         }
 
         function isDimensionValid( dim ) {
@@ -26,7 +26,7 @@ angular.module( 'cnpaContestApp' )
         }
 
         function isFilenameValid( filename ) {
-            var filenameSplit = filename.split( "-" );
+            var filenameSplit = filename.split( '-' );
             return filenameSplit.length == 2 && filenameSplit[ 0 ].length > 0 && filenameSplit[ 1 ].length > 0;
         }
 
@@ -72,7 +72,7 @@ angular.module( 'cnpaContestApp' )
             rawFiles.forEach( function( fileEntry ) {
                 var fn = fileEntry.filename;
                 var rootFilename = fn.split('.');
-                var fnSplit = rootFilename[0].split( "-" );
+                var fnSplit = rootFilename[0].split( '-' );
                 var date2 = fileEntry.dateCreated ? Date.parse( fileEntry.dateCreated ) : '';
                 var newEntry = {
                     filename:        {
@@ -81,13 +81,13 @@ angular.module( 'cnpaContestApp' )
                         valid: true
                     },
                     contestantName:  {
-                        value: fnSplit.length > 0 ? fnSplit[ 0 ].trim() : "",
-                        title: fnSplit.length > 0 ? fnSplit[ 0 ].trim() : "",
+                        value: fnSplit.length > 0 ? fnSplit[ 0 ].trim() : '',
+                        title: fnSplit.length > 0 ? fnSplit[ 0 ].trim() : '',
                         valid: isFilenameValid( fn )
                     },
                     title:           {
-                        value: fnSplit.length > 1 ? fnSplit[ 1 ].trim() : "",
-                        title: fnSplit.length > 1 ? fnSplit[ 1 ].trim() : "",
+                        value: fnSplit.length > 1 ? fnSplit[ 1 ].trim() : '',
+                        title: fnSplit.length > 1 ? fnSplit[ 1 ].trim() : '',
                         valid: isFilenameValid( fn )
                     },
                     fileSize:        {
@@ -132,5 +132,5 @@ angular.module( 'cnpaContestApp' )
             _isDimensionValid: isDimensionValid,
             _isCopyrightValid: isCopyrightValid,
             _isFileAgeValid:   isFileAgeValid
-        }
+        };
     } ] );

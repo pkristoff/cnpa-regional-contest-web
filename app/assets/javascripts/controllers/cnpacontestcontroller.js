@@ -10,8 +10,6 @@
 angular.module('cnpaContestApp')
     .controller('CnpaContestController', ['$scope', '$http', '$location', 'fileImageService', '$modal',
         function($scope, $http, $location, fileImageService, $modal) {
-            var modal;
-            //hideBusy();
             if($scope.contest == undefined) {
                 $scope.contest = {
                     rootFolder: 'Contests',
@@ -26,12 +24,12 @@ angular.module('cnpaContestApp')
 
             function errorCallback($scope) {
                 return function(response) {
-                    var message = "error " + response.status + ": " + response.data.message;
+                    var message = 'error ' + response.status + ': ' + response.data.message;
                     console.log(message);
                     alert(message);
                     $scope.errorMessages = message;
                     hideBusy();
-                }
+                };
             }
 
             function showBusy() {
@@ -57,7 +55,7 @@ angular.module('cnpaContestApp')
                     } else {
                         $scope.radioModel = 'new-contest';
                     }
-                    $location.path("/chooseContest");
+                    $location.path('/chooseContest');
                     hideBusy();
                     return (response.data);
                 } else {
@@ -77,8 +75,8 @@ angular.module('cnpaContestApp')
                 $scope.contest.authenticity_token = getAuthenticationToken();
 
                 $http.post('/getContests', $scope.contest, {
-                    "authenticity_token": getAuthenticationToken(),
-                    "Content-Type": "application/json"
+                    'authenticity_token': getAuthenticationToken(),
+                    'Content-Type': 'application/json'
                 }).then(
                     getContestsResult,
                     errorCallback($scope)
@@ -89,7 +87,7 @@ angular.module('cnpaContestApp')
                 if(response.status === 200) {
                     fileImageService.updateContest(response, $scope);
 
-                    $location.path("/contestFiles");
+                    $location.path('/contestFiles');
                 } else {
                     errorCallback($scope)(response);
                 }
@@ -103,10 +101,10 @@ angular.module('cnpaContestApp')
                     showBusy();
                     //$scope.contest.authenticity_token = getAuthenticationToken();
 
-                    $http.post('/createContest', $scope.contest, {"Content-Type": "application/json"}).then(
+                    $http.post('/createContest', $scope.contest, {'Content-Type': 'application/json'}).then(
                         contestResult,
                         errorCallback($scope)
-                    )
+                    );
                 }
             }
 
@@ -115,23 +113,23 @@ angular.module('cnpaContestApp')
                 showBusy();
                 $scope.contest.authenticity_token = getAuthenticationToken();
                 $http.post('/deleteContest?contestName=' + $scope.contest.name, {
-                    "authenticity_token": getAuthenticationToken(),
-                    "Content-Type": "application/json"
+                    'authenticity_token': getAuthenticationToken(),
+                    'Content-Type': 'application/json'
                 }).then(
                     getContestsResult,
                     errorCallback($scope)
-                )
+                );
             }
 
             function selectContest() {
 
                 showBusy();
-                $http.get('/contest?rootFolder=' + $scope.contest.rootFolder + "&name=" + $scope.contest.name, {
-                    "Content-Type": "application/json"
+                $http.get('/contest?rootFolder=' + $scope.contest.rootFolder + '&name=' + $scope.contest.name, {
+                    'Content-Type': 'application/json'
                 }).then(
                     contestResult,
                     errorCallback($scope)
-                )
+                );
             }
 
 
