@@ -1,4 +1,3 @@
-
 namespace :lint	do
   task :run, :arg1 do | t, args |
     js_dir = "#{args[:arg1] ? args[:arg1][0] : Rails.root}/app/assets/javascripts"
@@ -17,6 +16,7 @@ namespace :lint	do
     fl.each do |file|
       # puts("Executing: #{file}")
       ans =  `rake eslint:run[#{file}]`
+      puts ans if exit_value==1
       exit_value = (exit_value==1 or !ans.include?('All good! :)')) ? 1 : 0
       result += "#{file}: #{ans}"
       # result << [file, ans]

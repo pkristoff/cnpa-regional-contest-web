@@ -1,5 +1,10 @@
 {
-  "extends": "eslint:recommended",
+  "extends": [
+    "eslint:recommended"
+  ],
+  "plugins": [
+      "pattern"
+  ],
   "env": {
     "browser": true,
     "node": true
@@ -9,15 +14,17 @@
     "$": true
   },
   "rules": {
+    "pattern/return-object-only" : 2,
     "comma-dangle": [
       "error",
       "never"
     ],
     "no-console": "off",
     "no-unused-vars": ["error", { "vars": "all", "args": "none" }],
+    "quote-props": ["error", "as-needed"],
     "quotes": [
-      "error",
-      "single"
+      2,
+      "single", {"avoidEscape": true, "allowTemplateLiterals": true}
     ],
     "semi": [
       "error",
