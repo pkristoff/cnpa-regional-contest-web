@@ -4,6 +4,11 @@
 
 angular.module('cnpaContestApp')
     .directive('imagesDirective', ['$http', 'fileImageService', '$location', function($http, fileImageService, $location) {
+
+        function _link(scope) {
+            scope.vm.contest = scope.contest;
+        }
+        
         return {
             controller: 'imagesController',
             controllerAs: 'vm',
@@ -12,8 +17,6 @@ angular.module('cnpaContestApp')
                 contest: '='
             },
             templateUrl: '/assets/javascripts/directives/images/images-template.html',
-            link: function(scope) {
-                scope.vm.contest = scope.contest;
-            }
+            link: _link
         };
     }]);

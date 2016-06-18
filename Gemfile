@@ -57,4 +57,4 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'angular-ui-bootstrap-rails'
-gem 'eslint-rails'
+gem 'execjs'

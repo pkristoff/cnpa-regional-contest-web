@@ -5,8 +5,14 @@
   "description": "A tutorial application for AngularJS",
   "repository": "https://github.com/pkristoff/cnpa-regional-contest-web.git",
   "devDependencies": {
-    "eslint": "^2.12.0",
-    "requireindex": "^1.1.0"
+    "gulp": "^3.9.1",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.22",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-jasmine": "^1.0.2",
+    "karma-requirejs": "^1.0.0",
+    "requireindex": "^1.1.0",
+    "requirejs": "^2.2.0"
   },
   "dependencies": {
     "bower": "^1.7.9"

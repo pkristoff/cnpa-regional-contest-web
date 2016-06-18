@@ -1,5 +1,26 @@
 
 
+TEST_FILENAME_1 = 'Paul - New Medow.jpg'
+
+TEST_FILE_INFO_TESTDATA = {
+    filename: TEST_FILENAME_1,
+    original_filename: TEST_FILENAME_1,
+    imageWidth: 1024,
+    imageHeight: 683,
+    copyrightNotice: 'Paul Kristoff',
+    title: 'Grassland',
+    dateCreated: '2012-01-15',
+    fileSize: 249
+}
+TEST_FILE_INFO_ORIGINALS = {
+    filename: TEST_FILENAME_1,
+    imageWidth: '1024',
+    imageHeight: '683',
+    copyrightNotice: 'Paul Kristoff',
+    title: 'Grassland',
+    dateCreated: Date.new(2012, 1, 15),
+    fileSize: '249'
+}
 
 def setup_contest(should_copy_file=true)
 
@@ -52,10 +73,10 @@ def cleanup_dirs_and_files(path)
         cleanup_dirs_and_files(file_path)
       end
       Dir.rmdir(path)
-    else
-      if File.exists? path and !path.end_with?('.') and !path.end_with?('..')
-        File.delete(path)
-      end
+    end
+  else
+    if File.exists? path and !path.end_with?('.') and !path.end_with?('..')
+      File.delete(path)
     end
   end
 end

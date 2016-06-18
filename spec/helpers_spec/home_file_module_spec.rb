@@ -1,27 +1,5 @@
 require 'rspec'
 
-TEST_FILENAME_1 = 'Paul - New Medow.jpg'
-
-TEST_FILE_INFO_TESTDATA = {
-    filename: TEST_FILENAME_1,
-    original_filename: TEST_FILENAME_1,
-    imageWidth: 1024,
-    imageHeight: 683,
-    copyrightNotice: 'Paul Kristoff',
-    title: 'Grassland',
-    dateCreated: '2012-01-15',
-    fileSize: 249
-}
-TEST_FILE_INFO_ORIGINALS = {
-    filename: TEST_FILENAME_1,
-    imageWidth: '1024',
-    imageHeight: '683',
-    copyrightNotice: 'Paul Kristoff',
-    title: 'Grassland',
-    dateCreated: Date.new(2012, 1, 15),
-    fileSize: '249'
-}
-
 describe HomeFileModule do
 
 

@@ -21,6 +21,9 @@ node_modules/karma/**/*
 node_modules/time-grunt/**/*
 node_modules/jshint-stylish/**/*
 node_modules/karma-phantomjs-launcher/**/*
+node_modules/**/*
+
+bower_components/**/*
 
 
 Contests/**/*
@@ -29,3 +32,5 @@ Contests/**/*
 *.log
 
 public/assets/**
+bower_components
+node_modules

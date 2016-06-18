@@ -57,7 +57,9 @@ angular.module('cnpaContestApp')
                     }
                     $location.path('/chooseContest');
                     hideBusy();
+                    /* eslint-disable pattern/return-object-only */
                     return (response.data);
+                    /* eslint-enable pattern/return-object-only */
                 } else {
                     errorCallback($scope)(response);
                 }
@@ -65,7 +67,9 @@ angular.module('cnpaContestApp')
             }
 
             function getAuthenticationToken() {
+                /* eslint-disable pattern/return-object-only */
                 return $('#mmm')[0].value;
+                /* eslint-enable pattern/return-object-only */
             }
 
             function getContests() {
@@ -75,7 +79,7 @@ angular.module('cnpaContestApp')
                 $scope.contest.authenticity_token = getAuthenticationToken();
 
                 $http.post('/getContests', $scope.contest, {
-                    'authenticity_token': getAuthenticationToken(),
+                    authenticity_token: getAuthenticationToken(),
                     'Content-Type': 'application/json'
                 }).then(
                     getContestsResult,
@@ -113,7 +117,7 @@ angular.module('cnpaContestApp')
                 showBusy();
                 $scope.contest.authenticity_token = getAuthenticationToken();
                 $http.post('/deleteContest?contestName=' + $scope.contest.name, {
-                    'authenticity_token': getAuthenticationToken(),
+                    authenticity_token: getAuthenticationToken(),
                     'Content-Type': 'application/json'
                 }).then(
                     getContestsResult,

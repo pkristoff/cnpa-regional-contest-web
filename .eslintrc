@@ -1,0 +1,47 @@
+{
+  "extends": [
+    "eslint:recommended"
+  ],
+  "plugins": [
+      "pattern"
+  ],
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "globals": {
+    "$": true,
+    // angular
+    "angular": true,
+    // angular test
+    "describe": true,
+    "xdescribe": true,
+    "fdescribe": true,
+    "beforeEach": true,
+    "afterEach": true,
+    "it": true,
+    "xit": true,
+    "fit": true,
+    "inject": true,
+    // other test
+    "expect": true
+  },
+  "rules": {
+    "pattern/return-object-only" : 2,
+    "comma-dangle": [
+      "error",
+      "never"
+    ],
+    "no-console": "off",
+    "no-unused-vars": ["error", { "vars": "all", "args": "none" }],
+    "quote-props": ["error", "as-needed"],
+    "quotes": [
+      2,
+      "single", {"avoidEscape": true, "allowTemplateLiterals": true}
+    ],
+    "semi": [
+      "error",
+      "always"
+    ]
+  }
+}

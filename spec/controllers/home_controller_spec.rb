@@ -12,16 +12,16 @@ describe HomeController, :type => :controller do
     it 'returns an error if contest dir does not exist' do
       stub_const('HomeHelper::ROOT_FOLDER', 'TestContest')
       get :contest, :name => 'q1'
-      response.body.should == '{"message":"could not find path: TestContest/q1/Testdata"}'
-      response.status.should == 500
+      expect(response.body).to eq('{"message":"could not find path: TestContest/q1/Testdata"}')
+      expect(response.status).to eq(500)
     end
     it 'returns an error if contest dir does not exist' do
       Dir.mkdir('TestContest')
       Dir.mkdir('TestContest/q1')
       stub_const('HomeHelper::ROOT_FOLDER', 'TestContest')
       get :contest, :name => 'q1'
-      response.body.should == '{"message":"could not find path: TestContest/q1/Testdata"}'
-      response.status.should == 500
+      expect(response.body).to eq('{"message":"could not find path: TestContest/q1/Testdata"}')
+      expect(response.status).to eq(500)
     end
     it 'returns empty filename info' do
 
@@ -29,15 +29,15 @@ describe HomeController, :type => :controller do
 
       get :contest, :name => 'q1'
 
-      response.status.should == 200
-      response.body.should == {
+      expect(response.status).to eq(200)
+      expect(response.body).to eq({
           :filenames => [],
           directories: %w(Originals Testdata),
           directory: 'Testdata',
           hasGeneratedContest: [false],
           isPictureAgeRequired: false,
           pictureAgeDate: "#{Date.today}"
-      }.to_json
+      }.to_json)
     end
   end
 
@@ -45,15 +45,15 @@ describe HomeController, :type => :controller do
     it 'returns an error if contest dir does not exist' do
       stub_const('HomeHelper::ROOT_FOLDER', 'TestContest')
       get :create_contest, :name => 'q1'
-      response.status.should == 200
-      response.body.should == {
+      expect(response.status).to eq(200)
+      expect(response.body).to eq({
           :filenames => [],
           directories: %w(Originals Testdata),
           directory: 'Testdata',
           hasGeneratedContest: false,
           isPictureAgeRequired: false,
           pictureAgeDate: "#{Date.today}"
-      }.to_json
+      }.to_json)
     end
   end
 
@@ -64,13 +64,13 @@ describe HomeController, :type => :controller do
 
       get :delete_file, :contestName => 'q1', :filename => TEST_FILENAME_1, :directory => 'Testdata'
 
-      response.body.should == {
+      expect(response.body).to eq({
           :filenames => [],
           directories: %w(Originals Testdata),
           directory: 'Testdata'
-      }.to_json
-      response.status.should == 200
-      HomeFileModule.get_file_info('q1', TEST_FILENAME_1, 'TestContest').nil?.should == true
+      }.to_json)
+      expect(response.status).to eq(200)
+      expect(HomeFileModule.get_file_info('q1', TEST_FILENAME_1, 'TestContest').nil?).to eq(true)
     end
 
     it 'deletes a renamed file & returns  empty file info + creates: TestContest/q1/Testdata & TestContest/q1/Originals' do
@@ -82,13 +82,13 @@ describe HomeController, :type => :controller do
 
       get :delete_file, :contestName => 'q1', :filename => new_file_name, :directory => 'Testdata'
 
-      response.body.should == {
+      expect(response.body).to eq({
           :filenames => [],
           directories: %w(Originals Testdata),
           directory: 'Testdata'
-      }.to_json
-      response.status.should == 200
-      HomeFileModule.get_file_info('q1', TEST_FILENAME_1, 'TestContest').nil?.should == true
+      }.to_json)
+      expect(response.status).to eq(200)
+      expect(HomeFileModule.get_file_info('q1', TEST_FILENAME_1, 'TestContest').nil?).to eq(true)
     end
   end
 
@@ -99,27 +99,27 @@ describe HomeController, :type => :controller do
 
       get :directory, :name => 'q1', :directory => 'Testdata'
 
-      response.status.should == 200
-      response.body.should == {
+      expect(response.status).to eq(200)
+      expect(response.body).to eq({
           :filenames => [TEST_FILE_INFO_TESTDATA],
           directories: %w(Originals Testdata),
           directory: 'Testdata',
           hasGeneratedContest: [false],
           isPictureAgeRequired: false,
           pictureAgeDate: "#{Date.today}"
-      }.to_json
+      }.to_json)
 
       get :directory, :name => 'q1', :directory => 'Originals'
 
-      response.status.should == 200
-      response.body.should == {
+      expect(response.status).to eq(200)
+      expect(response.body).to eq({
           :filenames => [TEST_FILE_INFO_ORIGINALS],
           directories: %w(Originals Testdata),
           directory: 'Originals',
           hasGeneratedContest: [false],
           isPictureAgeRequired: false,
           pictureAgeDate: "#{Date.today}"
-      }.to_json
+      }.to_json)
     end
   end
 
@@ -130,8 +130,8 @@ describe HomeController, :type => :controller do
 
       get :get_contests
 
-      response.status.should == 200
-      response.body.should == ['q1'].to_json
+      expect(response.status).to eq(200)
+      expect(response.body).to eq(['q1'].to_json)
     end
   end
 
@@ -142,8 +142,8 @@ describe HomeController, :type => :controller do
 
       get :set_copyright, :contestName => 'q1', :filename => TEST_FILENAME_1, :copyright => 'xxx'
 
-      response.status.should == 200
-      response.body.should == 'xxx'
+      expect(response.status).to eq(200)
+      expect(response.body).to eq('xxx')
     end
   end
 
