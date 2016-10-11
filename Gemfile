@@ -41,7 +41,7 @@ gem 'foreman'
 
 group :test, :development do
   gem 'rspec'
-  gem 'rspec-rails', '~> 2.0'
+  gem 'rspec-rails', '~> 3.5.2'
 end
 
 # Use ActiveModel has_secure_password
