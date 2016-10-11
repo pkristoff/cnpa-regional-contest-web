@@ -1,5 +1,46 @@
+TEST_FILENAME_1 = 'test-data_lower-full.jpeg'
 
+TEST_FILE_INFO_TESTDATA = {
+    filename: TEST_FILENAME_1,
+    original_filename: TEST_FILENAME_1,
+    imageWidth: 1024,
+    imageHeight: 683,
+    copyrightNotice: 'Paul Kristoff',
+    title: 'Grassland',
+    dateCreated: '2012-01-15',
+    fileSize: 249
+}
+TEST_FILE_INFO_ORIGINALS = {
+    filename: TEST_FILENAME_1,
+    imageWidth: '1024',
+    imageHeight: '683',
+    copyrightNotice: 'Paul Kristoff',
+    title: 'Grassland',
+    dateCreated: Date.new(2012, 1, 15),
+    fileSize: '249'
+}
 
+def setup_initial_contest(empty_contest=false)
+  stub_const('HomeHelper::ROOT_FOLDER', @root_folder)
+  Dir.mkdir(@root_folder)
+  Dir.mkdir("#{@root_folder}/#{@contest_name}")
+  @dir_path_testdata = HomeHelper.get_testdata_path(@root_folder, @contest_name)
+  @dir_path_originals = HomeHelper.get_originals_path(@root_folder, @contest_name)
+  Dir.mkdir(@dir_path_testdata)
+  Dir.mkdir(@dir_path_originals)
+
+  unless empty_contest
+    test_file_path = 'spec/test_data/'
+    Dir.foreach(test_file_path) do |filename|
+      testdata_file_path = File.join(test_file_path, filename)
+      unless File.directory?(testdata_file_path)
+        FileUtils.cp(testdata_file_path, File.join(@dir_path_originals, filename))
+        FileUtils.cp(testdata_file_path, File.join(@dir_path_testdata, filename))
+      end
+    end
+  end
+  create_and_save_files_info ! empty_contest
+end
 
 def setup_contest(should_copy_file=true)
 
@@ -38,10 +79,7 @@ end
 
 
 def copy_file(filename, dir)
-  file_path = "spec/test_data/#{filename}"
-  File.open(file_path, 'r') do |from_file|
-    File.open("TestContest/q1/#{dir}/#{filename}", 'wb') { |to_file| to_file.write(from_file.read) }
-  end
+  FileUtils.cp("spec/test_data/#{filename}", "TestContest/q1/#{dir}/#{filename}")
 end
 
 def cleanup_dirs_and_files(path)
@@ -52,10 +90,10 @@ def cleanup_dirs_and_files(path)
         cleanup_dirs_and_files(file_path)
       end
       Dir.rmdir(path)
-    else
-      if File.exists? path and !path.end_with?('.') and !path.end_with?('..')
-        File.delete(path)
-      end
+    end
+  else
+    if File.exists? path and !path.end_with?('.') and !path.end_with?('..')
+      File.delete(path)
     end
   end
 end

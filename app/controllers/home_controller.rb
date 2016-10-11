@@ -132,8 +132,10 @@ class HomeController < ApplicationController
     contest_name = params[:contestName]
     is_picture_age_required = params[:isPictureAgeRequired]
     picture_age_date = params[:pictureAgeDate]
-
-    HomeFileModule.save_config_info(root_folder, contest_name, is_picture_age_required, picture_age_date)
+    max_size = params[:max_size]
+    max_width = params[:max_width]
+    max_height = params[:max_height]
+    HomeFileModule.save_config_info(root_folder, contest_name, is_picture_age_required, picture_age_date, max_size, max_width, max_height)
 
     handle_return HomeFileModule.get_contest_info(HomeHelper::ROOT_FOLDER, params[:contestName], HomeHelper::TESTDATA)
   end

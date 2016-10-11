@@ -1,5 +1,6 @@
 require 'fileutils'
-require 'home_helper'
+require_relative 'home_helper'
+require_relative 'constants'
 
 module HomeFileModule
 
@@ -10,7 +11,7 @@ module HomeFileModule
       if for_dir
         directories.push(x) if File.directory?(file_path) and (x != '.' and x != '..')
       else
-        directories.push(x) if File.file?(file_path) and (x.end_with? '.jpg')
+        directories.push(x) if File.file?(file_path) and (Jpeg_endings::MAPPING_DOT.include?(File.extname(file_path)))
       end
     end
     directories
@@ -26,6 +27,9 @@ module HomeFileModule
         result[:hasGeneratedContest] = [result[:directories].size > 2]
         result[:isPictureAgeRequired] = config_info['is_picture_age_required']
         result[:pictureAgeDate] = config_info['picture_age_date']
+        result[:max_size] = config_info['max_size']
+        result[:max_width] = config_info['max_width']
+        result[:max_height] = config_info['max_height']
       else
         return 500, "could not find path: #{dir_path}"
       end
@@ -51,8 +55,9 @@ module HomeFileModule
       dir_path = HomeHelper.get_path(root_folder, contest_name, directory)
 
       contest_content.each do |filename|
+        puts "get_and_return_file_info: filename=#{filename}"
         filename_split = filename.split('.')
-        if filename_split.length === 2 && filename_split[1] === 'jpg'
+        if filename_split.length === 2 && Jpeg_endings::MAPPING.include?(filename_split[1])
           file_path = File.join(dir_path, filename)
 
           result[:filenames].push(HomeFileModule.extract_file_info(file_path, dir_path, filename, false))
@@ -161,7 +166,6 @@ module HomeFileModule
     end
   end
 
-
   def HomeFileModule.create_contest(root_folder, contest_name)
 
     Dir.mkdir(root_folder) unless Dir.exists? root_folder
@@ -171,7 +175,10 @@ module HomeFileModule
               directory: HomeHelper::TESTDATA,
               hasGeneratedContest: false,
               isPictureAgeRequired: false,
-              pictureAgeDate: Date.today
+              pictureAgeDate: Date.today,
+              max_size: Size::MAX_SIZE,
+              max_width: Size::MAX_WIDTH,
+              max_height: Size::MAX_HEIGHT
     }
     contest_dir_path = root_folder + '/' + contest_name + '/'
     if Dir.exists?(contest_dir_path)
@@ -179,17 +186,29 @@ module HomeFileModule
     end
 
     Dir.mkdir(contest_dir_path)
-    HomeFileModule.save_config_info(root_folder, contest_name, result[:isPictureAgeRequired],
-                                    result[:pictureAgeDate])
+    HomeFileModule.save_config_info(
+        root_folder,
+        contest_name,
+        result[:isPictureAgeRequired],
+        result[:pictureAgeDate],
+        result[:max_size],
+        result[:max_width],
+        result[:max_height]
+    )
     Dir.mkdir(HomeHelper.get_originals_path(root_folder, contest_name))
     Dir.mkdir(HomeHelper.get_testdata_path(root_folder, contest_name))
     result
   end
 
-  def HomeFileModule.save_config_info(root_folder, contest_name, is_age_required, picture_age_date)
+  def HomeFileModule.save_config_info(root_folder, contest_name, is_age_required, picture_age_date, max_size, max_width, max_height)
     contest_config_path = "#{root_folder}/#{contest_name}/config.json"
-    config_info = {is_picture_age_required: is_age_required, picture_age_date:
-        picture_age_date}
+    config_info = {
+        is_picture_age_required: is_age_required,
+        picture_age_date: picture_age_date,
+        max_size: max_size,
+        max_width: max_width,
+        max_height: max_height
+    }
     File.open(contest_config_path, 'w') { |f| f.write(config_info.to_json) }
   end
 
@@ -202,7 +221,9 @@ module HomeFileModule
     if File.exist? contest_config_path
       return JSON.parse(File.read(contest_config_path))
     else
-      HomeFileModule.save_config_info(root_folder, contest_name, false, Date.today)
+      HomeFileModule.save_config_info(
+          root_folder, contest_name, false, Date.today,
+          Size::MAX_SIZE, Size::MAX_WIDTH, Size::MAX_HEIGHT)
       return HomeFileModule.get_config_info(root_folder, contest_name)
     end
   end
@@ -232,7 +253,8 @@ module HomeFileModule
 
     dir_path_contest = File.join(root_folder, contest_name)
 
-    Dir.delete (dir_path_contest)
+    # delete any unknown files like '.DS_Store' then delete contest dir
+    HomeFileModule.empty_and_delete dir_path_contest
 
   end
 
@@ -299,7 +321,7 @@ module HomeFileModule
 
       file_path_testdata = File.join(dir_path_testdata, filename)
       file_path_name_and_number = File.join(dir_path_name_and_number, "#{file_nums[i]}_#{filename}")
-      file_path_number = File.join(dir_path_number, "#{file_nums[i]}.jpg")
+      file_path_number = File.join(dir_path_number, "#{file_nums[i]}#{File.extname(filename)}")
 
       FileUtils.cp(file_path_testdata, file_path_name_and_number)
       FileUtils.cp(file_path_testdata, file_path_number)
@@ -308,15 +330,17 @@ module HomeFileModule
 
     end
 
+    jpg_endings = Jpeg_endings::MAPPING_DOT.join('')
+
     zip_path = File.join(File.join(root_folder, contest_name), 'contest.zip')
 
-    system "zip #{zip_path} #{dir_path_originals}/*.jpg"
+    system "zip -n #{jpg_endings} #{zip_path} #{dir_path_originals}/*"
 
-    system "zip #{zip_path} #{dir_path_testdata}/*.jpg"
+    system "zip -n #{jpg_endings} #{zip_path} #{dir_path_testdata}/*"
 
-    system "zip #{zip_path} #{dir_path_name_and_number}/*.jpg"
+    system "zip -n #{jpg_endings} #{zip_path} #{dir_path_name_and_number}/*"
 
-    system "zip #{zip_path} #{dir_path_number}/*.jpg"
+    system "zip -n #{jpg_endings} #{zip_path} #{dir_path_number}/*"
 
   end
 

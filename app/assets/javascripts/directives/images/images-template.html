@@ -14,6 +14,19 @@
         '{{vm.contest.name}}')), :class => 'btn btn-default navbar-btn' %>
     </span>
 
+    <div class="cnpa-pictures">
+        <label for="contest_max_size">Contest Max Size</label>
+        <input id="contest_max_size" type="number" class="form-control" ng-model="vm.contest.max_size"/>
+        <label for="contest_max_width">Contest Max Width</label>
+        <input id="contest_max_width" type="number" class="form-control" ng-model="vm.contest.max_width"/>
+        <label for="contest_max_height">Contest Max Height</label>
+        <input id="contest_max_height" type="number" class="form-control" ng-model="vm.contest.max_height"/>
+        <button type="button" class="btn btn-primary"
+                ng-click="vm.saveConfigInfo()">
+            Save
+        </button>
+    </div>
+
     <div class="cnpa-date">
         <button type="button" class="btn btn-primary" ng-model="vm.contest.isPictureAgeRequired" btn-checkbox
                 btn-checkbox-true="true"

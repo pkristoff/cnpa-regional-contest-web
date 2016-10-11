@@ -1,7 +1,6 @@
 require 'spec_helper'
 require 'json'
 
-
 describe HomeController, :type => :controller do
 
   before(:each) do
@@ -36,7 +35,8 @@ describe HomeController, :type => :controller do
           directory: 'Testdata',
           hasGeneratedContest: [false],
           isPictureAgeRequired: false,
-          pictureAgeDate: "#{Date.today}"
+          pictureAgeDate: "#{Date.today}",
+          max_size: Size::MAX_SIZE, max_width: Size::MAX_WIDTH, max_height: Size::MAX_HEIGHT
       }.to_json
     end
   end
@@ -52,7 +52,8 @@ describe HomeController, :type => :controller do
           directory: 'Testdata',
           hasGeneratedContest: false,
           isPictureAgeRequired: false,
-          pictureAgeDate: "#{Date.today}"
+          pictureAgeDate: "#{Date.today}",
+          max_size: Size::MAX_SIZE, max_width: Size::MAX_WIDTH, max_height: Size::MAX_HEIGHT
       }.to_json
     end
   end
@@ -106,7 +107,8 @@ describe HomeController, :type => :controller do
           directory: 'Testdata',
           hasGeneratedContest: [false],
           isPictureAgeRequired: false,
-          pictureAgeDate: "#{Date.today}"
+          pictureAgeDate: "#{Date.today}",
+          max_size: Size::MAX_SIZE, max_width: Size::MAX_WIDTH, max_height: Size::MAX_HEIGHT
       }.to_json
 
       get :directory, :name => 'q1', :directory => 'Originals'
@@ -118,7 +120,8 @@ describe HomeController, :type => :controller do
           directory: 'Originals',
           hasGeneratedContest: [false],
           isPictureAgeRequired: false,
-          pictureAgeDate: "#{Date.today}"
+          pictureAgeDate: "#{Date.today}",
+          max_size: Size::MAX_SIZE, max_width: Size::MAX_WIDTH, max_height: Size::MAX_HEIGHT
       }.to_json
     end
   end
