@@ -1,6 +1,6 @@
 PassengerAppRoot /home/paulkristoff/rails_apps/cnpa-regional-contest-web
 
-PassengerRuby /opt/ruby2/bin/ruby
+PassengerRuby /opt/ruby23/bin/ruby
 
 PassengerAppEnv production
 
