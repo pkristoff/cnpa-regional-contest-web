@@ -56,4 +56,4 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-gem 'angular-ui-bootstrap-rails'
+gem 'angular-ui-bootstrap-rails', '~> 0.11.2'
