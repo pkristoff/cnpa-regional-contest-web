@@ -7,25 +7,24 @@ describe HomeHelper do
 
     it 'should return a joined path' do
 
-      HomeHelper.get_path('root', 'contest', 'dir').should == 'root/contest/dir'
+      expect(HomeHelper.get_path('root', 'contest', 'dir')).to eq('root/contest/dir')
 
     end
 
     it 'should return a joined path ending in Testdata' do
 
-      HomeHelper.get_testdata_path('root', 'contest').should == 'root/contest/Testdata'
+      expect(HomeHelper.get_testdata_path('root', 'contest')).to eq('root/contest/Testdata')
 
     end
 
     it 'should return a joined path ending in Originals' do
-
-      HomeHelper.get_originals_path('root', 'contest').should == 'root/contest/Originals'
+      expect(HomeHelper.get_originals_path('root', 'contest')).to eq('root/contest/Originals')
 
     end
 
     it 'should return an array of Originals & Testdata' do
 
-      HomeHelper.get_initial_directories.should == %w(Originals Testdata)
+      expect(HomeHelper.get_initial_directories).to eq(%w(Originals Testdata))
 
     end
 
@@ -35,43 +34,43 @@ describe HomeHelper do
 
     it 'HomeHelper::TESTDATA' do
 
-      HomeHelper::TESTDATA.should == 'Testdata'
+      expect(HomeHelper::TESTDATA).to eq('Testdata')
 
     end
 
     it 'HomeHelper::ORIGINALS' do
 
-      HomeHelper::ORIGINALS.should == 'Originals'
+      expect(HomeHelper::ORIGINALS).to eq('Originals')
 
     end
 
     it 'HomeHelper::EXIFTOOL_FILE_INFO' do
 
-      HomeHelper::EXIFTOOL_FILE_INFO.should == 'exif.txt'
+      expect(HomeHelper::EXIFTOOL_FILE_INFO).to eq('exif.txt')
 
     end
 
     it 'HomeHelper::ROOT_FOLDER' do
 
-      HomeHelper::ROOT_FOLDER.should == 'Contests'
+      expect(HomeHelper::ROOT_FOLDER).to eq('Contests')
 
     end
 
     it 'HomeHelper::NAME_AND_NUMBER' do
 
-      HomeHelper::NAME_AND_NUMBER.should == 'name_and_number'
+      expect(HomeHelper::NAME_AND_NUMBER).to eq('name_and_number')
 
     end
 
     it 'HomeHelper::NUMBER' do
 
-      HomeHelper::NUMBER.should == 'number'
+      expect(HomeHelper::NUMBER).to eq('number')
 
     end
 
     it 'should return  files_info.json' do
 
-      HomeHelper::FILES_INFO.should == 'files_info.json'
+      expect(HomeHelper::FILES_INFO).to eq('files_info.json')
 
     end
   end

@@ -124,7 +124,7 @@ angular.module('cnpaContestApp')
                 showBusy();
 
                 var dateSplit       = fileInfo.dateCreated.value ? fileInfo.dateCreated.value.split(':') : [],
-                    year            = dateSplit && dateSplit.length > 0 ? dateSplit[0].split('-')[0] : '2015',
+                    year            = dateSplit && dateSplit.length > 0 ? dateSplit[0].split('-')[0] : Date.now.year,
                     copyrightNotice = "©" + " " + year + " " + fileInfo.contestantName.value;
 
                 var params = {

@@ -103,13 +103,13 @@ def assert_generated_contest(contest_name, is_generated)
   dir_path_name_and_number = HomeHelper.get_path(root_folder, contest_name, HomeHelper::NAME_AND_NUMBER)
   dir_path_number = HomeHelper.get_path(root_folder, contest_name, HomeHelper::NUMBER)
 
-  File.exist?(dir_path_name_and_number).should == is_generated
-  File.exist?(dir_path_number).should == is_generated
+  expect(File.exist?(dir_path_name_and_number)).to eq(is_generated)
+  expect(File.exist?(dir_path_number)).to eq(is_generated)
 
   contest_dir = File.join(root_folder, contest_name)
-  File.exist?(File.join(contest_dir, 'contest.zip')).should == is_generated
-  File.exist?(File.join(contest_dir, "#{HomeHelper::ORIGINALS}.zip")).should == false
-  File.exist?(File.join(contest_dir, "#{HomeHelper::TESTDATA}.zip")).should == false
-  File.exist?(File.join(contest_dir, "#{HomeHelper::NAME_AND_NUMBER}.zip")).should == false
-  File.exist?(File.join(contest_dir, "#{HomeHelper::NUMBER}.zip")).should == false
+  expect(File.exist?(File.join(contest_dir, 'contest.zip'))).to eq(is_generated)
+  expect(File.exist?(File.join(contest_dir, "#{HomeHelper::ORIGINALS}.zip"))).to eq(false)
+  expect(File.exist?(File.join(contest_dir, "#{HomeHelper::TESTDATA}.zip"))).to eq(false)
+  expect(File.exist?(File.join(contest_dir, "#{HomeHelper::NAME_AND_NUMBER}.zip"))).to eq(false)
+  expect(File.exist?(File.join(contest_dir, "#{HomeHelper::NUMBER}.zip"))).to eq(false)
 end

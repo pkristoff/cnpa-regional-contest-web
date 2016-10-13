@@ -55,7 +55,6 @@ module HomeFileModule
       dir_path = HomeHelper.get_path(root_folder, contest_name, directory)
 
       contest_content.each do |filename|
-        puts "get_and_return_file_info: filename=#{filename}"
         filename_split = filename.split('.')
         if filename_split.length === 2 && Jpeg_endings::MAPPING.include?(filename_split[1])
           file_path = File.join(dir_path, filename)

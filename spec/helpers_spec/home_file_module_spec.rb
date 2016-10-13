@@ -31,13 +31,13 @@ describe 'HomeFileModule' do
 
       it 'should return directory contents' do
 
-        HomeFileModule.get_dir_contents(@root_folder, true).should == []
+        expect(HomeFileModule.get_dir_contents(@root_folder, true)).to eq([])
 
       end
 
       it 'should return directory contents' do
 
-        HomeFileModule.get_dir_contents(@root_folder, false).should == []
+        expect(HomeFileModule.get_dir_contents(@root_folder, false)).to eq([])
 
       end
     end
@@ -52,13 +52,13 @@ describe 'HomeFileModule' do
 
       it 'should return directory contents' do
 
-        HomeFileModule.get_dir_contents(@root_folder, true).should == [@contest_name]
+        expect(HomeFileModule.get_dir_contents(@root_folder, true)).to eq([@contest_name])
 
       end
 
       it 'should return directory contents' do
 
-        HomeFileModule.get_dir_contents(@root_folder, false).should == ['foo.jpg']
+        expect(HomeFileModule.get_dir_contents(@root_folder, false)).to eq(['foo.jpg'])
 
       end
 
@@ -73,7 +73,7 @@ describe 'HomeFileModule' do
 
     it 'should render a status of 500 saying could not find path' do
 
-      HomeFileModule.get_contest_info(@root_folder, @contest_name, 'xxx').should == [500, 'could not find path: TestContest/q1/xxx']
+      expect(HomeFileModule.get_contest_info(@root_folder, @contest_name, 'xxx')).to eq([500, 'could not find path: TestContest/q1/xxx'])
 
     end
 
@@ -89,9 +89,9 @@ describe 'HomeFileModule' do
 
     it 'should return no filenames & Testdata' do
 
-      HomeFileModule.get_and_return_file_info([], @root_folder, @contest_name, 'Testdata').should.eql?(
+      expect(HomeFileModule.get_and_return_file_info([], @root_folder, @contest_name, 'Testdata')).to eq(
           {
-              json: {filenames: []},
+              filenames: [],
               directories: %w(Originals Testdata),
               directory: 'Testdata'
           })
@@ -100,9 +100,9 @@ describe 'HomeFileModule' do
 
     it 'should return no filenames & Testdata' do
 
-      HomeFileModule.get_and_return_file_info([], @root_folder, @contest_name, 'Originals').should.eql?(
+      expect(HomeFileModule.get_and_return_file_info([], @root_folder, @contest_name, 'Originals')).to eq(
           {
-              json: {filenames: []},
+              filenames: [],
               directories: %w(Originals Testdata),
               directory: 'Originals'
           })
@@ -116,7 +116,7 @@ describe 'HomeFileModule' do
 
       create_and_save_files_info
 
-      HomeFileModule.get_and_return_file_info([TEST_FILENAME_1], @root_folder, @contest_name, 'Testdata').should == (
+      expect(HomeFileModule.get_and_return_file_info([TEST_FILENAME_1], @root_folder, @contest_name, 'Testdata')).to eq(
       {filenames: [
           TEST_FILE_INFO_TESTDATA],
        directories: %w(Originals Testdata),
@@ -132,7 +132,7 @@ describe 'HomeFileModule' do
 
       create_and_save_files_info
 
-      HomeFileModule.get_and_return_file_info([TEST_FILENAME_1], @root_folder, @contest_name, 'Originals').should == (
+      expect(HomeFileModule.get_and_return_file_info([TEST_FILENAME_1], @root_folder, @contest_name, 'Originals')).to eq(
       {filenames: [
           TEST_FILE_INFO_ORIGINALS],
        directories: %w(Originals Testdata),
@@ -153,7 +153,7 @@ describe 'HomeFileModule' do
 
     it 'should return 1 filename & Testdata' do
 
-      HomeFileModule.get_contest_info(@root_folder, @contest_name, 'Testdata').should == (
+      expect(HomeFileModule.get_contest_info(@root_folder, @contest_name, 'Testdata')).to eq(
       {filenames: [
           TEST_FILE_INFO_TESTDATA],
        directories: %w(Originals Testdata),
@@ -169,9 +169,9 @@ describe 'HomeFileModule' do
 
     it 'should return empty filenames and creates TestContest & TestContest/q1 & Testdata & Originals dirs' do
 
-      File.exists?(@root_folder).should == false
+      expect(File.exists?(@root_folder)).to eq(false)
 
-      HomeFileModule.create_contest(@root_folder, @contest_name).should == {
+      expect(HomeFileModule.create_contest(@root_folder, @contest_name)).to eq({
           filenames: [],
           directories: %w(Originals Testdata),
           directory: 'Testdata',
@@ -179,22 +179,22 @@ describe 'HomeFileModule' do
           isPictureAgeRequired: false,
           pictureAgeDate: Date.today,
           max_size: Size::MAX_SIZE, max_width: Size::MAX_WIDTH, max_height: Size::MAX_HEIGHT
-      }
+      })
 
-      File.exists?(@root_folder).should == true
-      File.exists?(@dir_path_contest).should == true
-      File.exists?(@dir_path_testdata).should == true
-      File.exists?(@dir_path_originals).should == true
+      expect(File.exists?(@root_folder)).to eq(true)
+      expect(File.exists?(@dir_path_contest)).to eq(true)
+      expect(File.exists?(@dir_path_testdata)).to eq(true)
+      expect(File.exists?(@dir_path_originals)).to eq(true)
 
     end
 
     it 'should return empty filenames and creates TestContest/q1 & Testdata & Originals dirs' do
 
       Dir.mkdir(@root_folder)
-      File.exists?(@root_folder).should == true
-      File.exists?(@dir_path_contest).should == false
+      expect(File.exists?(@root_folder)).to eq(true)
+      expect(File.exists?(@dir_path_contest)).to eq(false)
 
-      HomeFileModule.create_contest(@root_folder, @contest_name).should == {
+      expect(HomeFileModule.create_contest(@root_folder, @contest_name)).to eq({
           filenames: [],
           directories: %w(Originals Testdata),
           directory: 'Testdata',
@@ -202,12 +202,12 @@ describe 'HomeFileModule' do
           isPictureAgeRequired: false,
           pictureAgeDate: Date.today,
           max_size: Size::MAX_SIZE, max_width: Size::MAX_WIDTH, max_height: Size::MAX_HEIGHT
-      }
+      })
 
-      File.exists?(@root_folder).should == true
-      File.exists?(@dir_path_contest).should == true
-      File.exists?(@dir_path_testdata).should == true
-      File.exists?(@dir_path_originals).should == true
+      expect(File.exists?(@root_folder)).to eq(true)
+      expect(File.exists?(@dir_path_contest)).to eq(true)
+      expect(File.exists?(@dir_path_testdata)).to eq(true)
+      expect(File.exists?(@dir_path_originals)).to eq(true)
 
     end
 
@@ -215,7 +215,7 @@ describe 'HomeFileModule' do
 
       setup_contest false
 
-      HomeFileModule.create_contest(@root_folder, @contest_name).should == {
+      expect(HomeFileModule.create_contest(@root_folder, @contest_name)).to eq({
           filenames: [],
           directories: %w(Originals Testdata),
           directory: 'Testdata',
@@ -223,12 +223,12 @@ describe 'HomeFileModule' do
           isPictureAgeRequired: false,
           pictureAgeDate: Date.today,
           max_size: Size::MAX_SIZE, max_width: Size::MAX_WIDTH, max_height: Size::MAX_HEIGHT
-      }
+      })
 
-      File.exists?(@root_folder).should == true
-      File.exists?(@dir_path_contest).should == true
-      File.exists?(@dir_path_testdata).should == true
-      File.exists?(@dir_path_originals).should == true
+      expect(File.exists?(@root_folder)).to eq(true)
+      expect(File.exists?(@dir_path_contest)).to eq(true)
+      expect(File.exists?(@dir_path_testdata)).to eq(true)
+      expect(File.exists?(@dir_path_originals)).to eq(true)
 
     end
 
@@ -236,7 +236,7 @@ describe 'HomeFileModule' do
 
       setup_contest
 
-      HomeFileModule.create_contest(@root_folder, @contest_name).should ==
+      expect(HomeFileModule.create_contest(@root_folder, @contest_name)).to eq(
           {filenames: [],
            directories: %w(Originals Testdata),
            directory: 'Testdata',
@@ -244,15 +244,15 @@ describe 'HomeFileModule' do
            isPictureAgeRequired: false,
            pictureAgeDate: Date.today,
            max_size: Size::MAX_SIZE, max_width: Size::MAX_WIDTH, max_height: Size::MAX_HEIGHT
-          }
+          })
 
-      File.exists?(@root_folder).should == true
-      File.exists?(@dir_path_contest).should == true
-      File.exists?(@dir_path_testdata).should == true
-      File.exists?("#{@dir_path_testdata}#{TEST_FILENAME_1}").should == false
-      File.exists?(@dir_path_originals).should == true
-      File.exists?("#{@dir_path_originals}/#{TEST_FILENAME_1}").should == false
-      HomeFileModule.get_file_info(@contest_name, TEST_FILENAME_1, @root_folder).nil?.should == true
+      expect(File.exists?(@root_folder)).to eq(true)
+      expect(File.exists?(@dir_path_contest)).to eq(true)
+      expect(File.exists?(@dir_path_testdata)).to eq(true)
+      expect(File.exists?("#{@dir_path_testdata}#{TEST_FILENAME_1}")).to eq(false)
+      expect(File.exists?(@dir_path_originals)).to eq(true)
+      expect(File.exists?("#{@dir_path_originals}/#{TEST_FILENAME_1}")).to eq(false)
+      expect(HomeFileModule.get_file_info(@contest_name, TEST_FILENAME_1, @root_folder).nil?).to eq(true)
 
     end
 
@@ -267,9 +267,9 @@ describe 'HomeFileModule' do
 
       HomeFileModule.set_copyright(@root_folder, @contest_name, TEST_FILENAME_1, 'copyright baby')
 
-      HomeFileModule.get_file_info(@contest_name, TEST_FILENAME_1, @root_folder)[:copyrightNotice].should == 'copyright baby'
-      get_copyright("#{@dir_path_testdata}/#{TEST_FILENAME_1}").should == 'copyright baby'
-      get_copyright("#{@dir_path_originals}/#{TEST_FILENAME_1}").should_not == 'copyright baby'
+      expect(HomeFileModule.get_file_info(@contest_name, TEST_FILENAME_1, @root_folder)[:copyrightNotice]).to eq('copyright baby')
+      expect(get_copyright("#{@dir_path_testdata}/#{TEST_FILENAME_1}")).to eq('copyright baby')
+      expect(get_copyright("#{@dir_path_originals}/#{TEST_FILENAME_1}")).to_not eq('copyright baby')
     end
 
   end

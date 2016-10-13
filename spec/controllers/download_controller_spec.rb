@@ -12,8 +12,8 @@ describe DownloadController, :type => :controller do
 
       stub_const('HomeHelper::ROOT_FOLDER', 'TestContest')
 
-      get 'download_contest', :contestName => 'q1'
-      response.should be_success
+      get 'download_contest', contestName: 'q1'
+      expect(response.status).to eq(200)
 
       assert_generated_contest('q1', false)
     end
@@ -29,10 +29,10 @@ describe DownloadController, :type => :controller do
       stub_const('HomeHelper::ROOT_FOLDER', 'TestContest')
       HomeFileModule.generate_contest(contest_name)
 
-      get 'download_contest', :contestName => contest_name
-      response.should be_success
-      response.header['Content-Disposition'].should eq('attachment; filename="contest.zip"')
-      response.content_type.should eq('application/zip')
+      get 'download_contest', contestName: contest_name
+      expect(response.status).to eq(200)
+      expect(response.header['Content-Disposition']).to eq('attachment; filename="contest.zip"')
+      expect(response.content_type).to eq('application/zip')
 
       assert_generated_contest(contest_name, true)
     end
