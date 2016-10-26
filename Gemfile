@@ -57,3 +57,7 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'angular-ui-bootstrap-rails', '~> 0.11.2'
+
+gem 'devise'
+
+gem 'pg'
